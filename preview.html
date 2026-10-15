@@ -20,24 +20,24 @@
   /* ========= 顶部 ========= */
   .group-1 { position:relative; width:750px; display:flex; flex-direction:column; padding-top:88px; }
 
-  .date-pill { display:flex; align-items:center; background:#E5F2EB; border-radius:15px; width:344px; height:60px; margin:42px 0 0 52px; }
+  .date-pill { display:flex; align-items:center; background:#E5F2EB; border-radius:15px; width:344px; height:60px; margin:22px 0 0 52px; }
   .date-pill__icon { width:25px; height:29px; margin:10px 14px 0 23px; }
   .date-pill__text { font-family:-apple-system,"PingFang SC",sans-serif; font-size:29px; font-weight:700; color:#365947; white-space:nowrap; line-height:43px; }
 
-  .greeting { font-family:-apple-system,"PingFang SC",sans-serif; font-size:54px; font-weight:500; color:#192620; white-space:nowrap; line-height:67px; margin:-2px 0 44px 52px; }
+  .greeting { font-family:-apple-system,"PingFang SC",sans-serif; font-size:54px; font-weight:500; color:#192620; white-space:nowrap; line-height:67px; margin:-2px 0 20px 52px; }
 
   /* 头像修复：bottom 与问候语 bottom 齐平
      胶囊 top=88+42=130, 胶囊 bottom=190, 问候语 top=188, 问候语 bottom=255
      头像 bottom=255, 头像高=123, top=255-123=132  */
-  .head-avatar { position:absolute; left:560px; top:132px; width:123px; height:123px; border-radius:9999px; background:#fff; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); overflow:hidden; }
+  .head-avatar { position:absolute; left:560px; top:112px; width:123px; height:123px; border-radius:9999px; background:#fff; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); overflow:hidden; }
   .head-avatar img { width:123px; height:123px; border-radius:9999px; object-fit:cover; }
 
   /* ========= 看看从前 ========= */
   .lookback { background:#fff; border-radius:46px; width:688px; height:488px; margin:-2px 0 0 31px; box-shadow:0 4px 16px rgba(30,50,40,0.06); border:1px solid #E3EDE7; display:flex; flex-direction:column; }
-  .lookback__head { display:flex; align-items:center; justify-content:space-between; width:608px; height:63px; margin:33px 0 0 40px; }
+  .lookback__head { display:flex; align-items:center; justify-content:flex-start; width:608px; height:63px; margin:33px 0 0 40px; }
   .lookback__head-icon { width:46px; height:46px; margin-top:10px; }
-  .lookback__head-title { font-family:-apple-system,"PingFang SC",sans-serif; font-size:42px; font-weight:500; color:#192620; line-height:63px; }
-  .lookback__head-tip { font-family:-apple-system,"PingFang SC",sans-serif; font-size:29px; font-weight:500; color:#4F6358; margin-top:10px; line-height:43px; }
+  .lookback__head-title { font-family:-apple-system,"PingFang SC",sans-serif; font-size:42px; font-weight:500; color:#192620; line-height:63px; margin-left:12px; }
+  .lookback__head-tip { font-family:-apple-system,"PingFang SC",sans-serif; font-size:29px; font-weight:500; color:#4F6358; margin-top:10px; line-height:43px; margin-left:auto; }
 
   .entries { display:flex; justify-content:space-between; width:623px; height:337px; margin:23px 0 33px 33px; }
   .entry { width:192px; display:flex; flex-direction:column; }
@@ -46,9 +46,9 @@
   .entry--blue { background:#F0F5FA; border:2px solid #D3E3F2; margin-left:23px; height:337px; }
   .entry__avatar { width:123px; height:123px; border-radius:9999px; background:#fff; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; overflow:hidden; margin:48px 0 0 35px; }
   .entry--orange .entry__avatar, .entry--blue .entry__avatar { margin-top:50px; }
-  .entry__avatar img { width:123px; height:123px; border-radius:9999px; object-fit:cover; }
+  .entry__avatar img { width:123px; height:123px; border-radius:9999px; object-fit:cover; background:#fff; }
   .entry__blue-circle { width:123px; height:123px; border-radius:9999px; background:#3874AB; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; margin:50px 0 0 35px; }
-  .entry__blue-icon { width:63px; height:58px; }
+  .entry__blue-icon { width:90px; height:83px; }
   .entry__name { font-family:-apple-system,"PingFang SC",sans-serif; font-size:38px; font-weight:500; color:#192620; text-align:center; line-height:58px; margin-top:15px; }
   .entry__sub { font-family:-apple-system,"PingFang SC",sans-serif; font-size:25px; font-weight:500; text-align:center; line-height:38px; margin-top:4px; white-space:nowrap; margin-bottom:48px; }
   .entry--orange .entry__sub, .entry--blue .entry__sub { margin-top:2px; margin-bottom:50px; }
@@ -57,7 +57,7 @@
   .entry__sub--blue { color:#275988; }
 
   /* ========= 下方双栏 ========= */
-  .duo { width:688px; height:579px; margin:42px 0 0 31px; display:flex; justify-content:space-between; }
+  .duo { width:688px; height:579px; margin:15px 0 0 31px; display:flex; justify-content:space-between; }
 
   .brain { width:360px; height:579px; background:#57B5A5; border-radius:46px; border:2px solid rgba(54,89,71,0.2); box-shadow:0 8px 24px rgba(54,89,71,0.28); display:flex; flex-direction:column; }
   .brain__top { display:flex; align-items:center; justify-content:space-between; width:317px; margin:46px 0 0 27px; }

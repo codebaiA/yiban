@@ -149,7 +149,7 @@ export default {
 			pendingPlan: null,
 			callVisible: false,
 			safeTop: 40,
-			headAvatarTop: 84  // safeTop + 44 的默认值
+			headAvatarTop: 64  // safeTop + 24 的默认值
 		}
 	},
 	computed: {
@@ -208,9 +208,9 @@ export default {
 		try {
 			const info = uni.getSystemInfoSync()
 			this.safeTop = Math.round((info.statusBarHeight || 20) * 1.923)
-			// 头像 bottom 与问候语 bottom 齐平：胶囊 top(safeTop+42) + 胶囊高(60) - 问候语margin(-2) + 问候语line-height(67) - 头像高(123)
-			// = safeTop + 42 + 60 - 2 + 67 - 123 = safeTop + 44
-			this.headAvatarTop = this.safeTop + 44
+			// 头像 bottom 与问候语 bottom 齐平：胶囊 top(safeTop+22) + 胶囊高(60) - 问候语margin(-2) + 问候语line-height(67) - 头像高(123)
+			// = safeTop + 22 + 60 - 2 + 67 - 123 = safeTop + 24
+			this.headAvatarTop = this.safeTop + 24
 		} catch (e) {
 			this.safeTop = 40
 			this.headAvatarTop = 40 + 44
@@ -312,7 +312,7 @@ export default {
 	flex-direction: column;
 }
 
-/* 日期胶囊（margin-left:52rpx, margin-top:42rpx from group-1 top） */
+/* 日期胶囊（紧凑化：margin-top 从 42→22） */
 .date-pill {
 	display: flex;
 	flex-direction: row;
@@ -322,7 +322,7 @@ export default {
 	width: 344rpx;
 	height: 60rpx;
 	box-sizing: border-box;
-	margin: 42rpx 0 0 52rpx;
+	margin: 22rpx 0 0 52rpx;
 
 	&__icon {
 		width: 25rpx;
@@ -342,7 +342,7 @@ export default {
 	}
 }
 
-/* 问候语（蓝湖：margin -2rpx 0 44rpx 52rpx，即紧贴日期胶囊底部上 2rpx） */
+/* 问候语（紧凑化：margin-bottom 从 44→20） */
 .greeting {
 	font-family: $yb-font-sans;
 	font-size: 54rpx;
@@ -351,7 +351,7 @@ export default {
 	text-align: left;
 	white-space: nowrap;
 	line-height: 67rpx;
-	margin: -2rpx 0 44rpx 52rpx;
+	margin: -2rpx 0 20rpx 52rpx;
 }
 
 /* 右上头像（bottom 与问候语 bottom 齐平，JS 动态控制 top） */
@@ -389,7 +389,7 @@ export default {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: flex-start; /* icon 和 title 贴近，tip 推到最右 */
 		width: 608rpx;
 		height: 63rpx;
 		margin: 33rpx 0 0 40rpx;
@@ -399,6 +399,7 @@ export default {
 		width: 46rpx;
 		height: 46rpx;
 		margin-top: 10rpx;
+		flex-shrink: 0;
 	}
 
 	&__head-title {
@@ -406,9 +407,9 @@ export default {
 		font-size: 42rpx;
 		font-weight: 500;
 		color: $yb-c-text-1;
-		width: 169rpx;
-		height: 63rpx;
 		line-height: 63rpx;
+		margin-left: 12rpx; /* icon→title 贴近，12rpx 间距 */
+		flex-shrink: 0;
 	}
 
 	&__head-tip {
@@ -416,10 +417,9 @@ export default {
 		font-size: 29rpx;
 		font-weight: 500;
 		color: $yb-c-text-sub2; /* #4F6358 */
-		width: 144rpx;
-		height: 44rpx;
 		margin-top: 10rpx;
 		line-height: 43rpx;
+		margin-left: auto; /* 推到最右 */
 	}
 }
 
@@ -483,9 +483,10 @@ export default {
 		width: 123rpx;
 		height: 123rpx;
 		border-radius: 19229rpx;
+		object-fit: cover;
 	}
 
-	/* 我住哪专属：蓝圆实心背景 + 房子图标 */
+	/* 我住哪专属：蓝圆实心背景 + 房子图标（房子放大到 90×83rpx） */
 	&__blue-circle {
 		width: 123rpx;
 		height: 123rpx;
@@ -499,8 +500,8 @@ export default {
 	}
 
 	&__blue-icon {
-		width: 63rpx;
-		height: 58rpx;
+		width: 90rpx;
+		height: 83rpx;
 	}
 
 	/* 文字组（蓝湖：name 在 138rpx 宽容器居中，sub 在下方） */
@@ -535,11 +536,11 @@ export default {
 	&__sub--blue { color: $yb-c-blue-1; }     /* #275988 */
 }
 
-/* —— 下方双栏（group_8 block_4：688×579rpx margin:42rpx 0 0 31rpx）—— */
+/* 下方双栏（紧凑化：margin-top 从 42→15） */
 .duo {
 	width: 688rpx;
 	height: 579rpx;
-	margin: 42rpx 0 0 31rpx;
+	margin: 15rpx 0 0 31rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
