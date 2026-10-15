@@ -41,6 +41,20 @@
 	],
 	"subPackages": [
 		{
+			"root": "pages/training",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "脑力小时光",
+						"navigationBarBackgroundColor": "#FFF6EF",
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		},
+		{
 			"root": "pages/past",
 			"pages": [
 				{

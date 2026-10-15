@@ -33,54 +33,58 @@ export const records = [
 ]
 
 /**
- * 训练题库（第一版：题型混合，不分类别）
- * type: FACE(人物识别) | MEMORY(图片记忆) | MATCH(图片配对) | LIFE(生活认知)
- * 做题页视觉沿用 Figma「脑力训练」系列（1:3859 / 1:3934 / 1:4102 / 1:4172 / 1:4221 / 1:4285）
+ * 训练题库（第一版：简单生活识钟 · 一页一题极简版）
+ * type: CLOCK(识钟) —— 页内用 CSS 钟面渲染 clock.hour/clock.minute，无需外部图片
+ * 未来接真后端：字段保持一致，图片题可加 image 字段
  */
 export const questions = [
   {
-    id: 'q1', type: 'LIFE',
-    title: '刚吃完药，间隔 4 小时吃一次，下次几点吃？',
-    options: ['10点15', '9点15', '9点半'],
+    id: 'q1', type: 'CLOCK',
+    title: '这个钟显示几点？',
+    clock: { hour: 3, minute: 0 },
+    options: ['3点', '6点', '12点'],
     answerIndex: 0,
-    tip: '慢慢来，不用着急'
+    tip: '短针指 3，长针指 12，是 3 点整'
   },
   {
-    id: 'q2', type: 'LIFE',
-    title: '现在是下午，该吃第二次药的时间是几点？',
-    options: ['12点', '15点', '18点'],
+    id: 'q2', type: 'CLOCK',
+    title: '这个钟显示几点半？',
+    clock: { hour: 6, minute: 30 },
+    options: ['5点半', '6点半', '7点半'],
     answerIndex: 1,
-    tip: '下午三点，记得喝口水'
+    tip: '长针指向 6，表示半点'
   },
   {
-    id: 'q3', type: 'LIFE',
-    title: '口渴了应该喝什么？',
-    options: ['温水', '冰镇饮料', '酒'],
+    id: 'q3', type: 'CLOCK',
+    title: '这个钟显示几点？',
+    clock: { hour: 9, minute: 0 },
+    options: ['9点', '8点', '10点'],
     answerIndex: 0,
-    tip: '喝温水对身体最好'
+    tip: '短针指 9，长针指 12'
   },
   {
-    id: 'q4', type: 'LIFE',
-    title: '现在是秋天，接下来是哪个季节？',
-    options: ['春天', '夏天', '冬天'],
+    id: 'q4', type: 'CLOCK',
+    title: '这个钟显示几点？',
+    clock: { hour: 12, minute: 0 },
+    options: ['6点', '3点', '12点'],
     answerIndex: 2,
-    tip: '秋天过后就是冬天了'
+    tip: '两根针都指向 12'
   },
   {
-    id: 'q5', type: 'FACE',
-    title: '这是谁？',
-    image: '/static/s1开发/芳芳小头像.png',
-    options: ['女儿芳芳', '老伴秀兰', '弟弟建军'],
+    id: 'q5', type: 'CLOCK',
+    title: '这个钟显示几点？',
+    clock: { hour: 7, minute: 0 },
+    options: ['7点', '5点', '9点'],
     answerIndex: 0,
-    tip: '她每周六都来陪你'
+    tip: '短针指向 7'
   },
   {
-    id: 'q6', type: 'FACE',
-    title: '这是谁？',
-    image: '/static/s1开发/王建国.png',
-    options: ['王振华', '王建国', '周淑芬'],
+    id: 'q6', type: 'CLOCK',
+    title: '这个钟显示几点半？',
+    clock: { hour: 10, minute: 30 },
+    options: ['9点半', '10点半', '11点半'],
     answerIndex: 1,
-    tip: '这就是你自己呀'
+    tip: '短针刚过 10，长针指 6'
   }
 ]
 

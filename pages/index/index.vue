@@ -289,7 +289,7 @@ export default {
 			uni.navigateTo({ url: '/pages/past/index?tab=residence' })
 		},
 		goTraining() {
-			uni.showToast({ title: '脑力小时光即将上线', icon: 'none' })
+			uni.navigateTo({ url: '/pages/training/index' })
 		}
 	}
 }
@@ -863,7 +863,7 @@ export default {
 		top: 50%;
 		transform: translate(-50%, -50%);
 		width: 520rpx;
-		background-color: #2e4a3e;
+		background-color: #ff7a29;
 		border-radius: 32rpx;
 		display: flex;
 		flex-direction: column;
