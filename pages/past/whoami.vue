@@ -7,16 +7,17 @@
 			<view class="nav">
 				<!-- 返回按钮（box_1） -->
 				<view class="nav__back" @tap="onBack">
-					<image class="nav__back-arrow" src="/static/s1开发/看看从前.png" mode="aspectFit"></image>
+					<!-- 返回 icon：slices 目录未传，暂用 inline SVG 左箭头 -->
+					<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='23' viewBox='0 0 15 23'><path d='M13 2L3 11.5 13 21' fill='none' stroke='%23151D1A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
 					<text class="nav__back-text">返回</text>
 				</view>
 
 				<!-- 标题（text_2） -->
 				<text class="nav__title">看看从前</text>
 
-				<!-- 右侧图标（image-wrapper_1） -->
+				<!-- 右侧：语音按钮（image-wrapper_1） -->
 				<view class="nav__right">
-					<image class="nav__right-icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='38' height='37' viewBox='0 0 38 37'><circle cx='19' cy='14' r='8' fill='none' stroke='%23486556' stroke-width='2'/><path d='M7 33c0-6.6 5.4-12 12-12s12 5.4 12 12' fill='none' stroke='%23486556' stroke-width='2' stroke-linecap='round'/></svg>" mode="aspectFit"></image>
+					<image class="nav__right-icon" src="/static/s1开发/看看从前 · 二级界面素材/语音icon.png" mode="aspectFit"></image>
 				</view>
 			</view>
 
@@ -38,10 +39,15 @@
 
 		<!-- ========== group_4 内容卡片 ========== -->
 		<view class="card">
-			<!-- block_1 深绿胶囊标签 -->
-			<view class="card__label">
-				<image class="card__label-icon" :src="patient.avatar || '/static/s1开发/王建国.png'" mode="aspectFill"></image>
-				<text class="card__label-text">这就是你&nbsp;·&nbsp;{{ patient.name || '王爷爷' }}</text>
+			<!-- section_13 大图区：王建国照片 -->
+			<view class="card__photo-area">
+				<!-- block_1 深绿胶囊标签 -->
+				<view class="card__label">
+					<image class="card__label-icon" :src="patient.avatar || '/static/s1开发/王建国.png'" mode="aspectFill"></image>
+					<text class="card__label-text">这就是你&nbsp;·&nbsp;{{ patient.name || '王爷爷' }}</text>
+				</view>
+				<!-- 大照片：正式素材 王建国照片.png -->
+				<image class="card__photo" src="/static/s1开发/看看从前 · 二级界面素材/王建国照片.png" mode="aspectFill"></image>
 			</view>
 
 			<!-- text-group_7 两段文字 -->
@@ -64,9 +70,11 @@
 
 			<!-- block_4 查看更多回忆 -->
 			<view class="more" @tap="onViewMore">
-				<image class="more__icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='33' height='33' viewBox='0 0 33 33'><circle cx='16.5' cy='16.5' r='14' fill='none' stroke='%2357B5A5' stroke-width='2'/><circle cx='16.5' cy='16.5' r='6' fill='%2357B5A5'/></svg>" mode="aspectFit"></image>
+				<!-- 更多回忆 icon：正式素材 -->
+				<image class="more__icon" src="/static/s1开发/看看从前 · 二级界面素材/更多回忆.png" mode="aspectFit"></image>
 				<text class="more__text">查看更多回忆</text>
-				<image class="more__arrow" src="/static/s1开发/进入箭头.png" mode="aspectFit"></image>
+				<!-- 箭头：正式素材 进入更多回忆.png -->
+				<image class="more__arrow" src="/static/s1开发/看看从前 · 二级界面素材/进入更多回忆.png" mode="aspectFit"></image>
 			</view>
 		</view>
 	</view>
@@ -162,12 +170,12 @@ export default {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	margin: 54rpx 0 0 38rpx; /* 蓝湖 section_10 margin */
+	margin: 54rpx 0 0 38rpx;
 }
 
 .nav__back {
 	background-color: rgba(230, 240, 234, 1); /* 蓝湖 box_1 bg */
-	border-radius: 19229rpx; /* 胶囊 */
+	border-radius: 19229rpx;
 	width: 131rpx;
 	height: 73rpx;
 	display: flex;
@@ -194,7 +202,7 @@ export default {
 	font-family: -apple-system, "PingFang SC", sans-serif;
 	font-weight: 500;
 	line-height: 62rpx;
-	margin-left: 140rpx; /* 蓝湖 text_2 margin-left:140rpx */
+	margin-left: 140rpx;
 }
 
 .nav__right {
@@ -208,8 +216,8 @@ export default {
 	box-shadow: 0 1rpx 2rpx 0 rgba(0, 0, 0, 0.05);
 }
 .nav__right-icon {
-	width: 38rpx;   /* 蓝湖 thumbnail_2 */
-	height: 37rpx;
+	width: 48rpx;   /* 语音icon.png 48×48 */
+	height: 48rpx;
 }
 
 /* section_11 Tab 胶囊组 */
@@ -218,7 +226,7 @@ export default {
 	height: 92rpx;
 	display: flex;
 	flex-direction: row;
-	margin: 50rpx 0 29rpx 38rpx; /* 蓝湖 section_11 margin */
+	margin: 50rpx 0 29rpx 38rpx;
 }
 
 .tab {
@@ -233,12 +241,12 @@ export default {
 	&:nth-child(1) { width: 215rpx; }
 	&:nth-child(2) {
 		width: 215rpx;
-		background-color: rgba(225, 234, 228, 1); /* 蓝湖 text-wrapper_2 bg */
+		background-color: rgba(225, 234, 228, 1);
 		margin-left: 15rpx;
 	}
 	&:nth-child(3) {
 		width: 215rpx;
-		background-color: rgba(225, 234, 228, 1); /* 蓝湖 text-wrapper_3 bg */
+		background-color: rgba(225, 234, 228, 1);
 		margin-left: 13rpx;
 	}
 
@@ -248,16 +256,14 @@ export default {
 		white-space: nowrap;
 	}
 
-	/* 未选中 */
 	&:not(.is-selected) &__text {
-		color: rgba(66, 72, 68, 1); /* 蓝湖 text-group_10 */
+		color: rgba(66, 72, 68, 1);
 		font-size: 31rpx;
 		line-height: 42rpx;
 	}
 
-	/* 选中（我是谁） */
 	&.is-selected {
-		background-color: rgba(88, 181, 165, 1); /* 蓝湖 text-wrapper_1 bg #58B5A5 */
+		background-color: rgba(88, 181, 165, 1); /* #58B5A5 */
 	}
 	&.is-selected &__text {
 		color: rgba(255, 255, 255, 1);
@@ -272,15 +278,33 @@ export default {
 	background-color: rgba(255, 255, 255, 1);
 	border-radius: 31rpx;
 	width: 673rpx;
-	margin: -2rpx 0 0 38rpx; /* 蓝湖 group_4 margin */
+	margin: -2rpx 0 0 38rpx;
 	display: flex;
 	flex-direction: column;
 	padding: 27rpx 27rpx 35rpx;
 	box-sizing: border-box;
 }
 
+/* section_13 大图区（蓝湖 box_3/section_13，465/463rpx） */
+.card__photo-area {
+	position: relative;
+	width: 619rpx;
+	height: 463rpx;
+}
+
+.card__photo {
+	width: 100%;
+	height: 400rpx;
+	border-radius: 21rpx;
+	object-fit: cover;
+	margin-top: 63rpx;
+}
+
 /* block_1 深绿胶囊标签 */
 .card__label {
+	position: absolute;
+	top: 0;
+	left: 23rpx;
 	background-color: rgba(72, 101, 86, 0.95); /* 蓝湖 block_1 bg */
 	border-radius: 19229rpx;
 	width: 329rpx;
@@ -288,9 +312,9 @@ export default {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	margin: 21rpx 0 0 23rpx;
 	padding: 0 23rpx;
 	box-sizing: border-box;
+	z-index: 2;
 }
 .card__label-icon {
 	width: 29rpx;   /* 蓝湖 thumbnail_3 */
@@ -390,7 +414,7 @@ export default {
 	}
 
 	&.is-speaking {
-		background-color: rgba(72, 101, 86, 1); /* 朗读中变深绿 */
+		background-color: rgba(72, 101, 86, 1);
 	}
 }
 
@@ -401,10 +425,10 @@ export default {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	margin: 21rpx 0 325rpx 250rpx; /* 蓝湖 block_4 margin */
+	margin: 21rpx 0 325rpx 250rpx;
 
 	&__icon {
-		width: 33rpx;   /* 蓝湖 thumbnail_5 */
+		width: 33rpx;   /* 更多回忆.png 17×17 → @2x 34×34 */
 		height: 33rpx;
 	}
 	&__text {
@@ -416,8 +440,8 @@ export default {
 		margin-left: 12rpx;
 	}
 	&__arrow {
-		width: 12rpx;   /* 蓝湖 thumbnail_6 */
-		height: 17rpx;
+		width: 16rpx;   /* 进入更多回忆.png 16×16 */
+		height: 16rpx;
 		margin-left: 12rpx;
 	}
 }
