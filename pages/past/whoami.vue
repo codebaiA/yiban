@@ -15,10 +15,8 @@
 			<!-- 居中标题（absolute + left/right 0 实现真正居中，不受左右按钮宽度影响） -->
 			<text class="nav__title">看看从前</text>
 
-			<!-- 右侧：语音按钮（适老化放大） -->
-			<view class="nav__right" @tap="onVoice">
-				<image class="nav__right-icon" src="/static/s1开发/看看从前 · 二级界面素材/语音icon.png" mode="aspectFit"></image>
-			</view>
+			<!-- 右侧占位：保持 justify-content:space-between 布局对称 -->
+			<view class="nav__placeholder"></view>
 		</view>
 
 		<!-- ========== section_11 Tab 胶囊组 ========== -->
@@ -222,21 +220,11 @@ export default {
 	pointer-events: none;  /* 不挡点击 */
 }
 
-/* 右侧语音按钮 */
-.nav__right {
-	background-color: rgba(202, 234, 215, 1); /* 蓝湖 image-wrapper_1 bg */
-	border-radius: 19229rpx;
-	width: 108rpx;   /* 适老化：从 92 → 108 */
-	height: 108rpx;  /* 适老化：从 92 → 108 */
-	display: flex;
-	align-items: center;
-	justify-content: center;
+/* 右侧占位：保持 justify-content:space-between 布局对称 */
+.nav__placeholder {
+	width: 108rpx;
+	height: 108rpx;
 	flex-shrink: 0;
-	box-shadow: 0 1rpx 2rpx 0 rgba(0, 0, 0, 0.05);
-}
-.nav__right-icon {
-	width: 72rpx;   /* 适老化：从 48 → 72（1.5 倍） */
-	height: 72rpx;
 }
 
 /* ========= section_11 Tab 胶囊组 ========= */
