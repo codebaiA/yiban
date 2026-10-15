@@ -1,40 +1,44 @@
 <template>
 	<view class="yb-tabbar">
+		<!-- box_5: 三个 tab 横排 -->
 		<view class="yb-tabbar__bar">
-			<!-- 首页：绿色胶囊（选中态） -->
-			<view class="tab tab--home" :class="{ 'is-active': current === 'index' }" hover-class="tab--home-hover" @tap="switchTo('index')">
-				<view class="tab__pill">
-					<view class="tab__home" :class="current === 'index' ? 'tab__home--on' : 'tab__home--off'"></view>
-					<text class="tab__home-label" :class="current === 'index' ? 'tab__text--on' : 'tab__text--off'">首页</text>
-				</view>
+
+			<!-- 首页（选中态：胶囊 bg:#486556, 内部 icon 上文字下 flex column） -->
+			<view
+				class="tab-home"
+				:class="{ 'is-inactive': current !== 'index' }"
+				@tap="switchTo('index')"
+			>
+				<image class="tab-home__icon" src="/static/TabBar_icons/首页.png" mode="aspectFit"></image>
+				<text class="tab-home__text">首页</text>
 			</view>
 
-			<!-- 我的回忆：中间悬浮 -->
-			<view class="tab tab--center" :class="{ 'is-active': current === 'memory' }" hover-class="tab--center-hover" @tap="switchTo('memory')">
-				<view class="tab__center" :class="{ 'tab__center--on': current === 'memory' }">
-					<image class="tab__center-img" :src="icon('tabMemoir')" mode="aspectFit"></image>
-				</view>
-				<text class="tab__center-label" :class="current === 'memory' ? 'tab__text--on' : 'tab__text--off'">我的回忆</text>
+			<!-- 我的回忆（中间，未选中） -->
+			<view
+				class="tab-memoir"
+				:class="{ 'is-active': current === 'memory' }"
+				@tap="switchTo('memory')"
+			>
+				<image class="tab-memoir__icon" src="/static/TabBar_icons/我的回忆tab.png" mode="aspectFit"></image>
+				<text class="tab-memoir__text">我的回忆</text>
 			</view>
 
-			<!-- 我的 -->
-			<view class="tab tab--mine" :class="{ 'is-active': current === 'mine' }" hover-class="tab--mine-hover" @tap="switchTo('mine')">
-				<view class="tab__mine" :class="{ 'tab__mine--on': current === 'mine' }">
-					<image class="tab__mine-img" :src="icon('tabMine')" mode="aspectFit"></image>
-				</view>
-				<text class="tab__mine-label" :class="current === 'mine' ? 'tab__text--on' : 'tab__text--off'">我的</text>
+			<!-- 我的（右侧） -->
+			<view
+				class="tab-mine"
+				:class="{ 'is-active': current === 'mine' }"
+				@tap="switchTo('mine')"
+			>
+				<image class="tab-mine__icon" src="/static/TabBar_icons/我的tab.png" mode="aspectFit"></image>
+				<text class="tab-mine__text">我的</text>
 			</view>
+
 		</view>
 	</view>
 </template>
 
 <script>
-import { icon } from '../services/iconMap.js'
-
 export default {
-	data() {
-		return { icon }
-	},
 	computed: {
 		current() {
 			const pages = getCurrentPages()
@@ -55,7 +59,6 @@ export default {
 			if (!url) return
 			const pages = getCurrentPages()
 			const route = pages.length ? pages[pages.length - 1].route : ''
-			// 已在当前 tab 则不重复跳
 			if (route === key || (key === 'index' && route.indexOf('index') >= 0)) return
 			uni.switchTab({ url })
 		}
@@ -64,6 +67,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/* ========= TabBar 整体（蓝湖 box_5） ========= */
 .yb-tabbar {
 	position: fixed;
 	left: 0;
@@ -77,133 +81,122 @@ export default {
 		position: relative;
 		width: 750rpx;
 		height: 169rpx;
+		display: flex;
+		flex-direction: row;
+		box-shadow: 0 -8rpx 24rpx -4rpx rgba(44, 53, 49, 0.06);
 	}
 }
 
-/* —— 首页胶囊 —— */
-.tab--home {
+/* ========= 首页（选中态胶囊，蓝湖 section_4） ========= */
+.tab-home {
 	position: absolute;
 	left: 67rpx;
 	top: 25rpx;
 	width: 171rpx;
 	height: 106rpx;
-}
-.tab__pill {
-	width: 171rpx;
-	height: 106rpx;
-	border-radius: 999rpx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(72, 101, 86, 1); // 选中绿
+	border-radius: 19229rpx; /* 蓝湖 19229rpx = 胶囊形 */
+	background-color: rgba(72, 101, 86, 1); /* #486556 */
 	box-shadow: 0 4rpx 12rpx rgba(72, 101, 86, 0.25);
-}
-.tab--home:not(.is-active) .tab__pill {
-	background-color: transparent;
-	box-shadow: none;
-}
-.tab__home {
-	width: 37rpx;
-	height: 44rpx;
-	margin-right: 12rpx;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-}
-.tab__home--on {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3z'/%3E%3C/svg%3E");
-}
-.tab__home--off {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23424444'%3E%3Cpath d='M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3z'/%3E%3C/svg%3E");
-}
-.tab__home-label {
-	font-family: $yb-font-sans;
-	font-size: 29rpx;
-	letter-spacing: 1rpx;
-	font-weight: 500;
-	color: #ffffff;
-}
-.tab--home:not(.is-active) .tab__home-label {
-	color: #424844;
-}
-.tab--home-hover { opacity: 0.85; }
-
-/* —— 我的回忆（中间） —— */
-.tab--center {
-	position: absolute;
-	left: 310rpx;
-	top: 28rpx;
-	width: 130rpx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-.tab__center {
-	width: 80rpx;
-	height: 80rpx;
-	border-radius: 999rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.tab__center--on {
-	background-color: rgba(233, 122, 55, 0.14);
-}
-.tab__center-img {
-	width: 44rpx;
-	height: 56rpx;
-}
-.tab__center-label {
-	margin-top: 6rpx;
-	font-family: $yb-font-sans;
-	font-size: 29rpx;
-	letter-spacing: 1rpx;
-	font-weight: 500;
-	white-space: nowrap;
-}
-.tab--center-hover { opacity: 0.85; }
+	justify-content: space-between;
+	padding: 12rpx 0 12rpx;
 
-/* —— 我的（右侧） —— */
-.tab--mine {
+	&__icon {
+		width: 37rpx;
+		height: 44rpx;
+		/* 蓝湖首页 icon 原色是深色，胶囊内要白色，用 filter 反转 */
+		filter: brightness(0) invert(1);
+	}
+
+	&__text {
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-size: 29rpx;
+		letter-spacing: 1rpx;
+		font-weight: 500;
+		color: #ffffff;
+		line-height: 38rpx;
+	}
+
+	/* 非选中态：胶囊透明，icon 原色 */
+	&.is-inactive {
+		background-color: transparent;
+		box-shadow: none;
+	}
+	&.is-inactive .tab-home__icon {
+		filter: none;
+	}
+	&.is-inactive .tab-home__text {
+		color: #424844;
+	}
+}
+
+/* ========= 我的回忆（中间 tab） ========= */
+.tab-memoir {
+	position: absolute;
+	left: 315rpx;
+	top: 35rpx;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 130rpx;
+
+	&__icon {
+		width: 80rpx;
+		height: 80rpx;
+		padding: 18rpx;
+		border-radius: 19229rpx;
+		background-color: rgba(233, 122, 55, 0.14);
+		object-fit: contain;
+	}
+
+	&__text {
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-size: 29rpx;
+		letter-spacing: 1rpx;
+		font-weight: 500;
+		color: #424844;
+		line-height: 38rpx;
+		margin-top: 6rpx;
+	}
+
+	&.is-active .tab-memoir__text {
+		color: #E97A37;
+	}
+}
+
+/* ========= 我的（右侧 tab） ========= */
+.tab-mine {
 	position: absolute;
 	left: 566rpx;
-	top: 30rpx;
-	width: 70rpx;
+	top: 38rpx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-.tab__mine {
-	width: 72rpx;
-	height: 72rpx;
-	border-radius: 999rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.tab__mine--on {
-	background-color: rgba(233, 122, 55, 0.14);
-}
-.tab__mine-img {
-	width: 40rpx;
-	height: 44rpx;
-}
-.tab__mine-label {
-	margin-top: 8rpx;
-	font-family: $yb-font-sans;
-	font-size: 29rpx;
-	letter-spacing: 1rpx;
-	font-weight: 500;
-	white-space: nowrap;
-}
-.tab--mine-hover { opacity: 0.85; }
+	width: 80rpx;
 
-/* —— 文字高亮 —— */
-.tab__text--on {
-	color: #E97A37;
-}
-.tab__text--off {
-	color: #424844;
+	&__icon {
+		width: 72rpx;
+		height: 72rpx;
+		padding: 16rpx;
+		border-radius: 19229rpx;
+		background-color: rgba(233, 122, 55, 0.14);
+		object-fit: contain;
+	}
+
+	&__text {
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-size: 29rpx;
+		letter-spacing: 1rpx;
+		font-weight: 500;
+		color: #424844;
+		line-height: 38rpx;
+		margin-top: 8rpx;
+	}
+
+	&.is-active .tab-mine__text {
+		color: #E97A37;
+	}
 }
 </style>

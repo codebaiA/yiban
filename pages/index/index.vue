@@ -9,8 +9,8 @@
 			</view>
 			<!-- 问候语 -->
 			<text class="greeting">{{ greeting }}，{{ patient.nickname || patient.name || '' }}！</text>
-			<!-- 右上头像（absolute 定位，蓝湖精确位置 left:560rpx top:144rpx） -->
-			<view class="head-avatar">
+			<!-- 右上头像（底部与问候语底部齐平，JS 动态算 top = safeTop + 44rpx） -->
+			<view class="head-avatar" :style="{ top: headAvatarTop + 'rpx' }">
 				<image class="head-avatar-img" :src="patient.avatar || icon('patient')" mode="aspectFill"></image>
 			</view>
 		</view>
@@ -94,11 +94,8 @@
 						</view>
 						<view class="med__text">
 							<text class="med__name">吃药</text>
-							<view class="med__row">
-								<text class="med__time" v-if="nextPlan">{{ nextPlan.planTime }}</text>
-								<text class="med__status" v-if="nextPlan">{{ planStatus(nextPlan.id) === 'PENDING' ? '待确认' : '已确认' }}</text>
-								<text class="med__time" v-else>暂无提醒</text>
-							</view>
+							<text class="med__time" v-if="nextPlan">{{ nextPlan.planTime }}</text>
+							<text class="med__time" v-else>暂无提醒</text>
 						</view>
 					</view>
 				</view>
@@ -151,7 +148,8 @@ export default {
 			confirmVisible: false,
 			pendingPlan: null,
 			callVisible: false,
-			safeTop: 40
+			safeTop: 40,
+			headAvatarTop: 84  // safeTop + 44 的默认值
 		}
 	},
 	computed: {
@@ -210,8 +208,12 @@ export default {
 		try {
 			const info = uni.getSystemInfoSync()
 			this.safeTop = Math.round((info.statusBarHeight || 20) * 1.923)
+			// 头像 bottom 与问候语 bottom 齐平：胶囊 top(safeTop+42) + 胶囊高(60) - 问候语margin(-2) + 问候语line-height(67) - 头像高(123)
+			// = safeTop + 42 + 60 - 2 + 67 - 123 = safeTop + 44
+			this.headAvatarTop = this.safeTop + 44
 		} catch (e) {
 			this.safeTop = 40
+			this.headAvatarTop = 40 + 44
 		}
 	},
 	onShow() {
@@ -352,11 +354,10 @@ export default {
 	margin: -2rpx 0 44rpx 52rpx;
 }
 
-/* 右上头像（蓝湖 absolute left:560 top:144，123×123 圆形 + shadow） */
+/* 右上头像（bottom 与问候语 bottom 齐平，JS 动态控制 top） */
 .head-avatar {
 	position: absolute;
 	left: 560rpx;
-	top: 144rpx;
 	width: 123rpx;
 	height: 123rpx;
 	border-radius: 19229rpx; /* ≈50% */
@@ -558,15 +559,14 @@ export default {
 
 	&--hover { opacity: 0.95; }
 
-	/* 顶部 46rpx margin 蓝湖 group_9 */
+	/* 顶部标题行：居中对齐一行显示 */
 	&__top {
 		display: flex;
 		flex-direction: row;
-		align-items: flex-end;
-		width: 317rpx;
-		height: 110rpx;
-		margin: 46rpx 0 0 27rpx;
+		align-items: center;
 		justify-content: space-between;
+		width: 317rpx;
+		margin: 46rpx 0 0 27rpx;
 	}
 
 	&__title {
@@ -576,7 +576,6 @@ export default {
 		letter-spacing: -1rpx;
 		color: #FFFFFF;
 		line-height: 63rpx;
-		margin-top: 46rpx; /* 蓝湖：文字在 group_9 底部 */
 	}
 
 	/* 播放小角标（77×77 白半透明圆） */
@@ -773,13 +772,11 @@ export default {
 		height: 46rpx;
 	}
 
-	/* 文字组（margin:25rpx 27rpx 0 12rpx） */
+	/* 文字组 */
 	&__text {
 		display: flex;
 		flex-direction: column;
-		width: 110rpx;
-		height: 113rpx;
-		margin: 25rpx 27rpx 0 12rpx;
+		margin: 30rpx 0 0 12rpx;
 	}
 
 	&__name {
@@ -787,31 +784,15 @@ export default {
 		font-size: 42rpx;
 		font-weight: 500;
 		color: $yb-c-text-1;
-		line-height: 63rpx;
-	}
-
-	&__row {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		height: 46rpx;
-		margin-top: 4rpx;
+		line-height: 58rpx;
 	}
 
 	&__time {
 		font-family: $yb-font-sans;
-		font-size: 23rpx;
+		font-size: 25rpx;
 		font-weight: 500;
 		color: $yb-c-orange-4; /* #A25016 */
-		line-height: 46rpx;
-	}
-
-	&__status {
-		font-family: $yb-font-sans;
-		font-size: 31rpx;
-		font-weight: 500;
-		color: $yb-c-orange-4; /* #A25016 */
-		line-height: 46rpx;
+		line-height: 38rpx;
 	}
 }
 
