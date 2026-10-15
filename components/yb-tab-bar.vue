@@ -142,7 +142,6 @@ export default {
 	position: absolute;
 	left: 315rpx;  /* 蓝湖 text_14 left:315rpx */
 	top: 35rpx;    /* 蓝湖 image_7 margin-top:35rpx */
-	width: 119rpx; /* 蓝湖 text_14 width:119rpx */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
