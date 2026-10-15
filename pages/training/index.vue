@@ -6,11 +6,13 @@
 		<!-- 自定义导航栏 -->
 		<view class="nav">
 			<view class="nav__back" @tap="onBack">
-				<image class="nav__back-arrow" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/返回iocn.png" mode="aspectFit"></image>
+				<image class="nav__back-arrow" :src="icon('trainingBack')" mode="aspectFit"></image>
 				<text class="nav__back-text">返回</text>
 			</view>
 			<text class="nav__title">脑力小时光</text>
-			<view class="nav__placeholder"></view>
+			<view class="nav__help" @tap="showHelp">
+				<image class="nav__help-icon" :src="icon('trainingHelp')" mode="aspectFit"></image>
+			</view>
 		</view>
 
 		<!-- 答题中 -->
@@ -30,9 +32,14 @@
 
 			<!-- 题目卡片 -->
 			<view class="card">
-				<text class="card__title">{{ question.title }}</text>
+				<view class="card__head">
+					<text class="card__title">{{ question.title }}</text>
+					<view class="card__replay" @tap="replayQuestion">
+						<image class="card__replay-icon" :src="icon('trainingReplay')" mode="aspectFit"></image>
+					</view>
+				</view>
 
-				<!-- 识钟：CSS 钟面（无需外部素材；未来有切片图片可改 image） -->
+				<!-- 识钟：CSS 钟面（动态指针） -->
 				<view v-if="question.clock" class="clock">
 					<text class="clock__num clock__num--12">12</text>
 					<text class="clock__num clock__num--3">3</text>
@@ -42,7 +49,7 @@
 					<view class="clock__hand clock__hand--minute" :style="{ transform: 'rotate(' + minuteAngle + 'deg)' }"></view>
 					<view class="clock__dot"></view>
 				</view>
-				<image v-else-if="question.image" class="card__image" :src="question.image" mode="aspectFit"></image>
+				<image v-else-if="questionImage" class="card__image" :src="questionImage" mode="aspectFit"></image>
 
 				<!-- 选项 -->
 				<view class="options">
@@ -95,6 +102,8 @@
 
 <script>
 import { useStore, actions } from '../../store/index.js'
+import { icon } from '../../services/iconMap.js'
+import { speak } from '../../services/tts.js'
 
 // 接口返回空时的兜底题库（保证进页面一定有题可做）
 const FALLBACK_QUESTIONS = [
@@ -136,6 +145,7 @@ function shuffle(arr) {
 export default {
 	data() {
 		return {
+			icon,
 			statusBarHeight: 20,
 			questions: [],
 			current: 0,
@@ -166,6 +176,13 @@ export default {
 			const q = this.question
 			if (!q || !q.clock) return 0
 			return q.clock.minute * 6
+		},
+		questionImage() {
+			const q = this.question
+			if (!q) return ''
+			if (q.image) return q.image
+			if (q.type === 'COUNT') return icon('countApples')
+			return ''
 		}
 	},
 	onLoad() {
@@ -211,6 +228,18 @@ export default {
 			if (this.question && i === this.question.answerIndex) {
 				this.correctCount += 1
 			}
+		},
+		replayQuestion() {
+			const q = this.question
+			if (q && q.title) speak(q.title)
+		},
+		showHelp() {
+			uni.showModal({
+				title: '帮助',
+				content: '看钟面：短针是时针，长针是分针。长针指向 12 就是整点，指向 6 就是半点。',
+				showCancel: false,
+				confirmText: '知道了'
+			})
 		},
 		next() {
 			if (this.isLast) {
@@ -303,10 +332,19 @@ export default {
 	pointer-events: none;
 }
 
-.nav__placeholder {
-	width: 108rpx;
-	height: 108rpx;
+.nav__help {
+	width: 88rpx;
+	height: 88rpx;
+	border-radius: 50%;
+	background-color: #E6F0EA;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	flex-shrink: 0;
+}
+.nav__help-icon {
+	width: 44rpx;
+	height: 44rpx;
 }
 
 /* ========= 进度 ========= */
@@ -370,6 +408,14 @@ export default {
 	flex-direction: column;
 }
 
+.card__head {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 40rpx;
+}
+
 .card__title {
 	color: $yb-c-text-1;
 	font-size: $yb-fs-l;
@@ -377,7 +423,22 @@ export default {
 	font-weight: 500;
 	line-height: 63rpx;
 	text-align: center;
-	margin-bottom: 40rpx;
+}
+
+.card__replay {
+	width: 64rpx;
+	height: 64rpx;
+	border-radius: 50%;
+	background-color: $yb-c-bg-grey2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 16rpx;
+	flex-shrink: 0;
+}
+.card__replay-icon {
+	width: 36rpx;
+	height: 36rpx;
 }
 
 .card__image {

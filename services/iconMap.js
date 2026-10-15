@@ -6,6 +6,7 @@
 
 const S1 = '/static/s1开发/'
 const ICONS = '/static/icons/'
+const BRAIN = S1 + '脑力训练 · 简单生活识钟（一页一题极简版）_slices/'
 
 const MAP = {
   // —— S1 素材 ——
@@ -28,6 +29,13 @@ const MAP = {
   playSmall: S1 + '播放.png',
   phoneSmall: S1 + '拨号.png',
   arrowIn: S1 + '进入.png',
+
+  // —— 脑力训练 · 简单生活识钟切片 ——
+  trainingBack: BRAIN + '脑力锻炼返回icon.png',
+  trainingHelp: BRAIN + '帮助icon.png',
+  trainingReplay: BRAIN + '重新听题icon.png',
+  clockFace: BRAIN + '钟表.png',
+  countApples: BRAIN + '数苹果.png',
 
   // —— 功能图标 ——
   switchView: ICONS + 'icon-switch-view.png',

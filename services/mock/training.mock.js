@@ -33,9 +33,10 @@ export const records = [
 ]
 
 /**
- * 训练题库（第一版：简单生活识钟 · 一页一题极简版）
+ * 训练题库（第一版：脑力训练 · 简单生活识钟 · 一页一题极简版）
  * type: CLOCK(识钟) —— 页内用 CSS 钟面渲染 clock.hour/clock.minute，无需外部图片
- * 未来接真后端：字段保持一致，图片题可加 image 字段
+ * type: COUNT(数苹果) —— 页内渲染 countApples 图片
+ * 未来接真后端：字段保持一致
  */
 export const questions = [
   {
@@ -85,6 +86,13 @@ export const questions = [
     options: ['9点半', '10点半', '11点半'],
     answerIndex: 1,
     tip: '短针刚过 10，长针指 6'
+  },
+  {
+    id: 'q7', type: 'COUNT',
+    title: '数一数，一共有几个苹果？',
+    options: ['3个', '4个', '5个'],
+    answerIndex: 1,
+    tip: '从左到右、从上到下一个一个数'
   }
 ]
 
