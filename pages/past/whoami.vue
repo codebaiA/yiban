@@ -35,11 +35,6 @@
 		<view class="card">
 			<!-- section_13 大图区：王建国照片 -->
 			<view class="card__photo-area">
-				<!-- block_1 深绿胶囊标签 -->
-				<view class="card__label">
-					<image class="card__label-icon" :src="patient.avatar || '/static/s1开发/王建国.png'" mode="aspectFill"></image>
-					<text class="card__label-text">这就是你&nbsp;·&nbsp;{{ patient.name || '王爷爷' }}</text>
-				</view>
 				<!-- 大照片：正式素材 王建国照片.png -->
 				<image class="card__photo" src="/static/s1开发/看看从前 · 二级界面素材/王建国照片.png" mode="aspectFill"></image>
 			</view>
@@ -293,9 +288,7 @@ export default {
 
 /* section_13 大图区 */
 .card__photo-area {
-	position: relative;
-	width: 619rpx;
-	height: 463rpx;
+	width: 100%;
 }
 
 .card__photo {
@@ -303,41 +296,6 @@ export default {
 	height: 400rpx;
 	border-radius: 21rpx;
 	object-fit: cover;
-	margin-top: 63rpx;
-}
-
-/* block_1 深绿胶囊标签 */
-.card__label {
-	position: absolute;
-	top: 0;
-	left: 23rpx;
-	background-color: rgba(72, 101, 86, 0.95);
-	border-radius: 19229rpx;
-	width: 329rpx;
-	height: 62rpx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 0 23rpx;
-	box-sizing: border-box;
-	z-index: 2;
-}
-.card__label-icon {
-	width: 29rpx;
-	height: 29rpx;
-	border-radius: 50%;
-	margin-top: 6rpx;
-	flex-shrink: 0;
-}
-.card__label-text {
-	color: rgba(255, 255, 255, 1);
-	font-size: 29rpx;
-	letter-spacing: 1rpx;
-	font-family: -apple-system, "PingFang SC", sans-serif;
-	font-weight: 500;
-	line-height: 38rpx;
-	margin: 6rpx 0 0 12rpx;
-	white-space: nowrap;
 }
 
 /* text-group_7 两段文字 */

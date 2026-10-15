@@ -34,11 +34,6 @@
 		<view class="card">
 			<!-- 大图区：居住地照片 -->
 			<view class="card__photo-area">
-				<!-- 深绿胶囊标签 -->
-				<view class="card__label">
-					<image class="card__label-icon" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/Icon.png" mode="aspectFill"></image>
-					<text class="card__label-text">{{ residence ? residence.name || '这就是你住的地方' : '还没有设置居住地' }}</text>
-				</view>
 				<!-- 大照片：有 residence.photo 用它，没有用 slices 素材 默认 -->
 				<image class="card__photo" :src="(residence && residence.photo) || '/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/我在哪.png'" mode="aspectFill"></image>
 			</view>
@@ -278,9 +273,7 @@ export default {
 }
 
 .card__photo-area {
-	position: relative;
-	width: 619rpx;
-	height: 463rpx;
+	width: 100%;
 }
 
 .card__photo {
@@ -288,40 +281,6 @@ export default {
 	height: 400rpx;
 	border-radius: 21rpx;
 	object-fit: cover;
-	margin-top: 63rpx;
-}
-
-.card__label {
-	position: absolute;
-	top: 0;
-	left: 23rpx;
-	background-color: rgba(72, 101, 86, 0.95);
-	border-radius: 19229rpx;
-	width: 329rpx;
-	height: 62rpx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 0 23rpx;
-	box-sizing: border-box;
-	z-index: 2;
-}
-.card__label-icon {
-	width: 29rpx;
-	height: 29rpx;
-	border-radius: 50%;
-	margin-top: 6rpx;
-	flex-shrink: 0;
-}
-.card__label-text {
-	color: rgba(255, 255, 255, 1);
-	font-size: 29rpx;
-	letter-spacing: 1rpx;
-	font-family: -apple-system, "PingFang SC", sans-serif;
-	font-weight: 500;
-	line-height: 38rpx;
-	margin: 6rpx 0 0 12rpx;
-	white-space: nowrap;
 }
 
 .card__texts {
