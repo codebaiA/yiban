@@ -7,8 +7,7 @@
 		<view class="nav">
 			<!-- 左侧：返回按钮 -->
 			<view class="nav__back" @tap="onBack">
-				<!-- 返回 icon：inline SVG 左箭头（slices 目录未传，暂无 PNG） -->
-				<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M14 4L6 11l8 7' fill='none' stroke='%23151D1A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
+				<image class="nav__back-arrow" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/返回iocn.png" mode="aspectFit"></image>
 				<text class="nav__back-text">返回</text>
 			</view>
 
