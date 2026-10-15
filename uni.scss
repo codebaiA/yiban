@@ -74,3 +74,103 @@ $uni-color-subtitle: #555555; // 二级标题颜色
 $uni-font-size-subtitle:26px;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:15px;
+
+
+/* ============================================================
+   忆伴 Design Tokens
+   来源：Figma「阿尔兹海默病终版」(qwxCZrmqR3RSPlT92U2U2K)
+   画布 390 x 844  →  rpx = pt * (750 / 390) ≈ pt * 1.923
+   注意：本文件只允许放变量，不要放 CSS 规则或 @mixin
+   （uni-app 会把本文件内容前置注入到每个 <style lang="scss">）
+   ============================================================ */
+
+/* ---- 字体族 ---- */
+$yb-font-sans:  'PingFang SC', -apple-system, 'Helvetica Neue', 'Helvetica', sans-serif;
+$yb-font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+
+/* ---- 主色 · 橙（按钮 / 强调 / 行动点）---- */
+$yb-c-orange-1: #E97A37;
+$yb-c-orange-2: #FF7A29;
+$yb-c-orange-3: #BA5518;
+$yb-c-orange-4: #A25016;
+
+/* ---- 主文字 · 墨绿黑 ---- */
+$yb-c-text-1:   #192620;
+$yb-c-text-2:   #151D1A;
+$yb-c-text-3:   #2D2A26;
+
+/* ---- 次要文字 ---- */
+$yb-c-text-sub:  #424844;
+$yb-c-text-sub2: #4F6358;
+$yb-c-text-sub3: #57524A;
+
+/* ---- 辅助 / 成功绿 ---- */
+$yb-c-green-1: #486556;
+$yb-c-green-2: #365947;
+
+/* ---- 章节棕（回忆录专用）---- */
+$yb-c-brown-1: #9B6438;
+$yb-c-brown-2: #8A5020;
+$yb-c-brown-3: #726249;
+
+/* ---- 地点蓝 ---- */
+$yb-c-blue-1: #275988;
+$yb-c-blue-2: #3874AB;
+
+/* ---- 背景 ---- */
+$yb-c-bg-page:  #FFF6EF;
+$yb-c-bg-page2: #FEF6EE;
+$yb-c-bg-grey:  #F5F9F6;
+$yb-c-bg-grey2: #F4F9F6;
+$yb-c-bg-white: #FFFFFF;
+
+/* ---- 青绿点缀 ---- */
+$yb-c-teal-1: #57B5A5;
+$yb-c-teal-2: #CFE4D8;
+$yb-c-teal-3: #E5F2EB;
+
+/* ---- 功能色 ---- */
+$yb-c-danger:  #D9534F;
+$yb-c-success: #57B5A5;
+$yb-c-line:    #E8E2D8;
+
+/* ---- 圆角 ---- */
+$yb-r-sm:  12rpx;
+$yb-r-md:  20rpx;
+$yb-r-lg:  28rpx;
+$yb-r-xl:  36rpx;
+$yb-r-pill: 999rpx;
+
+/* ---- 间距（pt -> rpx）---- */
+$yb-sp-xs:  15rpx;  /*  8pt */
+$yb-sp-sm:  23rpx;  /* 12pt */
+$yb-sp-md:  31rpx;  /* 16pt */
+$yb-sp-lg:  38rpx;  /* 20pt */
+$yb-sp-xl:  46rpx;  /* 24pt */
+$yb-sp-xxl: 62rpx;  /* 32pt */
+
+/* ---- 字号阶梯（8 档，标准档 md）---- */
+$yb-fs-xl:  54rpx;  /* 28pt 问候语 / 超大按钮 */
+$yb-fs-l:   42rpx;  /* 22pt 页面主标题 / 卡片主标题 */
+$yb-fs-mp:  38rpx;  /* 20pt 区块标题 / 选项 */
+$yb-fs-m:   35rpx;  /* 18pt 正文强调 */
+$yb-fs-b:   31rpx;  /* 16pt 正文 */
+$yb-fs-s:   29rpx;  /* 15pt 次要说明 */
+$yb-fs-xs:  25rpx;  /* 13pt 辅助标签 */
+$yb-fs-xxs: 23rpx;  /* 12pt 极小注 */
+
+/* ---- 宋体阶梯（回忆录专用）---- */
+$yb-fs-serif-title: 58rpx;  /* 30pt 目录大标题 */
+$yb-fs-serif-l:     42rpx;  /* 22pt 章节名 */
+$yb-fs-serif-m:     38rpx;  /* 20pt 内页标题 */
+$yb-fs-serif-b:     31rpx;  /* 16pt 内页正文 */
+$yb-fs-serif-s:     25rpx;  /* 13pt 小注 */
+$yb-fs-serif-xs:    23rpx;  /* 12pt 英文小字 */
+
+/* ---- 适老化最小点击区 ---- */
+$yb-tap-min: 112rpx;
+$yb-tap-lg:  144rpx;
+
+/* ---- 阴影（微信小程序用 box-shadow）---- */
+$yb-shadow-card: 0 4rpx 20rpx rgba(90, 66, 40, 0.08);
+$yb-shadow-float: 0 8rpx 32rpx rgba(90, 66, 40, 0.16);

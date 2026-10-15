@@ -1,4 +1,5 @@
 import App from './App'
+import { fontMixin } from './store/mixins.js'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -15,6 +16,8 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
+  // 全局注入字号 class：每个页面根节点用 :class="ybFontClass" 即可
+  app.mixin(fontMixin)
   return {
     app
   }
