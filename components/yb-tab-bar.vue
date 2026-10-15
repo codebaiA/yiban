@@ -143,11 +143,8 @@ export default {
 	width: 130rpx;
 
 	&__icon {
-		width: 80rpx;
-		height: 80rpx;
-		padding: 18rpx;
-		border-radius: 19229rpx;
-		background-color: rgba(233, 122, 55, 0.14);
+		width: 48rpx;
+		height: 48rpx;
 		object-fit: contain;
 	}
 
@@ -177,11 +174,8 @@ export default {
 	width: 80rpx;
 
 	&__icon {
-		width: 72rpx;
-		height: 72rpx;
-		padding: 16rpx;
-		border-radius: 19229rpx;
-		background-color: rgba(233, 122, 55, 0.14);
+		width: 48rpx;
+		height: 48rpx;
 		object-fit: contain;
 	}
 

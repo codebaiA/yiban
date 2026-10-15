@@ -57,7 +57,7 @@
 				<view class="brain__top">
 					<text class="brain__title">脑力小时光</text>
 					<view class="brain__mini">
-						<view class="ic-play"></view>
+						<image class="brain__arrow" :src="icon('arrowRight')" mode="aspectFit"></image>
 					</view>
 				</view>
 				<text class="brain__desc">玩玩小游戏\n唤醒好记忆</text>
@@ -74,7 +74,7 @@
 							<image class="call__avatar-img" :src="icon('avatarFangfang')" mode="aspectFill"></image>
 						</view>
 						<view class="call__mini">
-							<view class="ic-phone ic-phone--sm"></view>
+							<image class="call__arrow" :src="icon('arrowRight')" mode="aspectFit"></image>
 						</view>
 					</view>
 					<view class="call__label">
@@ -299,7 +299,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	padding-bottom: 220rpx;
+	padding-bottom: 180rpx;
 	box-sizing: border-box;
 	width: 750rpx;
 }
@@ -540,7 +540,7 @@ export default {
 .duo {
 	width: 688rpx;
 	height: 579rpx;
-	margin: 15rpx 0 0 31rpx;
+	margin: 30rpx 0 0 31rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -590,6 +590,11 @@ export default {
 		justify-content: center;
 		flex-shrink: 0;
 		margin-left: -6rpx;
+	}
+
+	&__arrow {
+		width: 40rpx;
+		height: 40rpx;
 	}
 
 	/* 描述文字（margin-top:62rpx） */
@@ -683,6 +688,11 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	&__arrow {
+		width: 44rpx;
+		height: 44rpx;
 	}
 
 	/* 标题行（margin:17rpx 0 23rpx 37rpx） */
@@ -802,17 +812,7 @@ export default {
    颜色按蓝湖设计稿精确值写死在 SVG path fill 中
    ============================================================ */
 
-/* 脑力小时光 - 白色播放小角标（蓝湖 19×31rpx ≈ 10×16px viewBox 24×24） */
-.ic-play {
-	width: 19rpx;
-	height: 31rpx;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
-}
-
-/* 呼叫女儿 - 白色电话图标（蓝湖 19×33rpx / 44×44rpx） */
+/* 呼叫女儿 - 白色电话图标（蓝湖 44×44rpx，用于标题行） */
 .ic-phone {
 	width: 44rpx;
 	height: 44rpx;
@@ -820,12 +820,6 @@ export default {
 	background-position: center;
 	background-size: contain;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z'/%3E%3C/svg%3E");
-
-	/* 右上角小圆里的小号 19×33rpx */
-	&--sm {
-		width: 19rpx;
-		height: 33rpx;
-	}
 }
 
 /* 今日提醒 - 墨绿黑铃铛图标（蓝湖 40×40rpx，fill:#192620） */
