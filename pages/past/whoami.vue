@@ -8,18 +8,14 @@
 			<!-- 左侧：返回按钮 -->
 			<view class="nav__back" @tap="onBack">
 				<!-- 返回 icon：inline SVG 左箭头（slices 目录未传，暂无 PNG） -->
-				<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M14 4L6 11l8 7' fill='none' stroke='%23151D1A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
+				<image class="nav__back-arrow" src="/static/s1开发/看看从前 · 二级界面素材/返回icon.png" mode="aspectFit"></image>
 				<text class="nav__back-text">返回</text>
 			</view>
 
 			<!-- 居中标题（absolute + left/right 0 实现真正居中，不受左右按钮宽度影响） -->
 			<text class="nav__title">看看从前</text>
 
-			<!-- 右侧：语音按钮（适老化放大） -->
-			<view class="nav__right" @tap="onVoice">
-				<image class="nav__right-icon" src="/static/s1开发/看看从前 · 二级界面素材/语音icon.png" mode="aspectFit"></image>
-			</view>
-		</view>
+			
 
 		<!-- ========== section_11 Tab 胶囊组 ========== -->
 		<view class="tabs">
@@ -234,10 +230,7 @@ export default {
 	flex-shrink: 0;
 	box-shadow: 0 1rpx 2rpx 0 rgba(0, 0, 0, 0.05);
 }
-.nav__right-icon {
-	width: 72rpx;   /* 适老化：从 48 → 72（1.5 倍） */
-	height: 72rpx;
-}
+
 
 /* ========= section_11 Tab 胶囊组 ========= */
 .tabs {
