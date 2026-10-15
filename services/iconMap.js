@@ -23,7 +23,11 @@ const MAP = {
   // —— 根级素材 ——
   logo: '/static/logo.png',
   portrait: '/static/芳芳.jpg',
-  brainTime: '/static/脑力时光icon.png',
+  brainTime: S1 + '脑力时光icon.png',
+  // —— 新增素材（e896a34 补充）——
+  playSmall: S1 + '播放.png',
+  phoneSmall: S1 + '拨号.png',
+  arrowIn: S1 + '进入.png',
 
   // —— 功能图标 ——
   switchView: ICONS + 'icon-switch-view.png',
