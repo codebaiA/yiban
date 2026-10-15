@@ -6,7 +6,7 @@
 		<view class="nav">
 			<!-- 左侧：返回按钮 -->
 			<view class="nav__back" @tap="onBack">
-				<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M14 4L6 11l8 7' fill='none' stroke='%23151D1A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
+				<image class="nav__back-arrow" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/返回iocn.png" mode="aspectFit"></image>
 				<text class="nav__back-text">返回</text>
 			</view>
 
@@ -36,14 +36,11 @@
 			<view class="card__photo-area">
 				<!-- 深绿胶囊标签 -->
 				<view class="card__label">
-					<image class="card__label-icon" :src="residenceIcon" mode="aspectFill"></image>
+					<image class="card__label-icon" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/Icon.png" mode="aspectFill"></image>
 					<text class="card__label-text">{{ residence ? residence.name || '这就是你住的地方' : '还没有设置居住地' }}</text>
 				</view>
-				<!-- 大照片：有照片显示照片，没有显示占位 -->
-				<image v-if="residence && residence.photo" class="card__photo" :src="residence.photo" mode="aspectFill"></image>
-				<view v-else class="card__photo card__photo--placeholder">
-					<text class="card__photo-placeholder-text">家属还没有补充居住地照片</text>
-				</view>
+				<!-- 大照片：有 residence.photo 用它，没有用 slices 素材 默认 -->
+				<image class="card__photo" :src="(residence && residence.photo) || '/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/我在哪.png'" mode="aspectFill"></image>
 			</view>
 
 			<!-- 两段文字 -->
@@ -92,10 +89,6 @@ export default {
 		patient() { return this.store.patient },
 		residence() { return this.store.patient.residence || null },
 		activeTab() { return 'residence' },
-		residenceIcon() {
-			// 居住地图标占位：用深绿胶囊里的小图标（inline SVG 房子）
-			return 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'29\' height=\'29\' viewBox=\'0 0 29 29\'><path d=\'M14.5 5L5 13.5V24h6v-7h7v7h6V13.5L14.5 5z\' fill=\'%23ffffff\' opacity=\'0.9\'/></svg>'
-		},
 		speakText() {
 			const r = this.residence
 			if (!r) return ''
@@ -296,20 +289,6 @@ export default {
 	border-radius: 21rpx;
 	object-fit: cover;
 	margin-top: 63rpx;
-}
-
-.card__photo--placeholder {
-	background-color: rgba(245, 249, 246, 1);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 2rpx dashed rgba(88, 181, 165, 0.4);
-}
-.card__photo-placeholder-text {
-	color: rgba(88, 181, 165, 0.7);
-	font-size: 29rpx;
-	font-family: -apple-system, "PingFang SC", sans-serif;
-	font-weight: 500;
 }
 
 .card__label {
