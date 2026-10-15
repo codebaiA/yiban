@@ -44,6 +44,15 @@
 			"root": "pages/past",
 			"pages": [
 				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "看看从前",
+						"navigationBarBackgroundColor": "#FFF6EF",
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
+					}
+				},
+				{
 					"path": "whoami",
 					"style": {
 						"navigationBarTitleText": "",

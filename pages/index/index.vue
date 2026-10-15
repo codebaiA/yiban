@@ -275,13 +275,13 @@ export default {
 			})
 		},
 		goWhoami() {
-			uni.navigateTo({ url: '/pages/past/whoami' })
+			uni.navigateTo({ url: '/pages/past/index?tab=whoami' })
 		},
 		goFamily() {
-			uni.navigateTo({ url: '/pages/past/family' })
+			uni.navigateTo({ url: '/pages/past/index?tab=family' })
 		},
 		goResidence() {
-			uni.navigateTo({ url: '/pages/past/residence' })
+			uni.navigateTo({ url: '/pages/past/index?tab=residence' })
 		},
 		goTraining() {
 			uni.showToast({ title: '脑力小时光即将上线', icon: 'none' })
