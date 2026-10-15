@@ -46,9 +46,10 @@
 				{
 					"path": "whoami",
 					"style": {
-						"navigationBarTitleText": "我是谁",
+						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black"
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
 					}
 				},
 				{
