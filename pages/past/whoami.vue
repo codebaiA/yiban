@@ -8,14 +8,16 @@
 			<!-- 左侧：返回按钮 -->
 			<view class="nav__back" @tap="onBack">
 				<!-- 返回 icon：inline SVG 左箭头（slices 目录未传，暂无 PNG） -->
-				<image class="nav__back-arrow" src="/static/s1开发/看看从前 · 二级界面素材/返回icon.png" mode="aspectFit"></image>
+				<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M14 4L6 11l8 7' fill='none' stroke='%23151D1A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
 				<text class="nav__back-text">返回</text>
 			</view>
 
 			<!-- 居中标题（absolute + left/right 0 实现真正居中，不受左右按钮宽度影响） -->
 			<text class="nav__title">看看从前</text>
 
-			
+			<!-- 右侧占位：保持 justify-content:space-between 布局对称 -->
+			<view class="nav__placeholder"></view>
+		</view>
 
 		<!-- ========== section_11 Tab 胶囊组 ========== -->
 		<view class="tabs">
@@ -218,19 +220,12 @@ export default {
 	pointer-events: none;  /* 不挡点击 */
 }
 
-/* 右侧语音按钮 */
-.nav__right {
-	background-color: rgba(202, 234, 215, 1); /* 蓝湖 image-wrapper_1 bg */
-	border-radius: 19229rpx;
-	width: 108rpx;   /* 适老化：从 92 → 108 */
-	height: 108rpx;  /* 适老化：从 92 → 108 */
-	display: flex;
-	align-items: center;
-	justify-content: center;
+/* 右侧占位：保持 justify-content:space-between 布局对称 */
+.nav__placeholder {
+	width: 108rpx;
+	height: 108rpx;
 	flex-shrink: 0;
-	box-shadow: 0 1rpx 2rpx 0 rgba(0, 0, 0, 0.05);
 }
-
 
 /* ========= section_11 Tab 胶囊组 ========= */
 .tabs {
