@@ -53,33 +53,6 @@
 					}
 				},
 				{
-					"path": "whoami",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black",
-						"navigationStyle": "custom"
-					}
-				},
-				{
-					"path": "family",
-					"style": {
-						"navigationBarTitleText": "家人们",
-						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black",
-						"navigationStyle": "custom"
-					}
-				},
-				{
-					"path": "residence",
-					"style": {
-						"navigationBarTitleText": "我住哪",
-						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black",
-						"navigationStyle": "custom"
-					}
-				},
-				{
 					"path": "member-detail",
 					"style": {
 						"navigationBarTitleText": "家人资料",

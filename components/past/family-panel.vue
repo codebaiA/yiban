@@ -16,9 +16,11 @@
 
 				<view class="gen__members">
 					<view v-for="(m, mi) in gen.members" :key="mi" class="member" @tap="goDetail(m)">
-						<!-- 头像：接口有 avatar 用真实图，空则用本地 SVG 默认头像兜底 -->
-						<image v-if="m.avatar" class="member__avatar" :src="m.avatar" mode="aspectFill"></image>
-						<image v-else class="member__avatar" :src="avatarOf(gen.color)" mode="aspectFill"></image>
+						<!-- 头像：接口有 avatar 用真实图，空则用彩色底 + 姓氏首字兜底 -->
+						<view class="member__avatar" :style="m.avatar ? '' : 'background-color:' + gen.color">
+							<image v-if="m.avatar" class="member__avatar-img" :src="m.avatar" mode="aspectFill"></image>
+							<text v-else class="member__avatar-text">{{ m.name.slice(0, 1) }}</text>
+						</view>
 						<text class="member__name">{{ displayName(m) }}</text>
 						<text v-if="m.intro" class="member__desc">{{ m.intro }}</text>
 					</view>
@@ -112,15 +114,6 @@ export default {
 		displayName(m) {
 			const base = m.relation ? m.relation + ' · ' + m.name : m.name
 			return m.age ? base + ' (' + m.age + '岁)' : base
-		},
-		/** 默认头像：本地 SVG（彩色底 + 白色人形剪影），接口 avatar 为空时兜底 */
-		avatarOf(color) {
-			const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>" +
-				"<circle cx='75' cy='75' r='75' fill='" + color + "'/>" +
-				"<circle cx='75' cy='57' r='26' fill='rgba(255,255,255,0.96)'/>" +
-				"<path d='M30 132 Q30 88 75 88 Q120 88 120 132 Z' fill='rgba(255,255,255,0.96)'/>" +
-				"</svg>"
-			return "data:image/svg+xml;utf8," + svg.replace(/#/g, '%23')
 		},
 		goDetail(m) {
 			if (m.isSelf) return
@@ -239,6 +232,22 @@ export default {
 	border-radius: 50%;
 	box-shadow: 0 4rpx 12rpx 0 rgba(72, 101, 86, 0.18);
 	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background-color: rgba(72, 101, 86, 0.2);
+}
+.member__avatar-img {
+	width: 100%;
+	height: 100%;
+}
+.member__avatar-text {
+	color: #fff;
+	font-size: 44rpx;
+	font-weight: 500;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	line-height: 1;
 }
 .member__name {
 	margin-top: 12rpx;
