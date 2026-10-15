@@ -1,56 +1,101 @@
 <template>
-	<view class="page" :class="[ybFontClass, serifReady ? 'yb-serif-ready' : '']">
-		<template v-if="residence && residence.name">
-			<!-- 居住地照片 -->
-			<view v-if="residence.photo" class="photo">
-				<image class="photo__img" :src="residence.photo" mode="widthFix"></image>
+	<view class="page">
+		<!-- ========== 自定义导航栏（取代 uniapp 默认） ========== -->
+		<view class="nav-safe" :style="{ height: statusBarHeight + 'px' }"></view>
+
+		<view class="nav">
+			<!-- 左侧：返回按钮 -->
+			<view class="nav__back" @tap="onBack">
+				<image class="nav__back-arrow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M14 4L6 11l8 7' fill='none' stroke='%23151D1A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" mode="aspectFit"></image>
+				<text class="nav__back-text">返回</text>
 			</view>
 
-			<!-- 名称 + 说明（PRD 8.3：未设置显示空状态，不虚构） -->
-			<yb-card>
-				<view class="place">
-					<image class="place__icon" :src="icon('whereILive')" mode="aspectFit"></image>
-					<text class="place__name">{{ residence.name }}</text>
+			<!-- 居中标题 -->
+			<text class="nav__title">看看从前</text>
+
+			<!-- 右侧占位：保持布局对称 -->
+			<view class="nav__placeholder"></view>
+		</view>
+
+		<!-- ========== Tab 胶囊组 ========== -->
+		<view class="tabs">
+			<view class="tab" :class="{ 'is-selected': activeTab === 'whoami' }" @tap="switchTab('whoami')">
+				<text class="tab__text">我是谁</text>
+			</view>
+			<view class="tab" :class="{ 'is-selected': activeTab === 'family' }" @tap="switchTab('family')">
+				<text class="tab__text">家人们</text>
+			</view>
+			<view class="tab" :class="{ 'is-selected': activeTab === 'residence' }" @tap="switchTab('residence')">
+				<text class="tab__text">我在哪</text>
+			</view>
+		</view>
+
+		<!-- ========== 内容卡片 ========== -->
+		<view class="card">
+			<!-- 大图区：居住地照片 -->
+			<view class="card__photo-area">
+				<!-- 深绿胶囊标签 -->
+				<view class="card__label">
+					<image class="card__label-icon" :src="residenceIcon" mode="aspectFill"></image>
+					<text class="card__label-text">{{ residence ? residence.name || '这就是你住的地方' : '还没有设置居住地' }}</text>
 				</view>
-				<text v-if="residence.desc" class="place__desc">{{ residence.desc }}</text>
-				<text v-if="residence.detail" class="place__detail">{{ residence.detail }}</text>
-			</yb-card>
-
-			<view class="speak">
-				<yb-big-button
-					variant="soft"
-					icon-name="read"
-					:loading="speaking"
-					:text="speaking ? '正在朗读…' : '朗读以上内容'"
-					@click="onSpeak"
-				></yb-big-button>
-				<text v-if="speakTip" class="speak__tip">{{ speakTip }}</text>
+				<!-- 大照片：有照片显示照片，没有显示占位 -->
+				<image v-if="residence && residence.photo" class="card__photo" :src="residence.photo" mode="aspectFill"></image>
+				<view v-else class="card__photo card__photo--placeholder">
+					<text class="card__photo-placeholder-text">家属还没有补充居住地照片</text>
+				</view>
 			</view>
-		</template>
 
-		<!-- 空状态：未设置居住地 -->
-		<yb-empty
-			v-else
-			title="还没有设置居住地"
-			desc="家属可以在「我的 → 家属管理」中补充居住地信息"
-		></yb-empty>
+			<!-- 两段文字 -->
+			<view class="card__texts">
+				<text class="card__p1">{{ residence ? residence.name || '你住的地方' : '还没有设置居住地' }}</text>
+				<text class="card__p2">{{ residence ? (residence.desc || residence.detail || '家属还没有补充居住地的详细介绍。') : '家属可以在「我的 → 家属管理」中补充居住地信息。' }}</text>
+			</view>
+		</view>
+
+		<!-- ========== 底部区 ========== -->
+		<view class="bottom">
+			<!-- 朗读按钮 -->
+			<view class="speak-btn" :class="{ 'is-speaking': speaking }" @tap="onSpeak">
+				<image class="speak-btn__icon" src="/static/s1开发/阅读.png" mode="aspectFit"></image>
+				<text class="speak-btn__text">{{ speaking ? '正在朗读…' : '朗读以上内容' }}</text>
+				<view class="speak-btn__badge">
+					<text class="speak-btn__time">{{ speakDuration }}</text>
+				</view>
+			</view>
+
+			<!-- 查看更多回忆 -->
+			<view class="more" @tap="onViewMore">
+				<image class="more__icon" src="/static/s1开发/看看从前 · 二级界面素材/更多回忆.png" mode="aspectFit"></image>
+				<text class="more__text">查看更多回忆</text>
+				<image class="more__arrow" src="/static/s1开发/看看从前 · 二级界面素材/进入更多回忆.png" mode="aspectFit"></image>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
 import { useStore, actions } from '../../store/index.js'
-import { icon } from '../../services/iconMap.js'
 import tts from '../../services/tts.js'
 
 export default {
 	data() {
-		return { icon, speaking: false, speakTip: '' }
+		return {
+			speaking: false,
+			speakTip: '',
+			speakDuration: '0:45',
+			statusBarHeight: 20
+		}
 	},
 	computed: {
 		store() { return useStore() },
 		patient() { return this.store.patient },
 		residence() { return this.store.patient.residence || null },
-		serifReady() { return this.store.ui.serifReady },
+		activeTab() { return 'residence' },
+		residenceIcon() {
+			// 居住地图标占位：用深绿胶囊里的小图标（inline SVG 房子）
+			return 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'29\' height=\'29\' viewBox=\'0 0 29 29\'><path d=\'M14.5 5L5 13.5V24h6v-7h7v7h6V13.5L14.5 5z\' fill=\'%23ffffff\' opacity=\'0.9\'/></svg>'
+		},
 		speakText() {
 			const r = this.residence
 			if (!r) return ''
@@ -59,102 +104,341 @@ export default {
 			return parts.map(s => String(s).replace(/[。！？.!?]+$/, '')).join('。') + '。'
 		}
 	},
+	onLoad() {
+		try {
+			const sys = uni.getSystemInfoSync()
+			this.statusBarHeight = sys.statusBarHeight || 20
+		} catch (e) {}
+	},
 	onShow() {
 		actions.refreshPatient()
 	},
 	methods: {
+		onBack() {
+			uni.navigateBack({ delta: 1, fail: () => uni.switchTab({ url: '/pages/index/index' }) })
+		},
+		switchTab(key) {
+			const map = {
+				whoami: '/pages/past/whoami',
+				family: '/pages/past/family',
+				residence: '/pages/past/residence'
+			}
+			if (key === 'residence') return
+			uni.redirectTo({ url: map[key] })
+		},
 		onSpeak() {
-			if (this.speaking) {
-				tts.stop()
-				return
-			}
+			if (this.speaking) { tts.stop(); return }
 			const text = this.speakText
-			if (!text) {
-				this.speakTip = '暂无可朗读的内容'
-				return
-			}
+			if (!text) { this.speakTip = '暂无可朗读内容'; return }
 			this.speakTip = ''
 			tts.speak(text, {
 				onStart: () => { this.speaking = true },
 				onDone: () => { this.speaking = false; this.speakTip = '朗读完成' },
 				onFallback: (msg) => { this.speakTip = msg }
 			})
+		},
+		onViewMore() {
+			uni.switchTab({ url: '/pages/memory/memoir', fail: () => uni.navigateTo({ url: '/pages/memory/memoir' }) })
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
+/* 像素还原参考 whoami.vue，只换内容 */
+
 .page {
+	background-color: rgba(245, 249, 246, 1);
 	min-height: 100vh;
-	background: $yb-c-bg-page;
-	padding: $yb-sp-md;
+	width: 750rpx;
+	display: flex;
+	flex-direction: column;
 }
 
-.photo {
-	border-radius: $yb-r-lg;
-	overflow: hidden;
-	box-shadow: $yb-shadow-card;
-
-	&__img {
-		display: block;
-		width: 100%;
-		background: $yb-c-bg-grey;
-	}
+.nav-safe {
+	width: 750rpx;
+	flex-shrink: 0;
 }
 
-.yb-card {
-	margin-top: $yb-sp-md;
-}
-
-.place {
+/* ========= 导航栏 ========= */
+.nav {
+	position: relative;
+	width: 750rpx;
+	height: 92rpx;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: space-between;
+	padding: 0 24rpx;
+	box-sizing: border-box;
+}
 
-	&__icon {
-		width: 44rpx;
-		height: 44rpx;
-		margin-right: $yb-sp-xs;
-		flex-shrink: 0;
+.nav__back {
+	background-color: rgba(230, 240, 234, 1);
+	border-radius: 19229rpx;
+	width: 140rpx;
+	height: 78rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.nav__back-arrow {
+	width: 36rpx;
+	height: 36rpx;
+	margin-right: 6rpx;
+}
+.nav__back-text {
+	color: rgba(21, 29, 26, 1);
+	font-size: 32rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+	line-height: 42rpx;
+}
+
+.nav__title {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+	color: rgba(21, 29, 26, 1);
+	font-size: 42rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+	line-height: 62rpx;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.nav__placeholder {
+	width: 108rpx;
+	height: 108rpx;
+	flex-shrink: 0;
+}
+
+/* ========= Tab 胶囊组 ========= */
+.tabs {
+	width: 675rpx;
+	height: 92rpx;
+	display: flex;
+	flex-direction: row;
+	margin: 20rpx 0 29rpx 38rpx;
+}
+
+.tab {
+	height: 92rpx;
+	border-radius: 19229rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+
+	&:nth-child(1) { width: 215rpx; }
+	&:nth-child(2) {
+		width: 215rpx;
+		background-color: rgba(225, 234, 228, 1);
+		margin-left: 15rpx;
+	}
+	&:nth-child(3) {
+		width: 215rpx;
+		background-color: rgba(225, 234, 228, 1);
+		margin-left: 13rpx;
 	}
 
-	&__name {
-		font-family: $yb-font-serif;
-		font-size: $yb-fs-serif-l;
+	&__text {
+		font-family: -apple-system, "PingFang SC", sans-serif;
 		font-weight: 500;
-		color: $yb-c-blue-1;
+		white-space: nowrap;
+	}
+
+	&:not(.is-selected) &__text {
+		color: rgba(66, 72, 68, 1);
+		font-size: 31rpx;
+		line-height: 42rpx;
+	}
+
+	&.is-selected {
+		background-color: rgba(88, 181, 165, 1);
+	}
+	&.is-selected &__text {
+		color: rgba(255, 255, 255, 1);
+		font-size: 35rpx;
+		line-height: 46rpx;
 	}
 }
 
-.place__desc {
-	display: block;
-	margin-top: $yb-sp-sm;
-	font-family: $yb-font-sans;
-	font-size: var(--yb-fs-b);
-	color: $yb-c-text-2;
-	line-height: 1.8;
+/* ========= 内容卡片 ========= */
+.card {
+	box-shadow: 0 1rpx 2rpx 0 rgba(0, 0, 0, 0.05);
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 31rpx;
+	width: 673rpx;
+	margin: -2rpx 0 0 38rpx;
+	display: flex;
+	flex-direction: column;
+	padding: 27rpx 27rpx 35rpx;
+	box-sizing: border-box;
 }
 
-.place__detail {
-	display: block;
-	margin-top: $yb-sp-sm;
-	font-family: $yb-font-sans;
-	font-size: var(--yb-fs-s);
-	color: $yb-c-text-sub;
-	line-height: 1.8;
+.card__photo-area {
+	position: relative;
+	width: 619rpx;
+	height: 463rpx;
 }
 
-.speak {
-	margin-top: $yb-sp-lg;
+.card__photo {
+	width: 100%;
+	height: 400rpx;
+	border-radius: 21rpx;
+	object-fit: cover;
+	margin-top: 63rpx;
+}
 
-	&__tip {
-		display: block;
-		margin-top: $yb-sp-sm;
-		font-family: $yb-font-sans;
-		font-size: var(--yb-fs-xs);
-		color: $yb-c-text-sub3;
-		text-align: center;
+.card__photo--placeholder {
+	background-color: rgba(245, 249, 246, 1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2rpx dashed rgba(88, 181, 165, 0.4);
+}
+.card__photo-placeholder-text {
+	color: rgba(88, 181, 165, 0.7);
+	font-size: 29rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+}
+
+.card__label {
+	position: absolute;
+	top: 0;
+	left: 23rpx;
+	background-color: rgba(72, 101, 86, 0.95);
+	border-radius: 19229rpx;
+	width: 329rpx;
+	height: 62rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0 23rpx;
+	box-sizing: border-box;
+	z-index: 2;
+}
+.card__label-icon {
+	width: 29rpx;
+	height: 29rpx;
+	border-radius: 50%;
+	margin-top: 6rpx;
+	flex-shrink: 0;
+}
+.card__label-text {
+	color: rgba(255, 255, 255, 1);
+	font-size: 29rpx;
+	letter-spacing: 1rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+	line-height: 38rpx;
+	margin: 6rpx 0 0 12rpx;
+	white-space: nowrap;
+}
+
+.card__texts {
+	width: 604rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 27rpx 0 0 35rpx;
+}
+
+.card__p1 {
+	color: rgba(21, 29, 26, 1);
+	font-size: 42rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+	line-height: 62rpx;
+	white-space: nowrap;
+}
+
+.card__p2 {
+	color: rgba(66, 72, 68, 1);
+	font-size: 35rpx;
+	font-family: -apple-system, "PingFang SC", sans-serif;
+	font-weight: 500;
+	line-height: 56rpx;
+	margin-top: 12rpx;
+}
+
+/* ========= 底部区 ========= */
+.bottom {
+	display: flex;
+	flex-direction: column;
+	margin-top: 23rpx;
+}
+
+.speak-btn {
+	background-color: rgba(87, 181, 165, 1);
+	border-radius: 19229rpx;
+	width: 673rpx;
+	height: 108rpx;
+	margin: 0 0 0 38rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0 113rpx 0 113rpx;
+	box-sizing: border-box;
+
+	&__icon { width: 62rpx; height: 62rpx; }
+	&__text {
+		color: rgba(255, 255, 255, 1);
+		font-size: 42rpx;
+		letter-spacing: 1rpx;
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-weight: 500;
+		line-height: 62rpx;
+		margin-left: 22rpx;
+		flex: 1;
 	}
+	&__badge {
+		background-color: rgba(255, 255, 255, 0.2);
+		border-radius: 19229rpx;
+		width: 98rpx;
+		height: 46rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__time {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 23rpx;
+		letter-spacing: 1rpx;
+		font-family: "Liberation Mono", monospace;
+		font-weight: normal;
+		line-height: 31rpx;
+	}
+
+	&.is-speaking { background-color: rgba(72, 101, 86, 1); }
+}
+
+.more {
+	width: 260rpx;
+	height: 42rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 21rpx 0 325rpx 250rpx;
+
+	&__icon { width: 33rpx; height: 33rpx; }
+	&__text {
+		color: rgba(66, 72, 68, 1);
+		font-size: 31rpx;
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-weight: 500;
+		line-height: 42rpx;
+		margin-left: 12rpx;
+	}
+	&__arrow { width: 16rpx; height: 16rpx; margin-left: 12rpx; }
 }
 </style>
