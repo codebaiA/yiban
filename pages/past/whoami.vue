@@ -434,7 +434,7 @@ export default {
 
 /* block_4 查看更多回忆 */
 .more {
-	width: 252rpx;
+	width: 260rpx;
 	height: 42rpx;
 	display: flex;
 	flex-direction: row;
