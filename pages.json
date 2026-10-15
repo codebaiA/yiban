@@ -45,7 +45,6 @@
 			"pages": [
 				{
 					"path": "whoami",
-					"navigationStyle": "custom",
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#FFF6EF",
@@ -55,20 +54,20 @@
 				},
 				{
 					"path": "family",
-					"navigationStyle": "custom",
 					"style": {
 						"navigationBarTitleText": "家人们",
 						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black"
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
 					}
 				},
 				{
 					"path": "residence",
-					"navigationStyle": "custom",
 					"style": {
 						"navigationBarTitleText": "我住哪",
 						"navigationBarBackgroundColor": "#FFF6EF",
-						"navigationBarTextStyle": "black"
+						"navigationBarTextStyle": "black",
+						"navigationStyle": "custom"
 					}
 				},
 				{

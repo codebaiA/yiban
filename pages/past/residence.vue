@@ -32,10 +32,9 @@
 
 		<!-- ========== 内容卡片 ========== -->
 		<view class="card">
-			<!-- 大图区：居住地照片 -->
+			<!-- 大图区：海淀老家小院 -->
 			<view class="card__photo-area">
-				<!-- 大照片：有 residence.photo 用它，没有用 slices 素材 默认 -->
-				<image class="card__photo" :src="(residence && residence.photo) || '/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/我在哪.png'" mode="aspectFill"></image>
+				<image class="card__photo" src="/static/s1开发/看看从前 · 二级界面素材/看看从前-我在哪_slices/我在哪.png" mode="aspectFill"></image>
 			</view>
 
 			<!-- 两段文字 -->
