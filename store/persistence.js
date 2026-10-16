@@ -5,7 +5,7 @@
 
 const PREFIX = 'yb:'
 const VERSION_KEY = PREFIX + 'dataVersion'
-const DATA_VERSION = '1'
+const DATA_VERSION = '4'
 
 /** 需要落盘的切片 */
 export const SLICES = ['ui', 'session', 'patient', 'family', 'memoir', 'medication', 'training', 'emergency', 'categoryRequests', 'helpVideos']
