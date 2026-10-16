@@ -59,6 +59,24 @@ export const members = [
     name: '志强', relation: '女婿', generation: 4, generationName: '第四代 · 子女辈',
     avatar: '', intro: '孝顺常操持家务', phone: '136****9042',
     status: 'NORMAL', createdAt: '2026-04-02 10:18:00', updatedAt: '2026-04-02 10:18:00'
+  },
+  {
+    id: 'm9', patientId: 'p1',
+    name: '浩然', relation: '侄子', generation: 4, generationName: '第四代 · 子女辈',
+    avatar: '', intro: '', phone: '',
+    status: 'NORMAL', createdAt: '2026-04-02 10:20:00', updatedAt: '2026-04-02 10:20:00'
+  },
+  {
+    id: 'm10', patientId: 'p1',
+    name: '天天', relation: '外孙', generation: 5, generationName: '第五代 · 孙辈',
+    avatar: '', intro: '爱笑常给姥爷敲背', phone: '', age: 10,
+    status: 'NORMAL', createdAt: '2026-04-02 10:22:00', updatedAt: '2026-04-02 10:22:00'
+  },
+  {
+    id: 'm11', patientId: 'p1',
+    name: '朵朵', relation: '外孙女', generation: 5, generationName: '第五代 · 孙辈',
+    avatar: '', intro: '', phone: '', age: 7,
+    status: 'NORMAL', createdAt: '2026-04-02 10:24:00', updatedAt: '2026-04-02 10:24:00'
   }
 ]
 

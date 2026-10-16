@@ -113,16 +113,26 @@
 			@cancel="onConfirmCancel"
 		></yb-confirm-dialog>
 
-		<!-- 拨打电话确认弹窗 -->
-		<yb-confirm-dialog
-			:visible="callVisible"
-			title="拨打紧急电话"
-			:content="callText"
-			confirm-text="立即拨打"
-			cancel-text="取消"
-			@confirm="onCallOk"
-			@cancel="onCallCancel"
-		></yb-confirm-dialog>
+		<!-- 紧急呼救弹窗（蓝湖 group_8：大头像 + 名字 + 确认拨打） -->
+		<view v-if="callVisible" class="sos">
+			<view class="sos__mask" @tap="onCallCancel"></view>
+			<view class="sos__panel" @tap.stop>
+				<!-- 右上角关闭 -->
+				<view class="sos__close" @tap="onCallCancel">
+					<view class="sos__close-x"></view>
+				</view>
+				<!-- 芳芳头像 -->
+				<view class="sos__avatar">
+					<image class="sos__avatar-img" :src="icon('avatarFangfang')" mode="aspectFill"></image>
+				</view>
+				<!-- 名字 -->
+				<text class="sos__name">{{ emergency.relation }}{{ emergency.name }}</text>
+				<!-- 确认拨打 -->
+				<view class="sos__confirm" hover-class="sos__confirm--hover" @tap="onCallOk">
+					<text class="sos__confirm-text">确认拨打</text>
+				</view>
+			</view>
+		</view>
 
 		<!-- 自定义底部 TabBar -->
 		<yb-tab-bar></yb-tab-bar>
@@ -198,11 +208,6 @@ export default {
 			if (meta) s += '（' + meta + '）'
 			return s
 		},
-		callText() {
-			const e = this.emergency
-			if (!e) return ''
-			return '即将拨打' + (e.relation || '') + (e.name || '') + '的电话：' + (e.phone || '')
-		}
 	},
 	onLoad() {
 		try {
@@ -275,13 +280,13 @@ export default {
 			})
 		},
 		goWhoami() {
-			uni.navigateTo({ url: '/pages/past/whoami' })
+			uni.navigateTo({ url: '/pages/past/index?tab=whoami' })
 		},
 		goFamily() {
-			uni.navigateTo({ url: '/pages/past/family' })
+			uni.navigateTo({ url: '/pages/past/index?tab=family' })
 		},
 		goResidence() {
-			uni.navigateTo({ url: '/pages/past/residence' })
+			uni.navigateTo({ url: '/pages/past/index?tab=residence' })
 		},
 		goTraining() {
 			uni.navigateTo({ url: '/pages/training/clock' })
@@ -830,5 +835,122 @@ export default {
 	background-position: center;
 	background-size: contain;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23192620'%3E%3Cpath d='M12 2a2 2 0 0 0-2 2v.5C7.5 5.4 6 7.6 6 10v4l-2 2v1h16v-1l-2-2v-4c0-2.4-1.5-4.6-4-4.5V4a2 2 0 0 0-2-2zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   紧急呼救弹窗（蓝湖 group_8：深色卡片 + 大头像 + 白字 + 确认拨打）
+   ============================================================ */
+.sos {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 950;
+
+	&__mask {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: rgba(30, 41, 59, 0.55);
+	}
+
+	&__panel {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 520rpx;
+		background-color: #ff7a29;
+		border-radius: 32rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 60rpx 0 52rpx;
+		box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.3);
+	}
+
+	/* 右上角关闭（适老化：命中区 56rpx） */
+	&__close {
+		position: absolute;
+		right: 20rpx;
+		top: 20rpx;
+		width: 56rpx;
+		height: 56rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__close-x {
+		position: relative;
+		width: 32rpx;
+		height: 32rpx;
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: 32rpx;
+			height: 4rpx;
+			background-color: rgba(255, 255, 255, 0.85);
+			border-radius: 2rpx;
+		}
+		&::before { transform: translate(-50%, -50%) rotate(45deg); }
+		&::after { transform: translate(-50%, -50%) rotate(-45deg); }
+	}
+
+	/* 芳芳头像（蓝湖 image_6 194rpx 圆） */
+	&__avatar {
+		width: 194rpx;
+		height: 194rpx;
+		border-radius: 50%;
+		border: 4rpx solid rgba(255, 255, 255, 0.9);
+		overflow: hidden;
+		background-color: #fff;
+	}
+	&__avatar-img {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 名字（蓝湖 text-group_8 白字 62rpx/900） */
+	&__name {
+		margin-top: 37rpx;
+		color: rgba(255, 255, 255, 1);
+		font-size: 62rpx;
+		letter-spacing: 1rpx;
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-weight: 900;
+		text-align: center;
+		white-space: nowrap;
+		line-height: 66rpx;
+	}
+
+	/* 确认拨打（蓝湖 text-wrapper_2 白底黑字） */
+	&__confirm {
+		margin-top: 38rpx;
+		background-color: rgba(255, 255, 255, 1);
+		border-radius: 19rpx;
+		width: 381rpx;
+		height: 85rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__confirm--hover { background-color: rgba(255, 255, 255, 0.88); }
+	&__confirm-text {
+		color: rgba(0, 0, 0, 1);
+		font-size: 44rpx;
+		letter-spacing: 1rpx;
+		font-family: -apple-system, "PingFang SC", sans-serif;
+		font-weight: 900;
+		text-align: center;
+		white-space: nowrap;
+		line-height: 66rpx;
+	}
 }
 </style>
