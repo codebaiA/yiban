@@ -29,6 +29,12 @@ const MAP = {
   phoneSmall: S1 + '拨号.png',
   arrowIn: S1 + '进入.png',
 
+  // —— 识钟游戏（蓝湖「脑力训练 · 简单生活识钟」）——
+  clockBack: S1 + 'clock_slices/back.png',
+  clockSpeaker: S1 + 'clock_slices/speaker.png',
+  clockHelp: S1 + 'clock_slices/help.png',
+  clockCenter: S1 + 'clock_slices/center.png',
+
   // —— 功能图标 ——
   switchView: ICONS + 'icon-switch-view.png',
   write: ICONS + '写字.png',

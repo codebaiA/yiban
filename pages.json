@@ -31,6 +31,15 @@
 			}
 		},
 		{
+			"path": "pages/training/clock",
+			"style": {
+				"navigationBarTitleText": "脑力训练",
+				"navigationBarBackgroundColor": "#F5F9F6",
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/dev/showcase",
 			"style": {
 				"navigationBarTitleText": "组件样板页",

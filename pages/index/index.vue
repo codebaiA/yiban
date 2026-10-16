@@ -284,7 +284,7 @@ export default {
 			uni.navigateTo({ url: '/pages/past/residence' })
 		},
 		goTraining() {
-			uni.showToast({ title: '脑力小时光即将上线', icon: 'none' })
+			uni.navigateTo({ url: '/pages/training/clock' })
 		}
 	}
 }
