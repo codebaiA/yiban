@@ -7,23 +7,21 @@
 		<view class="top">
 			<view class="top-row">
 				<view class="btn" hover-class="btn-hover" @tap="onBack">
-					<image class="btn__img" src="/static/s1开发/clock_slices/back.png" mode="aspectFit"></image>
+					<image class="btn__img" src="/static/clock_icons/back.png" mode="aspectFit"></image>
 				</view>
 				<text class="progress">{{ progress }}</text>
 				<view class="btn" hover-class="btn-hover" @tap="onReplay">
-					<image class="btn__img btn__img--sm" src="/static/s1开发/clock_slices/speaker.png" mode="aspectFit"></image>
+					<image class="btn__img btn__img--sm" src="/static/clock_icons/speaker.png" mode="aspectFit"></image>
 				</view>
 				<view class="btn" hover-class="btn-hover" @tap="onHelp">
-					<image class="btn__img" src="/static/s1开发/clock_slices/help.png" mode="aspectFit"></image>
+					<image class="btn__img" src="/static/clock_icons/help.png" mode="aspectFit"></image>
 				</view>
 			</view>
-
 			<view class="top-labels">
 				<text class="lbl">返回</text>
 				<text class="lbl lbl--right">重新听题</text>
 				<text class="lbl lbl--right2">帮助</text>
 			</view>
-
 			<view class="q-card">
 				<text class="q-text">{{ question.title }}</text>
 			</view>
@@ -33,44 +31,37 @@
 		<view class="dial-wrap">
 			<view class="dial">
 				<!-- 11 12 1 -->
-				<view class="dial-row dial-row--top">
+				<view class="row row--top">
 					<text class="num">11</text>
-					<text class="num num--big">12</text>
+					<text class="num num--bg">12</text>
 					<text class="num">1</text>
 				</view>
-				<!-- 10 2 -->
-				<view class="dial-row dial-row--mid">
+				<!-- 10 · 2 -->
+				<view class="row row--mid">
 					<text class="num">10</text>
 					<text class="num">2</text>
 				</view>
-				<!-- 9 + 横条(时针) + 3 -->
-				<view class="dial-row dial-row--center">
+				<!-- 9 · 横(时针) · 3 -->
+				<view class="row row--center">
 					<text class="num">9</text>
-					<!-- 时针：body + 圆头(指向3) -->
-					<view class="hand-wrap hand-wrap--h">
-						<view class="hand-body hand-body--h"></view>
-						<view class="hand-tip hand-tip--h"></view>
-					</view>
+					<view class="hand hand--h"></view>
 					<text class="num">3</text>
 				</view>
-				<!-- 8 4 -->
-				<view class="dial-row dial-row--mid">
+				<!-- 8 · 4 -->
+				<view class="row row--mid">
 					<text class="num">8</text>
 					<text class="num">4</text>
 				</view>
 				<!-- 7 6 5 -->
-				<view class="dial-row dial-row--bottom">
+				<view class="row row--bot">
 					<text class="num">7</text>
-					<text class="num num--big">6</text>
+					<text class="num num--bg">6</text>
 					<text class="num">5</text>
 				</view>
-				<!-- 分针(竖)：body + 圆头(指向12) -->
-				<view class="hand-wrap hand-wrap--v">
-					<view class="hand-body hand-body--v"></view>
-					<view class="hand-tip hand-tip--v"></view>
-				</view>
+				<!-- 分针(竖) -->
+				<view class="hand hand--v"></view>
 				<!-- 中心点 -->
-				<image class="center" src="/static/s1开发/clock_slices/center.png" mode="aspectFit"></image>
+				<image class="center" src="/static/clock_icons/center.png" mode="aspectFit"></image>
 			</view>
 		</view>
 
@@ -80,48 +71,45 @@
 				<view
 					class="opt"
 					:class="{
-						'opt--correct': showResult && selectedIdx === 0 && isCorrect,
-						'opt--wrong': showResult && selectedIdx === 0 && !isCorrect,
-						'opt--disabled': showResult
+						'opt--ok': showResult && selectedIdx === 0 && isCorrect,
+						'opt--bad': showResult && selectedIdx === 0 && !isCorrect,
+						'opt--off': showResult
 					}"
-					hover-class="opt-hover"
-					@tap="onSelect(0)"
+					hover-class="opt-hover" @tap="onSelect(0)"
 				>
 					<text class="opt__text">{{ options[0] || '' }}</text>
 				</view>
 				<view
 					class="opt"
 					:class="{
-						'opt--correct': showResult && selectedIdx === 1 && isCorrect,
-						'opt--wrong': showResult && selectedIdx === 1 && !isCorrect,
-						'opt--disabled': showResult
+						'opt--ok': showResult && selectedIdx === 1 && isCorrect,
+						'opt--bad': showResult && selectedIdx === 1 && !isCorrect,
+						'opt--off': showResult
 					}"
-					hover-class="opt-hover"
-					@tap="onSelect(1)"
+					hover-class="opt-hover" @tap="onSelect(1)"
 				>
 					<text class="opt__text">{{ options[1] || '' }}</text>
 				</view>
 				<view
 					class="opt"
 					:class="{
-						'opt--correct': showResult && selectedIdx === 2 && isCorrect,
-						'opt--wrong': showResult && selectedIdx === 2 && !isCorrect,
-						'opt--disabled': showResult
+						'opt--ok': showResult && selectedIdx === 2 && isCorrect,
+						'opt--bad': showResult && selectedIdx === 2 && !isCorrect,
+						'opt--off': showResult
 					}"
-					hover-class="opt-hover"
-					@tap="onSelect(2)"
+					hover-class="opt-hover" @tap="onSelect(2)"
 				>
 					<text class="opt__text">{{ options[2] || '' }}</text>
 				</view>
 			</view>
 		</view>
 
-		<!-- 适老化提示条（代替 showToast） -->
+		<!-- 适老化提示条 -->
 		<view v-if="showTip" class="tip-mask" @tap="dismissTip">
-			<view class="tip-card" :class="isCorrect ? 'tip-card--ok' : 'tip-card--bad'">
+			<view class="tip-card" :class="isCorrect ? 'tip--ok' : 'tip--bad'">
 				<text class="tip-icon">{{ isCorrect ? '✓' : '✗' }}</text>
 				<text class="tip-msg">{{ tipMsg }}</text>
-				<text v-if="question.tip" class="tip-hint">{{ question.tip }}</text>
+				<text v-if="question.tip" class="tip-sub">{{ question.tip }}</text>
 			</view>
 		</view>
 	</view>
@@ -135,7 +123,6 @@ export default {
 		return {
 			current: 0,
 			statusBarHeight: 20,
-			// 答题状态
 			selectedIdx: -1,
 			isCorrect: false,
 			showResult: false,
@@ -146,20 +133,14 @@ export default {
 	},
 	computed: {
 		store() { return useStore() },
-		/** 识钟类题目 */
 		clockQuestions() {
 			return (this.store.training.questions || []).filter(q => q.visual === 'clock')
 		},
-		/** 当前题目 */
 		question() {
 			return this.clockQuestions[this.current] || this.clockQuestions[0] || {}
 		},
-		options() {
-			return this.question.options || []
-		},
-		total() {
-			return (this.store.training.questions || []).length
-		},
+		options() { return this.question.options || [] },
+		total() { return (this.store.training.questions || []).length },
 		progress() {
 			const q = this.question
 			const all = this.store.training.questions || []
@@ -174,18 +155,11 @@ export default {
 			this.statusBarHeight = sys.statusBarHeight || 20
 		} catch (e) {}
 	},
-	onShow() {
-		actions.refreshTraining()
-	},
-	onUnload() {
-		this._clearTimer()
-	},
+	onShow() { actions.refreshTraining() },
+	onUnload() { this._clearTimer() },
 	methods: {
 		_clearTimer() {
-			if (this._timer) {
-				clearTimeout(this._timer)
-				this._timer = null
-			}
+			if (this._timer) { clearTimeout(this._timer); this._timer = null }
 		},
 		onBack() {
 			uni.navigateBack({ delta: 1, fail: () => uni.switchTab({ url: '/pages/index/index' }) })
@@ -195,12 +169,11 @@ export default {
 			setTimeout(() => { this.showTip = false }, 1200)
 		},
 		onHelp() {
-			const msg = this.question.tip || '看表盘选出正确答案'
-			this._showTip(msg, true)
+			this._showTip(this.question.tip || '看表盘选出正确答案', true)
 			setTimeout(() => { this.showTip = false }, 2000)
 		},
 		onSelect(i) {
-			if (this.showResult) return // 已作答，防止重复点击
+			if (this.showResult) return
 			const q = this.question
 			if (!q || !q.options || !q.options.length) return
 
@@ -210,27 +183,19 @@ export default {
 
 			if (this.isCorrect) {
 				this._showTip('答对啦！真棒', true)
-				// 答对 1.5 秒后自动切下一题
 				this._clearTimer()
-				this._timer = setTimeout(() => {
-					this._next()
-				}, 1800)
+				this._timer = setTimeout(() => { this._next() }, 1800)
 			} else {
 				this._showTip('再想想，不着急', false)
-				// 答错：2.5 秒后重置，让用户再选
 				this._clearTimer()
-				this._timer = setTimeout(() => {
-					this._reset()
-				}, 2500)
+				this._timer = setTimeout(() => { this._reset() }, 2500)
 			}
 		},
-		/** 切下一题 */
 		_next() {
 			this.showTip = false
 			this._reset(false)
 			const max = Math.max(this.clockQuestions.length - 1, 0)
 			if (this.current >= max) {
-				// 已是最后一道识钟题，循环回第一题
 				this.current = 0
 				this._showTip('这组识钟练完了，再来一轮', true)
 				this._clearTimer()
@@ -239,25 +204,18 @@ export default {
 				this.current++
 			}
 		},
-		/** 重置答题状态 */
-		reset(all = true) {
+		_reset(all = true) {
 			this.selectedIdx = -1
 			this.isCorrect = false
 			this.showResult = false
-			if (all) {
-				this.current = 0
-				this.showTip = false
-			}
+			if (all) { this.current = 0; this.showTip = false }
 		},
-		_reset(all = true) { this.reset(all) },
 		_showTip(msg, ok) {
 			this.tipMsg = msg
 			this.isCorrect = ok
 			this.showTip = true
 		},
-		dismissTip() {
-			this.showTip = false
-		}
+		dismissTip() { this.showTip = false }
 	}
 }
 </script>
@@ -273,9 +231,12 @@ export default {
 }
 .nav-safe { width: 750rpx; flex-shrink: 0; }
 
-/* ———————— 顶部按钮区 + 题目卡 ———————— */
+/* ========== 顶部 ========== */
 .top { width: 750rpx; padding: 20rpx 31rpx 0 31rpx; flex-shrink: 0; }
-.top-row { width: 688rpx; height: 80rpx; display: flex; flex-direction: row; align-items: center; }
+.top-row {
+	width: 688rpx; height: 80rpx;
+	display: flex; flex-direction: row; align-items: center;
+}
 
 .btn {
 	box-shadow: 0px 2px 4px 0px rgba(180,160,140,0.12);
@@ -318,69 +279,77 @@ export default {
 	text-align: center; line-height: 48rpx; white-space: pre-line;
 }
 
-/* ———————— 圆表盘 ———————— */
-.dial-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 31rpx; min-height: 0; }
+/* ========== 表盘 ========== */
+.dial-wrap {
+	flex: 1;
+	display: flex; align-items: center; justify-content: center;
+	padding: 0 31rpx; min-height: 0;
+}
 .dial {
 	box-shadow: 0px 8px 18px 0px rgba(70,55,45,0.18);
 	background-color: #fff;
 	border-radius: 50%;
-	height: 400rpx; width: 400rpx;
+	height: 380rpx; width: 380rpx;
 	position: relative;
 	display: flex; flex-direction: column; align-items: center; justify-content: center;
 	border: 8rpx solid rgba(14,164,169,1);
 	box-sizing: border-box;
 }
 
-.dial-row { width: 340rpx; display: flex; flex-direction: row; }
-.dial-row--top { justify-content: center; gap: 24rpx; margin-top: 12rpx; }
-.dial-row--mid { justify-content: space-between; padding: 0 18rpx; }
-.dial-row--center { justify-content: center; align-items: center; gap: 30rpx; }
-.dial-row--bottom { justify-content: center; gap: 26rpx; margin-bottom: 12rpx; }
+/* 表盘数字行 */
+.row {
+	width: 320rpx;
+	display: flex; flex-direction: row; align-items: center;
+	position: relative; z-index: 1;
+}
+.row--top { justify-content: center; gap: 22rpx; margin-top: 12rpx; }
+.row--mid { justify-content: space-between; padding: 0 16rpx; }
+.row--center { justify-content: center; align-items: center; gap: 28rpx; }
+.row--bot { justify-content: center; gap: 24rpx; margin-bottom: 12rpx; }
 
 .num {
-	color: rgba(56,43,38,1); font-size: 30rpx;
-	font-family: 'PingFang SC', sans-serif; font-weight: 500;
-	line-height: 42rpx; width: 40rpx; text-align: center;
+	color: rgba(56,43,38,1);
+	font-size: 30rpx; font-family: 'PingFang SC', sans-serif;
+	font-weight: 500; line-height: 40rpx;
+	width: 36rpx; text-align: center;
 }
-.num--big { font-size: 34rpx; font-weight: 600; }
+.num--bg { font-size: 32rpx; font-weight: 600; }
 
-/* —— 指针（头明显比尾长/粗） —— */
-/* 统一：body 是细杆，tip 是头部大圆 */
-.hand-wrap { position: absolute; left: 50%; top: 50%; }
-
-/* 时针（横，指向3）：body 水平细杆 + 右端大圆头 */
-.hand-wrap--h { margin-left: -40rpx; margin-top: -5rpx; width: 80rpx; height: 10rpx; }
-.hand-body--h {
-	position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-	width: 62rpx; height: 10rpx;
-	background: rgba(58,40,35,1); border-radius: 5rpx;
+/* 指针：简单矩形 + 圆头，全部 absolute 基于 dial 中心 */
+.hand {
+	background-color: rgba(58,40,35,1);
+	position: absolute; z-index: 2;
 }
-.hand-tip--h {
-	position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-	width: 20rpx; height: 20rpx;
-	background: rgba(58,40,35,1); border-radius: 50%;
+/* 时针（横，指向3）：body 60rpx + 右端大圆 18rpx */
+.hand--h {
+	width: 78rpx; height: 12rpx;
+	left: 50%; top: 50%;
+	margin-left: -39rpx; margin-top: -6rpx;
+	border-radius: 6rpx;
 }
-
-/* 分针（竖，指向12）：body 竖直细杆 + 上端大圆头 */
-.hand-wrap--v { margin-left: -6rpx; margin-top: -72rpx; width: 12rpx; height: 120rpx; }
-.hand-body--v {
-	position: absolute; left: 50%; top: 20rpx; transform: translateX(-50%);
-	width: 12rpx; height: 92rpx;
-	background: rgba(58,40,35,1); border-radius: 6rpx;
+.hand--h::after {
+	content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+	width: 20rpx; height: 20rpx; background: rgba(58,40,35,1); border-radius: 50%;
 }
-.hand-tip--v {
-	position: absolute; left: 50%; top: 0; transform: translateX(-50%);
-	width: 24rpx; height: 24rpx;
-	background: rgba(58,40,35,1); border-radius: 50%;
+/* 分针（竖，指向12）：body 80rpx + 上端大圆 22rpx */
+.hand--v {
+	width: 14rpx; height: 102rpx;
+	left: 50%; top: 50%;
+	margin-left: -7rpx; margin-top: -72rpx;
+	border-radius: 7rpx;
+}
+.hand--v::after {
+	content: ''; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+	width: 24rpx; height: 24rpx; background: rgba(58,40,35,1); border-radius: 50%;
 }
 
 .center {
 	position: absolute; left: 50%; top: 50%;
-	width: 32rpx; height: 32rpx;
-	margin-left: -16rpx; margin-top: -16rpx;
+	width: 30rpx; height: 30rpx;
+	margin-left: -15rpx; margin-top: -15rpx; z-index: 3;
 }
 
-/* ———————— 答案选项 ———————— */
+/* ========== 答案 ========== */
 .opt-wrap { width: 750rpx; padding: 0 31rpx 40rpx 31rpx; flex-shrink: 0; }
 .opt-row { width: 688rpx; display: flex; flex-direction: row; justify-content: space-between; }
 
@@ -391,27 +360,14 @@ export default {
 	height: 110rpx; width: 216rpx;
 	border: 3rpx solid rgba(255,170,0,1);
 	display: flex; align-items: center; justify-content: center;
-	box-sizing: border-box;
-	transition: all .15s ease;
+	box-sizing: border-box; transition: all .15s ease;
 }
 .opt-hover { opacity: 0.9; }
-
-/* 答对 */
-.opt--correct {
-	background-color: #59B5A5 !important;
-	border-color: #59B5A5 !important;
-}
-.opt--correct .opt__text { color: #fff; font-weight: 600; }
-
-/* 答错 */
-.opt--wrong {
-	background-color: #FF5458 !important;
-	border-color: #FF5458 !important;
-}
-.opt--wrong .opt__text { color: #fff; font-weight: 600; }
-
-/* 已作答后全部禁用态 */
-.opt--disabled { opacity: 0.7; }
+.opt--ok { background-color: #59B5A5 !important; border-color: #59B5A5 !important; }
+.opt--ok .opt__text { color: #fff; font-weight: 600; }
+.opt--bad { background-color: #FF5458 !important; border-color: #FF5458 !important; }
+.opt--bad .opt__text { color: #fff; font-weight: 600; }
+.opt--off { opacity: 0.7; }
 
 .opt__text {
 	color: rgba(58,40,35,1);
@@ -419,46 +375,30 @@ export default {
 	text-align: center; line-height: 44rpx;
 }
 
-/* ———————— 适老化提示条 ———————— */
+/* ========== 适老化提示条 ========== */
 .tip-mask {
 	position: fixed; inset: 0;
 	display: flex; align-items: center; justify-content: center;
-	z-index: 999;
+	z-index: 999; background: rgba(0,0,0,0.1);
 }
 .tip-card {
-	width: 560rpx;
-	padding: 48rpx 40rpx;
+	width: 560rpx; padding: 48rpx 40rpx;
 	border-radius: 36rpx;
 	display: flex; flex-direction: column; align-items: center;
 	box-shadow: 0 12rpx 36rpx rgba(0,0,0,0.18);
 }
-.tip-card--ok {
-	background: #59B5A5;
-}
-.tip-card--bad {
-	background: #FF5458;
-}
+.tip--ok { background: #59B5A5; }
+.tip--bad { background: #FF5458; }
 .tip-icon {
-	font-size: 120rpx;
-	color: #fff;
-	line-height: 1;
-	font-weight: 700;
-	margin-bottom: 16rpx;
+	font-size: 120rpx; color: #fff;
+	line-height: 1; font-weight: 700; margin-bottom: 16rpx;
 }
 .tip-msg {
-	color: #fff;
-	font-size: 48rpx;
-	font-weight: 700;
-	text-align: center;
-	line-height: 60rpx;
+	color: #fff; font-size: 48rpx; font-weight: 700;
+	text-align: center; line-height: 60rpx;
 }
-.tip-hint {
-	color: rgba(255,255,255,0.9);
-	font-size: 32rpx;
-	font-weight: 500;
-	text-align: center;
-	line-height: 44rpx;
-	margin-top: 20rpx;
-	max-width: 480rpx;
+.tip-sub {
+	color: rgba(255,255,255,0.9); font-size: 32rpx; font-weight: 500;
+	text-align: center; line-height: 44rpx; margin-top: 20rpx; max-width: 480rpx;
 }
 </style>
