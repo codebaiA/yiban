@@ -98,6 +98,20 @@ export const questions = [
     options: ['春天', '夏天', '冬天'],
     answerIndex: 2,
     tip: '秋天过后就是冬天了'
+  },
+  {
+    id: 'q9', type: 'LIFE', visual: 'clock',
+    title: '表上是几点？',
+    options: ['上午9点', '下午3点', '上午3点'],
+    answerIndex: 1,
+    tip: '时针和分针都在3的方向'
+  },
+  {
+    id: 'q10', type: 'LIFE', visual: 'text',
+    title: '感冒了应该先做什么？',
+    options: ['卧床休息多喝水', '去跑步出汗', '继续工作'],
+    answerIndex: 0,
+    tip: '多休息、多喝水，身体才好得快'
   }
 ]
 
