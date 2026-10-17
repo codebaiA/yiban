@@ -1,5 +1,6 @@
 <template>
 	<view class="page" :class="[ybFontClass, serifReady ? 'yb-serif-ready' : '']">
+		<view class="nav-safe" :style="{ height: statusBarHeight + 'px' }"></view>
 		<text class="page__title yb-serif">王家四代 · 家族图谱</text>
 		<text class="page__subtitle">点击家人，查看TA的资料</text>
 

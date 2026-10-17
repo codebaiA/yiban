@@ -1,5 +1,6 @@
 <template>
 	<view class="page" :class="[ybFontClass, serifReady ? 'yb-serif-ready' : '']">
+		<view class="nav-safe" :style="{ height: statusBarHeight + 'px' }"></view>
 		<!-- 加载中 -->
 		<yb-loading v-if="!loaded" text="加载中…"></yb-loading>
 

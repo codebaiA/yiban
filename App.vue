@@ -37,7 +37,7 @@ export default {
    ============================================================ */
 
 page {
-	background: #FFF6EF;
+	background: #F5F9F6;
 	font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', sans-serif;
 	color: #192620;
 }
@@ -94,6 +94,6 @@ page {
 	min-height: 100vh;
 	box-sizing: border-box;
 	padding: 31rpx;
-	background: #FFF6EF;
+	background: #F5F9F6;
 }
 </style>

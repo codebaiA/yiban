@@ -1,5 +1,6 @@
 <template>
 	<view class="page" :class="[ybFontClass, serifReady ? 'yb-serif-ready' : '']">
+		<view class="nav-safe" :style="{ height: statusBarHeight + 'px' }"></view>
 		<yb-card tone="warm">
 			<view class="user">
 				<image class="user__avatar" :src="patient.avatar || ''" mode="aspectFill"></image>

@@ -219,8 +219,8 @@ export default {
 	/* 书脊渐变：左侧棕金 + 中间米色 + 右侧纸纹 */
 	background-image: linear-gradient(
 		90deg,
-		rgba(201, 156, 53, 1) 0,
-		rgba(201, 156, 53, 1) 15rpx,
+		rgba(252, 230, 156, 1) 0,
+		rgba(252, 230, 156, 1) 15rpx,
 		rgba(251, 246, 234, 1) 15rpx,
 		rgba(251, 246, 234, 1) 95%,
 		rgba(229, 221, 202, 1) 96%,
@@ -238,7 +238,7 @@ export default {
 	top: -12rpx;
 	width: 31rpx;
 	height: 819rpx;
-	background-color: rgba(201, 156, 53, 1); /* #C99C35 */
+	background-color: rgba(252, 230, 156, 1); /* #FCE69C */
 	box-shadow: inset 0 2rpx 4rpx 0 rgba(0, 0, 0, 0.05);
 	border-radius: 4rpx 0 0 4rpx;
 }
@@ -336,7 +336,7 @@ export default {
 .photo-placeholder {
 	width: 250rpx;
 	height: 188rpx;
-	background-color: rgba(201, 156, 53, 0.15);
+	background-color: rgba(252, 230, 156, 0.35);
 	border-radius: 4rpx;
 	display: flex;
 	flex-direction: column;

@@ -1,5 +1,6 @@
 <template>
 	<view class="page" :class="[ybFontClass, serifReady ? 'yb-serif-ready' : '']">
+		<view class="nav-safe" :style="{ height: statusBarHeight + 'px' }"></view>
 		<text class="group__title">1 · 大按钮（三档尺寸 × 各变体）</text>
 
 		<yb-big-button variant="primary" size="lg" text="呼叫女儿" icon-name="game"></yb-big-button>
