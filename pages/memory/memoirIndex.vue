@@ -49,7 +49,7 @@
 					<text class="book-chip__text">朗读目录</text>
 				</view>
 				<view class="book-chip book-chip--primary" @tap="onAdd">
-					<image class="book-chip__icon" src="/static/memoir_index/add_icon.png" mode="aspectFit"></image>
+					<image class="book-chip__icon" src="/static/memoir_index/add_icon_write.png" mode="aspectFit"></image>
 					<text class="book-chip__text">添加回忆</text>
 				</view>
 			</view>
@@ -62,7 +62,12 @@
 					class="book-chapter"
 					@tap="onOpenChapter(ch)"
 				>
-					<view class="book-chapter__mark"></view>
+					<!-- 章节标记：绿条/棕条交替（第1章绿、第2章棕…） -->
+					<image
+						class="book-chapter__mark"
+						:src="i % 2 === 0 ? '/static/memoir_index/chapter_mark_green.png' : '/static/memoir_index/chapter_mark_brown.png'"
+						mode="aspectFit"
+					></image>
 					<text class="book-chapter__idx">{{ pad2(ch.sort) }}</text>
 					<view class="book-chapter__texts">
 						<view class="book-chapter__title-row">
@@ -441,11 +446,11 @@ export default {
 }
 .book-chapter {
 	display: flex; flex-direction: row; align-items: center;
-	min-height: 100rpx; margin-top: 30rpx;
+	min-height: 116rpx; margin-top: 30rpx;
 
+	/* 绿条/棕条（素材 6×28px → 12×54rpx 竖条） */
 	&__mark {
-		width: 12rpx; height: 12rpx;
-		background-color: #9B6438; border-radius: 50%;
+		width: 12rpx; height: 54rpx;
 		margin-right: 20rpx; flex-shrink: 0;
 	}
 	&__idx {
@@ -453,20 +458,23 @@ export default {
 		font-size: 40rpx; letter-spacing: 3rpx;
 		color: rgba(155, 100, 56, 0.85); width: 58rpx; text-align: left; flex-shrink: 0;
 	}
+	/* 不设固定高度！自然流式，标题/副题都完整显示 */
 	&__texts {
 		flex: 1; min-width: 0; display: flex; flex-direction: column;
-		justify-content: space-between; height: 80rpx;
+		justify-content: center;
 	}
 	&__title-row { display: flex; flex-direction: row; align-items: center; min-width: 0; }
 	&__title {
 		font-family: "Noto Serif SC", serif; font-weight: 600;
-		font-size: 38rpx; color: rgba(45, 42, 38, 1);
+		font-size: 38rpx; line-height: 54rpx;
+		color: rgba(45, 42, 38, 1);
 		white-space: nowrap;
 	}
 	&__arrow { width: 200rpx; height: 4rpx; margin-left: 14rpx; opacity: 0.5; flex-shrink: 1; min-width: 40rpx; }
 	&__sub {
 		font-family: "PingFang SC", sans-serif; font-weight: 400;
-		font-size: 28rpx; color: rgba(117, 110, 99, 0.8);
+		font-size: 28rpx; line-height: 40rpx; margin-top: 4rpx;
+		color: rgba(117, 110, 99, 0.8);
 		overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 	}
 	&__page {
