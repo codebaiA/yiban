@@ -22,21 +22,29 @@
 
 			<!-- 上传图片/视频 -->
 			<view class="upload-row">
-				<view class="upload-box" @tap="onUploadMedia">
+
+				<!-- 没上传过：显示大占位框 -->
+				<view v-if="!uploadedList.length" class="upload-box upload-box--placeholder" @tap="onUploadMedia">
 					<image class="upload-box__icon" src="/static/memoir_new/upload_icon.png" mode="aspectFit"></image>
-					<text class="upload-box__text">上传图片/视频</text>
+					<text class="upload-box__text">上传图片 / 视频</text>
 				</view>
 
-				<!-- 已上传预览（有图/视频才显示） -->
-				<view v-if="uploadedList.length" class="preview-row">
-					<view v-for="(item, i) in uploadedList" :key="i" class="preview-item">
+				<!-- 已上传：显示缩略图列表 + 继续上传小按钮 -->
+				<template v-else>
+					<view v-for="(item, i) in uploadedList" :key="'u-' + i" class="preview-item">
 						<image v-if="item.type === 'image'" class="preview-item__img" :src="item.path" mode="aspectFill"></image>
 						<view v-else class="preview-item__video">
 							<image class="preview-item__video-play" src="/static/memoir_new/upload_icon.png" mode="aspectFit"></image>
+							<text class="preview-item__video-label">视频</text>
 						</view>
 						<view class="preview-item__remove" @tap="removeMedia(i)">✕</view>
 					</view>
-				</view>
+					<!-- 继续上传按钮 -->
+					<view class="upload-box upload-box--add" @tap="onUploadMedia">
+						<image class="upload-box__icon" src="/static/memoir_new/upload_icon.png" mode="aspectFit"></image>
+						<text class="upload-box__text">继续添加</text>
+					</view>
+				</template>
 			</view>
 
 			<!-- 标题 -->
@@ -289,8 +297,9 @@ export default {
 		gap: 20rpx;
 	}
 	&__right-icon {
-		width: 38rpx;
-		height: 38rpx;
+		width: 48rpx;
+		height: 48rpx;
+		margin-left: 12rpx;
 	}
 }
 
@@ -304,18 +313,39 @@ export default {
 /* ============ 上传区 ============ */
 .upload-row {
 	padding: 37rpx 38rpx 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20rpx;
 }
 .upload-box {
 	background-color: #FFFFFF;
 	border-radius: 31rpx;
-	width: 127rpx;
-	height: 127rpx;
 	border: 1px solid rgba(194, 200, 194, 0.8);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
+
+	/* 大占位框：未上传时 */
+	&--placeholder {
+		width: 310rpx;
+		height: 200rpx;
+		border-style: dashed;
+		border-width: 2rpx;
+		border-color: rgba(194, 200, 194, 0.9);
+		background-color: rgba(255, 255, 255, 0.6);
+	}
+
+	/* 小加按钮：已上传后继续加 */
+	&--add {
+		width: 160rpx;
+		height: 160rpx;
+		border-style: dashed;
+		border-width: 2rpx;
+		border-color: rgba(143, 174, 157, 1);
+		background-color: rgba(245, 250, 247, 0.5);
+	}
 
 	&__icon {
 		width: 46rpx;
@@ -330,21 +360,18 @@ export default {
 		line-height: 38rpx;
 		margin-top: 6rpx;
 		text-align: center;
+		white-space: nowrap; /* 关键：强制单行不换行 */
 	}
 }
 
-.preview-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20rpx;
-	margin-top: 20rpx;
-}
 .preview-item {
 	position: relative;
-	width: 127rpx;
-	height: 127rpx;
+	width: 160rpx;
+	height: 160rpx;
 	border-radius: 16rpx;
 	overflow: hidden;
+	border: 1px solid rgba(232, 230, 223, 0.8);
+	background-color: #FFFFFF;
 
 	&__img {
 		width: 100%;
@@ -353,14 +380,22 @@ export default {
 	&__video {
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.1);
+		background-color: rgba(30, 41, 59, 0.75);
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
 	&__video-play {
-		width: 50rpx;
-		height: 50rpx;
+		width: 48rpx;
+		height: 48rpx;
+		opacity: 0.85;
+	}
+	&__video-label {
+		font-family: "PingFang SC", sans-serif;
+		font-size: 22rpx;
+		color: #FFFFFF;
+		margin-top: 6rpx;
 	}
 	&__remove {
 		position: absolute;
