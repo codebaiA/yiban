@@ -174,9 +174,8 @@ export async function getMemoir() {
 }
 
 export async function addMemory(payload) {
-  const denied = assertCaregiver()
-  if (denied) return denied
-  // 未选主要分类禁止保存（AC-07）
+  // 写回忆：开放给所有用户（患者可自己写 / 家属也可写）
+  // 注意：删除仍然需要家属授权（见 deleteMemory）
   if (!payload || !payload.categoryId) {
     return Promise.reject({ code: 'NO_CATEGORY', message: '请先选择一个主要分类' })
   }
