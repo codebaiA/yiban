@@ -54,7 +54,7 @@
 				</view>
 			</view>
 
-			<!-- scroll-view 章节列表 -->
+			<!-- scroll-view 章节列表（flex:1 撑满剩余空间） -->
 			<scroll-view class="book-chapters" scroll-y :show-scrollbar="false">
 				<view
 					v-for="(ch, i) in chapters"
@@ -74,22 +74,20 @@
 					</view>
 					<text class="book-chapter__page">{{ ch.page }}</text>
 				</view>
-
-				<!-- 底部 group_17 翻页导航：左右两端对齐 + 目录居中 -->
-				<view class="book-footer-nav">
-					<view class="book-footer-nav__left">
-						<text class="book-footer-nav__prev">‹</text>
-						<text class="book-footer-nav__link">封面</text>
-					</view>
-					<text class="book-footer-nav__center">目录</text>
-					<view class="book-footer-nav__right">
-						<text class="book-footer-nav__next">翻开第 1 篇</text>
-						<text class="book-footer-nav__next-arrow">›</text>
-					</view>
-				</view>
-
-				<view style="height: 120rpx"></view>
 			</scroll-view>
+
+			<!-- 底部 group_17 翻页导航：固定在页面最底部（不随章节滚动） -->
+			<view class="book-footer-nav">
+				<view class="book-footer-nav__left" hover-class="footer-hover" @tap="onBack">
+					<text class="book-footer-nav__prev">‹</text>
+					<text class="book-footer-nav__link">封面</text>
+				</view>
+				<text class="book-footer-nav__center">目录</text>
+				<view class="book-footer-nav__right" hover-class="footer-hover" @tap="onOpenFirst">
+					<text class="book-footer-nav__next">翻开第 1 篇</text>
+					<text class="book-footer-nav__next-arrow">›</text>
+				</view>
+			</view>
 
 		</view>
 
@@ -233,23 +231,19 @@ export default {
 		onAdd() {
 			uni.navigateTo({ url: '/pages/memory/addRecall' })
 		},
+		// 跳转回忆录内页（章节通用模板，ch1 = 我的个人简介）
+		goDetail(name, categoryId) {
+			uni.navigateTo({
+				url: '/pages/memory/memoirDetail?name=' + encodeURIComponent(name || '') + '&categoryId=' + (categoryId || '')
+			})
+		},
 		onOpenChapter(item) {
-			const name = item.name
-			const categoryId = item.categoryId
-			const memories = (this.store.memoir && this.store.memoir.memories) || []
-			const inChapter = memories.filter(m => m.categoryId === categoryId)
-			if (inChapter.length > 0) {
-				// 详情页还没建 → 先弹窗展示第一条内容
-				const first = inChapter[0]
-				uni.showModal({
-					title: first.title || name,
-					content: first.desc || '(暂无正文)',
-					showCancel: false,
-					confirmText: '知道了'
-				})
-			} else {
-				uni.showToast({ title: name + ' · 暂无内容', icon: 'none' })
-			}
+			this.goDetail(item.name, item.categoryId)
+		},
+		// 底部「翻开第 1 篇」→ 我的个人简介内页
+		onOpenFirst() {
+			const first = HARDCODE_CHAPTERS[0]
+			this.goDetail(first.name, first.categoryId)
 		}
 	}
 }
@@ -263,13 +257,18 @@ export default {
 	position: relative;
 }
 .switch-hover { opacity: 0.55; }
+.footer-hover { opacity: 0.6; }
 
 /* ============ 书本目录式 ============ */
+/* 关键：flex 纵向 + height 100vh → 顶部固定内容 / 中间章节滚动 / 底部翻页导航钉在最底 */
 .book-view {
 	position: relative;
 	width: 750rpx;
-	min-height: 100vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 	background-color: #FAF7EE;
+	overflow: hidden;
 }
 .book-bg {
 	position: absolute;
@@ -277,12 +276,13 @@ export default {
 	width: 750rpx; height: 100%;
 	z-index: 0;
 }
-.book-status-bar { position: relative; z-index: 1; }
+.book-status-bar { position: relative; z-index: 1; flex-shrink: 0; }
 
 /* 顶部信息条 text-wrapper_1 */
 .book-top-bar {
 	position: relative; z-index: 1;
 	padding: 0 64rpx;
+	flex-shrink: 0;
 }
 .book-top-bar__divider {
 	display: flex; flex-direction: row;
@@ -293,12 +293,12 @@ export default {
 }
 .book-top-bar__left {
 	font-family: "PingFang SC", sans-serif; font-weight: 500;
-	font-size: 24rpx; letter-spacing: 1rpx;
+	font-size: 26rpx; letter-spacing: 1rpx;
 	color: rgba(87, 82, 74, 1); line-height: 50rpx;
 }
 .book-top-bar__right {
 	font-family: "PingFang SC", sans-serif; font-weight: 500;
-	font-size: 24rpx; letter-spacing: 0.5rpx;
+	font-size: 26rpx; letter-spacing: 0.5rpx;
 	color: rgba(87, 82, 74, 1); line-height: 50rpx;
 }
 
@@ -310,6 +310,7 @@ export default {
 	margin: 30rpx 0 0 78rpx;
 	display: flex;
 	flex-direction: row;
+	flex-shrink: 0;
 	/* 蓝湖没设 align-items → 默认 stretch（让子元素撑满） */
 }
 /* thumbnail_1 回退箭头（真实素材 返回@2x.png 32×32px，显示 32rpx） */
@@ -324,12 +325,12 @@ export default {
 .book-back__text {
 	font-family: "PingFang SC", sans-serif;
 	font-weight: 500;
-	font-size: 32rpx;
+	font-size: 34rpx;
 	color: rgba(21, 29, 26, 1);
-	width: 64rpx;
-	height: 44rpx;
+	width: 72rpx;
+	height: 48rpx;
 	margin: 4rpx 0 0 8rpx;
-	line-height: 44rpx;
+	line-height: 48rpx;
 	text-align: center;
 	white-space: nowrap;
 }
@@ -339,7 +340,7 @@ export default {
 .book-big-title {
 	width: 306rpx;
 	height: 152rpx;
-	margin: 2rpx 0 0 72rpx;
+	margin: 2rpx 0 0 64rpx;
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0; /* 不让 flex 压缩！ */
@@ -347,20 +348,20 @@ export default {
 .book-big-title__en-top {
 	font-family: "PingFang SC", sans-serif;
 	font-weight: 400;
-	font-size: 24rpx;
+	font-size: 26rpx;
 	letter-spacing: 8.4rpx;
 	color: rgba(155, 100, 56, 1);
-	line-height: 32rpx;
+	line-height: 34rpx;
 	text-align: center;
 	white-space: nowrap;
 }
 .book-big-title__cn {
 	font-family: "PingFang SC", sans-serif;
 	font-weight: 500;
-	font-size: 60rpx;
+	font-size: 66rpx;
 	letter-spacing: 12rpx;
 	color: rgba(45, 42, 38, 1);
-	line-height: 72rpx;
+	line-height: 76rpx;
 	text-align: center;
 	white-space: nowrap;
 	margin: 4rpx 0;
@@ -368,18 +369,18 @@ export default {
 .book-big-title__en-bot {
 	font-family: "PingFang SC", sans-serif;
 	font-weight: 400;
-	font-size: 24rpx;
+	font-size: 26rpx;
 	letter-spacing: 2.4rpx;
 	color: rgba(87, 82, 74, 1);
-	line-height: 32rpx;
+	line-height: 34rpx;
 	text-align: center;
 	white-space: nowrap;
 }
-/* section_1 切换按钮 —— 纯 33×33，不要任何背景/圆角/阴影！ */
+/* section_1 切换按钮 —— 80×80 纯透明热区（老人好点），图标 64 */
 .book-switch {
-	margin-left: 120rpx;
-	width: 66rpx;
-	height: 66rpx;
+	margin-left: 84rpx;
+	width: 80rpx;
+	height: 80rpx;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -394,6 +395,7 @@ export default {
 	display: flex; flex-direction: row; align-items: center; justify-content: center;
 	margin: 16rpx 0 0 268rpx;
 	width: 246rpx;
+	flex-shrink: 0;
 }
 .book-divider__line { height: 2rpx; }
 .book-divider__line--left { width: 96rpx; background-color: #D1C7B2; }
@@ -405,20 +407,21 @@ export default {
 	position: relative; z-index: 1;
 	display: flex; flex-direction: row; justify-content: space-between;
 	padding: 24rpx 100rpx 0;
+	flex-shrink: 0;
 }
 .book-chip {
-	height: 68rpx; padding: 0 40rpx;
+	height: 76rpx; padding: 0 40rpx;
 	display: flex; flex-direction: row; align-items: center;
 	background-color: rgba(241, 234, 217, 1);
 	border: 1rpx solid rgba(223, 213, 191, 1);
 	border-radius: 999rpx;
 	box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.05);
 
-	&__emoji { font-size: 28rpx; color: #9B6438; margin-right: 6rpx; }
-	&__icon { width: 40rpx; height: 40rpx; margin-right: 6rpx; }
+	&__emoji { font-size: 32rpx; color: #9B6438; margin-right: 8rpx; }
+	&__icon { width: 40rpx; height: 40rpx; margin-right: 8rpx; }
 	&__text {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 28rpx; color: rgba(45, 42, 38, 1);
+		font-size: 32rpx; color: rgba(45, 42, 38, 1);
 	}
 
 	&--primary {
@@ -428,86 +431,92 @@ export default {
 	&--primary .book-chip__text { color: #FFFFFF; }
 }
 
-/* ============ 章节列表 ============ */
+/* ============ 章节列表：flex:1 占据剩余高度，内部滚动 ============ */
 .book-chapters {
 	position: relative; z-index: 1;
 	margin-top: 20rpx; padding: 0 32rpx;
-	height: calc(100vh - 540rpx);
+	flex: 1;
+	min-height: 0;            /* flex 子项允许收缩，scroll-view 才能正常滚动 */
+	box-sizing: border-box;
 }
 .book-chapter {
 	display: flex; flex-direction: row; align-items: center;
-	height: 92rpx; margin-top: 30rpx;
+	min-height: 100rpx; margin-top: 30rpx;
 
 	&__mark {
 		width: 12rpx; height: 12rpx;
 		background-color: #9B6438; border-radius: 50%;
-		margin-right: 20rpx;
+		margin-right: 20rpx; flex-shrink: 0;
 	}
 	&__idx {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 36rpx; letter-spacing: 3rpx;
-		color: rgba(155, 100, 56, 0.85); width: 50rpx; text-align: left;
+		font-size: 40rpx; letter-spacing: 3rpx;
+		color: rgba(155, 100, 56, 0.85); width: 58rpx; text-align: left; flex-shrink: 0;
 	}
 	&__texts {
-		flex: 1; display: flex; flex-direction: column;
-		justify-content: space-between; height: 70rpx;
+		flex: 1; min-width: 0; display: flex; flex-direction: column;
+		justify-content: space-between; height: 80rpx;
 	}
-	&__title-row { display: flex; flex-direction: row; align-items: center; }
+	&__title-row { display: flex; flex-direction: row; align-items: center; min-width: 0; }
 	&__title {
 		font-family: "Noto Serif SC", serif; font-weight: 600;
-		font-size: 32rpx; color: rgba(45, 42, 38, 1);
+		font-size: 38rpx; color: rgba(45, 42, 38, 1);
+		white-space: nowrap;
 	}
-	&__arrow { width: 264rpx; height: 4rpx; margin-left: 14rpx; opacity: 0.5; }
+	&__arrow { width: 200rpx; height: 4rpx; margin-left: 14rpx; opacity: 0.5; flex-shrink: 1; min-width: 40rpx; }
 	&__sub {
 		font-family: "PingFang SC", sans-serif; font-weight: 400;
-		font-size: 24rpx; color: rgba(117, 110, 99, 0.75);
+		font-size: 28rpx; color: rgba(117, 110, 99, 0.8);
+		overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 	}
 	&__page {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 26rpx; letter-spacing: 1rpx;
-		color: rgba(155, 100, 56, 0.7);
+		font-size: 30rpx; letter-spacing: 1rpx;
+		color: rgba(155, 100, 56, 0.7); margin-left: 12rpx; flex-shrink: 0;
 	}
 }
 
-/* ============ 底部翻页导航：两端对齐 + 目录居中 ============ */
+/* ============ 底部翻页导航：flex 布局钉在页面最底部 ============ */
 .book-footer-nav {
-	margin-top: 60rpx;
+	position: relative; z-index: 1;
+	flex-shrink: 0;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-between; /* 关键！两端对齐 */
-	height: 88rpx;
+	justify-content: space-between; /* 两端对齐，目录居中 */
+	height: 108rpx;
 	border-top: 1rpx solid rgba(209, 199, 178, 0.6);
-	padding: 22rpx 10rpx 0;
+	padding: 0 24rpx;
+	padding-bottom: env(safe-area-inset-bottom); /* 全面屏安全区 */
 
 	/* 左：‹封面 */
 	&__left {
 		display: flex; flex-direction: row; align-items: center;
-		flex: 0 0 auto;
+		flex: 0 0 auto; padding: 16rpx 12rpx;
 	}
-	&__prev { font-size: 36rpx; color: rgba(155, 100, 56, 0.5); margin-right: 8rpx; }
+	&__prev { font-size: 40rpx; color: rgba(155, 100, 56, 0.55); margin-right: 8rpx; }
 	&__link {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 26rpx; color: rgba(117, 110, 99, 0.6);
+		font-size: 30rpx; color: rgba(117, 110, 99, 0.65);
 	}
 	/* 中：目录（居中，flex:1 占满剩余空间然后 text-align:center） */
 	&__center {
 		flex: 1;
 		font-family: "PingFang SC", sans-serif; font-weight: 700;
-		font-size: 28rpx; color: rgba(155, 100, 56, 1);
+		font-size: 32rpx; color: rgba(155, 100, 56, 1);
 		letter-spacing: 4rpx;
 		text-align: center;
 	}
 	/* 右：翻开第 1 篇 › */
 	&__right {
 		display: flex; flex-direction: row; align-items: center;
-		flex: 0 0 auto;
+		flex: 0 0 auto; padding: 16rpx 12rpx;
 	}
 	&__next {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 26rpx; color: rgba(45, 42, 38, 1);
+		font-size: 30rpx; color: rgba(45, 42, 38, 1);
 	}
-	&__next-arrow { font-size: 32rpx; color: rgba(155, 100, 56, 1); margin-left: 4rpx; }
+	&__next-arrow { font-size: 36rpx; color: rgba(155, 100, 56, 1); margin-left: 6rpx; }
 }
 
 /* ============ 相册式 ============ */
@@ -525,11 +534,11 @@ export default {
 	background-color: #F9F6ED;
 
 	&__dot { width: 12rpx; height: 12rpx; background-color: #B89F7C; border-radius: 50%; margin-left: 64rpx; }
-	&__text {
-		font-family: "Noto Serif SC", serif; font-weight: 400;
-		font-size: 26rpx; letter-spacing: 1.3rpx;
-		color: rgba(117, 110, 99, 1); margin-left: 16rpx;
-	}
+		&__text {
+			font-family: "Noto Serif SC", serif; font-weight: 400;
+			font-size: 28rpx; letter-spacing: 1.3rpx;
+			color: rgba(117, 110, 99, 1); margin-left: 16rpx;
+		}
 	/* 切换回书本按钮（圆形胶囊） */
 	&__switch {
 		position: absolute; right: 48rpx; top: 50%;
@@ -550,7 +559,7 @@ export default {
 	&__icon { width: 32rpx; height: 32rpx; margin-right: 8rpx; }
 	&__text {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 32rpx; color: rgba(21, 29, 26, 1);
+		font-size: 34rpx; color: rgba(21, 29, 26, 1);
 	}
 }
 
@@ -575,7 +584,7 @@ export default {
 	&__placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #E6F0EA, #D4E5DC); }
 	&__name {
 		font-family: "Noto Serif SC", serif; font-weight: 500;
-		font-size: 40rpx; color: rgba(21, 29, 26, 1);
+		font-size: 42rpx; color: rgba(21, 29, 26, 1);
 		margin: 20rpx 0 24rpx 24rpx;
 	}
 }
@@ -593,7 +602,7 @@ export default {
 	&__text {
 		flex: 1;
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 30rpx; color: rgba(66, 72, 68, 1); text-align: center;
+		font-size: 32rpx; color: rgba(66, 72, 68, 1); text-align: center;
 	}
 	/* 装饰圆点 group_17 —— 胶囊上的小绿点 */
 	&__deco {
