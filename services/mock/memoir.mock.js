@@ -7,6 +7,7 @@
 
 /** 主要分类：家属上传回忆时必须选择的归档分类 */
 export const categories = [
+  { id: 'c7', name: '我的个人简介', desc: '关于我自己的基础介绍', parentId: null, sort: 0, enabled: true, scope: 'PATIENT' },
   { id: 'c1', name: '我的家人', desc: '家人的照片与故事', parentId: null, sort: 1, enabled: true, scope: 'PATIENT' },
   { id: 'c2', name: '人生阶段', desc: '童年、青年、工作、晚年', parentId: null, sort: 2, enabled: true, scope: 'PATIENT' },
   { id: 'c3', name: '生活过的地方', desc: '家乡、老房子、工作单位', parentId: null, sort: 3, enabled: true, scope: 'PATIENT' },

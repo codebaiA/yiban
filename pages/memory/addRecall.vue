@@ -11,10 +11,8 @@
 				<text class="top-bar__day">{{ day }}</text>
 				<text class="top-bar__date">{{ dateLabel }}</text>
 			</view>
-			<view class="top-bar__right">
-				<image class="top-bar__right-icon" src="/static/memoir_new/save_draft.png" mode="aspectFit" @tap="onSaveDraft"></image>
-				<image class="top-bar__right-icon" src="/static/memoir_new/share_btn.png" mode="aspectFit" @tap="onShare"></image>
-			</view>
+			<!-- 右侧空位保留，避免被微信胶囊按钮挡住 -->
+			<view class="top-bar__right-placeholder"></view>
 		</view>
 
 		<!-- ============ 主体区 ============ -->
@@ -115,12 +113,39 @@
 				<text class="foot-info__text">专属回忆册 · 为父亲王建国记录</text>
 			</view>
 
+			<!-- 章节选择 -->
+			<view class="section-chapter" @tap="onPickCategory">
+				<text class="section-chapter__label">存入章节</text>
+				<view class="section-chapter__val">
+					<text class="section-chapter__name">{{ currentCategoryName }}</text>
+					<text class="section-chapter__arrow">›</text>
+				</view>
+			</view>
+
+			<!-- 底部留白（给 fixed 操作栏让位） -->
+			<view class="content-pad"></view>
+
 		</scroll-view>
+
+		<!-- ============ 底部固定操作栏 ============ -->
+		<view class="bottom-bar">
+			<view class="bottom-bar__draft" @tap="onSaveDraft">
+				<text class="bottom-bar__draft-text">存草稿</text>
+			</view>
+			<view
+				class="bottom-bar__publish"
+				:class="{ 'is-disabled': publishing || !canPublish }"
+				@tap="onPublish"
+			>
+				<text class="bottom-bar__publish-text">{{ publishing ? '正在保存…' : '发表回忆' }}</text>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
 import { useStore, actions } from '../../store/index.js'
+import api from '../../services/api.js'
 
 export default {
 	data() {
@@ -130,7 +155,9 @@ export default {
 			body: '',
 			tags: ['合影', '老伴'],
 			uploadedList: [], // { type: 'image'|'video', path: '' }
-			recording: false
+			recording: false,
+			publishing: false,
+			categoryId: 'c7' // 默认存入「第一章 我的个人简介」
 		}
 	},
 	computed: {
@@ -142,6 +169,16 @@ export default {
 		dateLabel() {
 			const d = new Date()
 			return `${d.getFullYear()}年${d.getMonth() + 1}月`
+		},
+		categories() {
+			return (this.store.memoir && this.store.memoir.categories) || []
+		},
+		currentCategoryName() {
+			const c = this.categories.find(x => x.id === this.categoryId)
+			return c ? c.name : '我的个人简介'
+		},
+		canPublish() {
+			return (this.title && this.title.trim()) || (this.body && this.body.trim())
 		}
 	},
 	onLoad() {
@@ -149,6 +186,10 @@ export default {
 			const sys = uni.getSystemInfoSync()
 			this.statusBarHeight = sys.statusBarHeight || 20
 		} catch (e) {}
+		// 确保 categories 已加载
+		if (!this.categories.length) {
+			actions.refreshMemoir()
+		}
 	},
 	methods: {
 		onBack() {
@@ -156,10 +197,53 @@ export default {
 		},
 
 		onSaveDraft() {
-			uni.showToast({ title: '草稿已保存', icon: 'none' })
+			// 草稿暂不实现独立存储，先给个提示
+			uni.showToast({ title: '已暂存（草稿功能开发中）', icon: 'none' })
 		},
-		onShare() {
-			uni.showToast({ title: '分享功能开发中', icon: 'none' })
+
+		/* ============ 选章节 ============ */
+		onPickCategory() {
+			const list = this.categories.map(c => c.name)
+			uni.showActionSheet({
+				itemList: list,
+				success: (res) => {
+					this.categoryId = this.categories[res.tapIndex].id
+				}
+			})
+		},
+
+		/* ============ 发表 ============ */
+		async onPublish() {
+			if (!this.canPublish || this.publishing) return
+			this.publishing = true
+			try {
+				await actions.addMemory({
+					categoryId: this.categoryId,
+					title: this.title.trim(),
+					desc: this.body.trim(),
+					date: new Date().toISOString().slice(0, 10),
+					media: this.uploadedList
+						.filter(i => i.type === 'image')
+						.map(i => i.path),
+					tags: this.tags.map(name => ({
+						tagName: name,
+						sourceType: 'USER'
+					}))
+				})
+				uni.showToast({ title: '已存入《' + this.currentCategoryName + '》', icon: 'success' })
+				// 刷新封面页能看到新内容
+				setTimeout(() => {
+					uni.navigateBack({ delta: 1, fail: () => uni.switchTab({ url: '/pages/memory/memoir' }) })
+				}, 1200)
+			} catch (e) {
+				console.error('publish memory failed', e)
+				uni.showToast({
+					title: (e && e.message) || '保存失败，请稍后再试',
+					icon: 'none'
+				})
+			} finally {
+				this.publishing = false
+			}
 		},
 
 		/* ============ 上传：图片 / 视频 ============ */
@@ -263,7 +347,7 @@ export default {
 	&__back-icon {
 		width: 23rpx;
 		height: 38rpx;
-		transform: rotate(180deg);
+		/* 箭头朝左（原图就是朝左，不需要 rotate） */
 	}
 
 	&__center {
@@ -290,16 +374,10 @@ export default {
 		margin-left: 12rpx;
 	}
 
-	&__right {
-		display: flex;
-		align-items: center;
-		padding-right: 40rpx;
-		gap: 20rpx;
-	}
-	&__right-icon {
-		width: 48rpx;
-		height: 48rpx;
-		margin-left: 12rpx;
+	/* 右侧保留空占位，避免内容被微信胶囊按钮挡住 */
+	&__right-placeholder {
+		width: 140rpx;
+		height: 108rpx;
 	}
 }
 
@@ -592,6 +670,115 @@ export default {
 		font-size: 25rpx;
 		line-height: 38rpx;
 		color: rgba(114, 121, 116, 0.7);
+	}
+}
+
+/* ============ 章节选择行 ============ */
+.section-chapter {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #FFFFFF;
+	border-top: 1px solid rgba(232, 230, 223, 0.6);
+	border-bottom: 1px solid rgba(232, 230, 223, 0.6);
+	width: 750rpx;
+	height: 96rpx;
+	padding: 0 38rpx;
+	box-sizing: border-box;
+	margin-top: 32rpx;
+
+	&__label {
+		font-family: "Noto Serif SC", serif;
+		font-size: 28rpx;
+		font-weight: 500;
+		color: rgba(114, 121, 116, 0.75);
+	}
+	&__val {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	&__name {
+		font-family: "Noto Serif SC", serif;
+		font-size: 28rpx;
+		font-weight: 600;
+		color: rgba(21, 29, 26, 1);
+		margin-right: 6rpx;
+	}
+	&__arrow {
+		font-size: 36rpx;
+		color: rgba(114, 121, 116, 0.5);
+		font-weight: 300;
+	}
+}
+
+/* 给 fixed 底部操作栏让位 */
+.content-pad {
+	height: 200rpx;
+}
+
+/* ============ 底部固定操作栏 ============ */
+.bottom-bar {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 750rpx;
+	height: 150rpx;
+	padding: 20rpx 38rpx;
+	box-sizing: border-box;
+	background-color: rgba(245, 249, 246, 1);
+	box-shadow: 0 -6rpx 20rpx 0 rgba(44, 53, 49, 0.06);
+	padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 24rpx;
+	z-index: 900;
+
+	&__draft {
+		flex: 0 0 auto;
+		height: 100rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 36rpx;
+		border-radius: 31rpx;
+		background-color: rgba(255, 255, 255, 1);
+		border: 1px solid rgba(194, 200, 194, 0.6);
+
+		&-text {
+			font-family: "PingFang SC", sans-serif;
+			font-size: 28rpx;
+			font-weight: 500;
+			color: rgba(114, 121, 116, 0.8);
+		}
+	}
+
+	&__publish {
+		flex: 1;
+		height: 100rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 31rpx;
+		background-color: rgba(87, 181, 165, 1); /* #57B5A5 */
+		box-shadow: 0 6rpx 16rpx 0 rgba(87, 181, 165, 0.3);
+		transition: opacity 0.2s;
+
+		&-text {
+			font-family: "PingFang SC", sans-serif;
+			font-size: 34rpx;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 1);
+			letter-spacing: 2rpx;
+		}
+
+		&.is-disabled {
+			background-color: rgba(194, 200, 194, 0.7);
+			box-shadow: none;
+			opacity: 0.7;
+		}
 	}
 }
 </style>

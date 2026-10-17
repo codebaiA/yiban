@@ -10,7 +10,7 @@ export const chapters = [
     id: 'ch1', name: '我的个人简介', sort: 1, type: 'PROFILE', fixed: false,
     subtitle: '老伴秀兰与女儿芳芳 · 温暖的家',
     page: '01 页',
-    categoryIds: []
+    categoryIds: ['c7']
   },
   {
     id: 'ch2', name: '认识我的家人', sort: 2, type: 'FAMILY', fixed: false,
