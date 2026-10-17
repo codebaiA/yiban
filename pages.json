@@ -55,6 +55,15 @@
         "navigationBarTextStyle": "black",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/memory/memoirIndex",
+      "style": {
+        "navigationBarTitleText": "目录",
+        "navigationBarBackgroundColor": "#FAF7EE",
+        "navigationBarTextStyle": "black",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "subPackages": [

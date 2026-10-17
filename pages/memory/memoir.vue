@@ -123,11 +123,7 @@ export default {
 	},
 	methods: {
 		onOpenBook() {
-			if (this.hasMemories) {
-				uni.showToast({ title: '目录页开发中', icon: 'none' })
-			} else {
-				uni.navigateTo({ url: '/pages/memory/addRecall' })
-			}
+			uni.navigateTo({ url: '/pages/memory/memoirIndex' })
 		}
 	}
 }
