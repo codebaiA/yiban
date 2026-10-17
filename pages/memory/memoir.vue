@@ -7,7 +7,7 @@
 		<view class="header">
 			<!-- 绿色徽标 + icon -->
 			<view class="brand-badge">
-				<image class="brand-icon" src="static/回忆录界面/我的回忆录 · 实体书封面-已添加回忆_slices/Icon@2x.png" mode="aspectFit"></image>
+				<image class="brand-icon" src="/static/memoir_cover/logo_icon.png" mode="aspectFit"></image>
 			</view>
 			<!-- 忆伴 + 副标题 -->
 			<view class="brand-text">
@@ -60,7 +60,7 @@
 
 			<!-- 提示图标 + 文字（封面下方） -->
 			<view class="hint-row">
-				<image class="hint-icon" src="static/回忆录界面/我的回忆录 · 实体书封面-已添加回忆_slices/点击icon@2x.png" mode="aspectFit"></image>
+				<image class="hint-icon" src="/static/memoir_cover/click.png" mode="aspectFit"></image>
 				<text class="hint-text">点击黄色封面或按钮，即可开始写日记</text>
 			</view>
 
