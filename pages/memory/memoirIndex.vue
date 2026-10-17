@@ -19,12 +19,10 @@
 			</view>
 
 			<!-- group_2 大标题行：返回 + MEMOIR OF LIFE / 目录 / CONTENTS + 右侧切换按钮 section_1 -->
+			<!-- 关键：thumbnail_1 + text_4 直接平铺在 group_2 里，不要额外包裹层！ -->
 			<view class="book-group-2">
-				<!-- 返回 -->
-				<view class="book-back" @tap="onBack">
-					<image class="book-back__icon" src="/static/memoir_index/back_arrow.png" mode="aspectFit"></image>
-					<text class="book-back__text">返回</text>
-				</view>
+				<image class="book-back__icon" src="/static/memoir_index/back_arrow.png" mode="aspectFit" @tap="onBack"></image>
+				<text class="book-back__text" @tap="onBack">返回</text>
 				<!-- 大标题 text-group_1 -->
 				<view class="book-big-title">
 					<text class="book-big-title__en-top">MEMOIR&nbsp;OF&nbsp;LIFE</text>
@@ -33,7 +31,7 @@
 				</view>
 				<!-- 切换按钮 section_1（书本↔相册）-->
 				<view class="book-switch" @tap="viewMode = 'album'" hover-class="switch-hover">
-					<image class="book-switch__icon" src="/static/memoir_index/switch_toggle.png" mode="aspectFit"></image>
+					<view class="book-switch__inner"></view>
 				</view>
 			</view>
 
@@ -78,12 +76,14 @@
 					<text class="book-chapter__page">{{ ch.page }}</text>
 				</view>
 
-				<!-- 底部 group_17 翻页导航 -->
+				<!-- 底部 group_17 翻页导航：左右两端对齐 + 目录居中 -->
 				<view class="book-footer-nav">
-					<text class="book-footer-nav__prev">‹</text>
-					<text class="book-footer-nav__link">封面</text>
-					<text class="book-footer-nav__link book-footer-nav__link--active">目&nbsp;录</text>
-					<view class="book-footer-nav__next-wrap">
+					<view class="book-footer-nav__left">
+						<text class="book-footer-nav__prev">‹</text>
+						<text class="book-footer-nav__link">封面</text>
+					</view>
+					<text class="book-footer-nav__center">目&nbsp;录</text>
+					<view class="book-footer-nav__right">
 						<text class="book-footer-nav__next">翻开第&nbsp;1&nbsp;篇</text>
 						<text class="book-footer-nav__next-arrow">›</text>
 					</view>
@@ -318,54 +318,90 @@ export default {
 	color: rgba(87, 82, 74, 1); line-height: 50rpx;
 }
 
-/* ============ 关键！group_2 顶部返回+标题+切换按钮（蓝湖精确布局） ============ */
+/* ============ group_2 顶部返回 + 大标题 + 切换按钮（100% 蓝湖） ============ */
 .book-group-2 {
 	position: relative; z-index: 1;
-	width: 652rpx; /* 326px × 2 */
-	height: 154rpx; /* 77px × 2 */
-	margin: 30rpx 0 0 78rpx; /* 39px × 2 */
-	display: flex; flex-direction: row; align-items: center;
+	width: 652rpx;
+	height: 154rpx;
+	margin: 30rpx 0 0 78rpx;
+	display: flex;
+	flex-direction: row;
+	/* 蓝湖没设 align-items → 默认 stretch（让子元素撑满） */
 }
-.book-back {
-	display: flex; flex-direction: row; align-items: center;
-	width: 80rpx;
+/* thumbnail_1 回退箭头 */
+.book-back__icon {
+	width: 16rpx;
+	height: 24rpx;
+	margin-top: 14rpx;
+	margin-right: 0;
 }
-.book-back__icon { width: 16rpx; height: 24rpx; margin-right: 8rpx; margin-top: 4rpx; }
+/* text_4 "返回" —— white-space: nowrap 是关键！不让换行 */
 .book-back__text {
-	font-family: "PingFang SC", sans-serif; font-weight: 500;
-	font-size: 32rpx; color: rgba(21, 29, 26, 1);
+	font-family: "PingFang SC", sans-serif;
+	font-weight: 500;
+	font-size: 32rpx;
+	color: rgba(21, 29, 26, 1);
+	width: 64rpx;
+	height: 44rpx;
+	margin: 4rpx 0 0 8rpx;
+	line-height: 44rpx;
+	text-align: center;
+	white-space: nowrap;
 }
-/* 大标题 text-group_1 */
+/* 返回这两个元素直接平铺，不包额外 width */
+
+/* text-group_1 大标题容器 */
 .book-big-title {
-	display: flex; flex-direction: column;
-	margin-left: 72rpx; /* 36px × 2 */
-	width: 306rpx; /* 153px × 2 */
+	width: 306rpx;
+	height: 152rpx;
+	margin: 2rpx 0 0 72rpx;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0; /* 不让 flex 压缩！ */
 }
 .book-big-title__en-top {
-	font-family: "PingFang SC", sans-serif; font-weight: 400;
-	font-size: 24rpx; letter-spacing: 8.4rpx;
+	font-family: "PingFang SC", sans-serif;
+	font-weight: 400;
+	font-size: 24rpx;
+	letter-spacing: 8.4rpx;
 	color: rgba(155, 100, 56, 1);
+	line-height: 32rpx;
+	text-align: center;
+	white-space: nowrap;
 }
 .book-big-title__cn {
-	font-family: "PingFang SC", sans-serif; font-weight: 500;
-	font-size: 60rpx; letter-spacing: 12rpx;
-	color: rgba(45, 42, 38, 1); margin: 8rpx 0;
+	font-family: "PingFang SC", sans-serif;
+	font-weight: 500;
+	font-size: 60rpx;
+	letter-spacing: 12rpx;
+	color: rgba(45, 42, 38, 1);
+	line-height: 72rpx;
+	text-align: center;
+	white-space: nowrap;
+	margin: 4rpx 0;
 }
 .book-big-title__en-bot {
-	font-family: "PingFang SC", sans-serif; font-weight: 400;
-	font-size: 24rpx; letter-spacing: 2.4rpx;
+	font-family: "PingFang SC", sans-serif;
+	font-weight: 400;
+	font-size: 24rpx;
+	letter-spacing: 2.4rpx;
 	color: rgba(87, 82, 74, 1);
+	line-height: 32rpx;
+	text-align: center;
+	white-space: nowrap;
 }
-/* 切换按钮 section_1 —— 大标题右边 60px 处（蓝湖精确位置！） */
+/* section_1 切换按钮 —— 纯 33×33，不要任何背景/圆角/阴影！ */
 .book-switch {
-	margin-left: 120rpx; /* 60px × 2 */
-	width: 66rpx; height: 66rpx; /* 33px × 2 */
-	display: flex; align-items: center; justify-content: center;
-	background-color: rgba(255, 255, 255, 0.3);
-	border-radius: 50%;
-	box-shadow: 0 2rpx 8rpx rgba(155, 100, 56, 0.15);
+	margin-left: 120rpx;
+	width: 66rpx;
+	height: 66rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: transparent;
+	flex-shrink: 0;
 }
-.book-switch__icon { width: 48rpx; height: 48rpx; }
+.book-switch__icon { width: 66rpx; height: 66rpx; }
 
 /* ============ 装饰线 group_3 ============ */
 .book-divider {
@@ -457,26 +493,64 @@ export default {
 	}
 }
 
-/* ============ 底部翻页导航 ============ */
+/* ============ 底部翻页导航：两端对齐 + 目录居中 ============ */
 .book-footer-nav {
 	margin-top: 60rpx;
-	display: flex; flex-direction: row; align-items: center; justify-content: center;
-	height: 66rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between; /* 关键！两端对齐 */
+	height: 88rpx;
 	border-top: 1rpx solid rgba(209, 199, 178, 0.6);
-	padding-top: 22rpx;
+	padding: 22rpx 10rpx 0;
 
-	&__prev { font-size: 40rpx; color: rgba(155, 100, 56, 0.5); margin-right: 12rpx; }
+	/* 左：‹封面 */
+	&__left {
+		display: flex; flex-direction: row; align-items: center;
+		flex: 0 0 auto;
+	}
+	&__prev { font-size: 36rpx; color: rgba(155, 100, 56, 0.5); margin-right: 8rpx; }
 	&__link {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
-		font-size: 26rpx; color: rgba(117, 110, 99, 0.6); margin: 0 16rpx;
+		font-size: 26rpx; color: rgba(117, 110, 99, 0.6);
 	}
-	&__link--active { color: rgba(155, 100, 56, 1); font-weight: 700; }
-	&__next-wrap { display: flex; flex-direction: row; align-items: center; margin-left: 16rpx; }
+	/* 中：目录（居中，flex:1 占满剩余空间然后 text-align:center） */
+	&__center {
+		flex: 1;
+		font-family: "PingFang SC", sans-serif; font-weight: 700;
+		font-size: 28rpx; color: rgba(155, 100, 56, 1);
+		letter-spacing: 4rpx;
+		text-align: center;
+	}
+	/* 右：翻开第 1 篇 › */
+	&__right {
+		display: flex; flex-direction: row; align-items: center;
+		flex: 0 0 auto;
+	}
 	&__next {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
 		font-size: 26rpx; color: rgba(45, 42, 38, 1);
 	}
 	&__next-arrow { font-size: 32rpx; color: rgba(155, 100, 56, 1); margin-left: 4rpx; }
+}
+
+/* 切换按钮内部（蓝湖 section_1 的背景图） */
+.book-switch__inner {
+	width: 66rpx;
+	height: 66rpx;
+	background-image: url(/static/memoir_index/switch_toggle.png);
+	background-size: 66rpx 66rpx;
+	background-repeat: no-repeat;
+}
+
+/* 相册式的切回书本按钮也用蓝湖的图 */
+.album-top__switch-text {
+	background-image: url(/static/memoir_index/switch_toggle.png);
+	background-size: 48rpx 48rpx;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-indent: -9999rpx;
+	width: 48rpx; height: 48rpx;
 }
 
 /* ============ 相册式 ============ */
