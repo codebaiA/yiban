@@ -25,13 +25,13 @@
 				<text class="book-back__text" @tap="onBack">返回</text>
 				<!-- 大标题 text-group_1 -->
 				<view class="book-big-title">
-					<text class="book-big-title__en-top">MEMOIR&nbsp;OF&nbsp;LIFE</text>
-					<text class="book-big-title__cn">目&nbsp;录</text>
+					<text class="book-big-title__en-top">MEMOIR OF LIFE</text>
+					<text class="book-big-title__cn">目 录</text>
 					<text class="book-big-title__en-bot">CONTENTS</text>
 				</view>
 				<!-- 切换按钮 section_1（书本↔相册）-->
 				<view class="book-switch" @tap="viewMode = 'album'" hover-class="switch-hover">
-					<view class="book-switch__inner"></view>
+					<image class="book-switch__icon" src="/static/memoir_index/switch_toggle.png" mode="aspectFit"></image>
 				</view>
 			</view>
 
@@ -49,8 +49,7 @@
 					<text class="book-chip__text">朗读目录</text>
 				</view>
 				<view class="book-chip book-chip--primary" @tap="onAdd">
-					<view class="book-chip__plus-h"></view>
-					<view class="book-chip__plus-v"></view>
+					<image class="book-chip__icon" src="/static/memoir_index/add_icon.png" mode="aspectFit"></image>
 					<text class="book-chip__text">添加回忆</text>
 				</view>
 			</view>
@@ -82,9 +81,9 @@
 						<text class="book-footer-nav__prev">‹</text>
 						<text class="book-footer-nav__link">封面</text>
 					</view>
-					<text class="book-footer-nav__center">目&nbsp;录</text>
+					<text class="book-footer-nav__center">目录</text>
 					<view class="book-footer-nav__right">
-						<text class="book-footer-nav__next">翻开第&nbsp;1&nbsp;篇</text>
+						<text class="book-footer-nav__next">翻开第 1 篇</text>
 						<text class="book-footer-nav__next-arrow">›</text>
 					</view>
 				</view>
@@ -104,9 +103,9 @@
 			<view class="album-top">
 				<view class="album-top__dot"></view>
 				<text class="album-top__text">忆伴 · 实体回忆录</text>
-				<!-- 切换回书本按钮（放在最右侧，圆形） -->
+				<!-- 切换回书本按钮 -->
 				<view class="album-top__switch" @tap="viewMode = 'book'" hover-class="switch-hover">
-					<text class="album-top__switch-emoji">📖</text>
+					<image class="album-top__switch-icon" src="/static/memoir_index/switch_toggle.png" mode="aspectFit"></image>
 				</view>
 			</view>
 
@@ -121,63 +120,45 @@
 				<!-- 第 1 行 group_2 -->
 				<view class="album-row">
 					<view
-						v-for="ch in row01"
-						:key="ch.id"
+						v-for="item in row01"
+						:key="item.name"
 						class="album-card"
-						@tap="onOpenChapter(ch)"
+						@tap="onOpenChapter(item)"
 					>
 						<view class="album-card__cover">
-							<image
-								v-if="getCover(ch)"
-								class="album-card__img"
-								:src="getCover(ch)"
-								mode="aspectFill"
-							></image>
-							<view v-else class="album-card__placeholder"></view>
+							<image class="album-card__img" :src="item.cover" mode="aspectFill"></image>
 						</view>
-						<text class="album-card__name">{{ ch.name }}</text>
+						<text class="album-card__name">{{ item.name }}</text>
 					</view>
 				</view>
 
 				<!-- 第 2 行 group_5 -->
 				<view class="album-row">
 					<view
-						v-for="ch in row02"
-						:key="ch.id"
+						v-for="item in row02"
+						:key="item.name"
 						class="album-card"
-						@tap="onOpenChapter(ch)"
+						@tap="onOpenChapter(item)"
 					>
 						<view class="album-card__cover">
-							<image
-								v-if="getCover(ch)"
-								class="album-card__img"
-								:src="getCover(ch)"
-								mode="aspectFill"
-							></image>
-							<view v-else class="album-card__placeholder"></view>
+							<image class="album-card__img" :src="item.cover" mode="aspectFill"></image>
 						</view>
-						<text class="album-card__name">{{ ch.name }}</text>
+						<text class="album-card__name">{{ item.name }}</text>
 					</view>
 				</view>
 
 				<!-- 第 3 行 group_10 -->
 				<view class="album-row">
 					<view
-						v-for="ch in row03"
-						:key="ch.id"
+						v-for="item in row03"
+						:key="item.name"
 						class="album-card"
-						@tap="onOpenChapter(ch)"
+						@tap="onOpenChapter(item)"
 					>
 						<view class="album-card__cover">
-							<image
-								v-if="getCover(ch)"
-								class="album-card__img"
-								:src="getCover(ch)"
-								mode="aspectFill"
-							></image>
-							<view v-else class="album-card__placeholder"></view>
+							<image class="album-card__img" :src="item.cover" mode="aspectFill"></image>
 						</view>
-						<text class="album-card__name">{{ ch.name }}</text>
+						<text class="album-card__name">{{ item.name }}</text>
 					</view>
 				</view>
 			</view>
@@ -208,13 +189,15 @@ const HARDCODE_CHAPTERS = [
 	{ id: 'ch6', sort: 6,  name: '我的老相册',     subtitle: '黑白胶片、老战友留影与全家福照片集',              page: '36 页', categoryId: 'c5' }
 ]
 
-// 相册封面映射（蓝湖切片 + 用户本地切片）
-const ALBUM_COVER_MAP = {
-	ch1: '/static/memoir_index/album_ch1.png',
-	ch2: '/static/memoir_index/album_ch2.png',
-	ch5: '/static/memoir_index/album_ch5.png',
-	ch6: '/static/memoir_index/album_ch6.png'
-}
+// 相册式 6 张卡片（严格按蓝湖相册版目录顺序：老相册在前、重要日子在后）
+const ALBUM_ITEMS = [
+	{ name: '我的个人简介',   cover: '/static/memoir_index/album_ch1.png', categoryId: 'c7' },
+	{ name: '认识我的家人',   cover: '/static/memoir_index/album_ch2.png', categoryId: 'c1' },
+	{ name: '我的人生阶段',   cover: '/static/memoir_index/album_ch3.png', categoryId: 'c2' },
+	{ name: '我生活过的地方', cover: '/static/memoir_index/album_ch4.png', categoryId: 'c3' },
+	{ name: '我的老相册',     cover: '/static/memoir_index/album_ch5.png', categoryId: 'c5' },
+	{ name: '那些重要的日子', cover: '/static/memoir_index/album_ch6.png', categoryId: 'c4' }
+]
 
 export default {
 	data() {
@@ -225,11 +208,12 @@ export default {
 	},
 	computed: {
 		store() { return useStore() },
-		// 硬编码，不依赖 store
+		// 书本式章节（硬编码，不依赖 store）
 		chapters() { return HARDCODE_CHAPTERS },
-		row01() { return HARDCODE_CHAPTERS.slice(0, 2) },
-		row02() { return HARDCODE_CHAPTERS.slice(2, 4) },
-		row03() { return HARDCODE_CHAPTERS.slice(4, 6) }
+		// 相册式 3 行，每行 2 张
+		row01() { return ALBUM_ITEMS.slice(0, 2) },
+		row02() { return ALBUM_ITEMS.slice(2, 4) },
+		row03() { return ALBUM_ITEMS.slice(4, 6) }
 	},
 	onLoad() {
 		try {
@@ -240,7 +224,6 @@ export default {
 	},
 	methods: {
 		pad2(n) { return String(n).padStart(2, '0') },
-		getCover(ch) { return ALBUM_COVER_MAP[ch.id] },
 		onBack() {
 			uni.navigateBack({ delta: 1, fail: () => uni.switchTab({ url: '/pages/memory/memoir' }) })
 		},
@@ -250,21 +233,22 @@ export default {
 		onAdd() {
 			uni.navigateTo({ url: '/pages/memory/addRecall' })
 		},
-		onOpenChapter(ch) {
-			// 现在简单跳转详情页（还没建 → 先 Toast + 展示该章节下的回忆数）
+		onOpenChapter(item) {
+			const name = item.name
+			const categoryId = item.categoryId
 			const memories = (this.store.memoir && this.store.memoir.memories) || []
-			const inChapter = memories.filter(m => m.categoryId === ch.categoryId)
+			const inChapter = memories.filter(m => m.categoryId === categoryId)
 			if (inChapter.length > 0) {
-				// 简单：弹窗展示第一条内容（代替详情页）
+				// 详情页还没建 → 先弹窗展示第一条内容
 				const first = inChapter[0]
 				uni.showModal({
-					title: first.title || ch.name,
+					title: first.title || name,
 					content: first.desc || '(暂无正文)',
 					showCancel: false,
 					confirmText: '知道了'
 				})
 			} else {
-				uni.showToast({ title: ch.name + ' · 暂无内容', icon: 'none' })
+				uni.showToast({ title: name + ' · 暂无内容', icon: 'none' })
 			}
 		}
 	}
@@ -328,12 +312,13 @@ export default {
 	flex-direction: row;
 	/* 蓝湖没设 align-items → 默认 stretch（让子元素撑满） */
 }
-/* thumbnail_1 回退箭头 */
+/* thumbnail_1 回退箭头（真实素材 返回@2x.png 32×32px，显示 32rpx） */
 .book-back__icon {
-	width: 16rpx;
-	height: 24rpx;
-	margin-top: 14rpx;
+	width: 32rpx;
+	height: 32rpx;
+	margin-top: 6rpx;
 	margin-right: 0;
+	flex-shrink: 0;
 }
 /* text_4 "返回" —— white-space: nowrap 是关键！不让换行 */
 .book-back__text {
@@ -401,7 +386,7 @@ export default {
 	background-color: transparent;
 	flex-shrink: 0;
 }
-.book-switch__icon { width: 66rpx; height: 66rpx; }
+.book-switch__icon { width: 64rpx; height: 64rpx; }
 
 /* ============ 装饰线 group_3 ============ */
 .book-divider {
@@ -430,26 +415,17 @@ export default {
 	box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.05);
 
 	&__emoji { font-size: 28rpx; color: #9B6438; margin-right: 6rpx; }
+	&__icon { width: 40rpx; height: 40rpx; margin-right: 6rpx; }
 	&__text {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
 		font-size: 28rpx; color: rgba(45, 42, 38, 1);
 	}
-	&__plus-h, &__plus-v {
-		position: relative;
-		background-color: rgba(45, 42, 38, 1);
-		border-radius: 2rpx;
-		margin-right: 6rpx;
-	}
-	&__plus-h { width: 24rpx; height: 4rpx; top: -16rpx; }
-	&__plus-v { width: 4rpx; height: 24rpx; top: -26rpx; left: -14rpx; }
 
 	&--primary {
 		background-color: rgba(201, 156, 53, 0.95);
 		border-color: rgba(180, 130, 30, 0.5);
 	}
 	&--primary .book-chip__text { color: #FFFFFF; }
-	&--primary .book-chip__plus-h,
-	&--primary .book-chip__plus-v { background-color: #FFFFFF; }
 }
 
 /* ============ 章节列表 ============ */
@@ -534,25 +510,6 @@ export default {
 	&__next-arrow { font-size: 32rpx; color: rgba(155, 100, 56, 1); margin-left: 4rpx; }
 }
 
-/* 切换按钮内部（蓝湖 section_1 的背景图） */
-.book-switch__inner {
-	width: 66rpx;
-	height: 66rpx;
-	background-image: url(/static/memoir_index/switch_toggle.png);
-	background-size: 66rpx 66rpx;
-	background-repeat: no-repeat;
-}
-
-/* 相册式的切回书本按钮也用蓝湖的图 */
-.album-top__switch-text {
-	background-image: url(/static/memoir_index/switch_toggle.png);
-	background-size: 48rpx 48rpx;
-	background-repeat: no-repeat;
-	background-position: center;
-	text-indent: -9999rpx;
-	width: 48rpx; height: 48rpx;
-}
-
 /* ============ 相册式 ============ */
 .album-view {
 	position: relative; width: 750rpx; min-height: 100vh;
@@ -583,14 +540,14 @@ export default {
 		border-radius: 50%;
 		box-shadow: 0 4rpx 12rpx rgba(155, 100, 56, 0.12);
 	}
-	&__switch-emoji { font-size: 34rpx; }
+	&__switch-icon { width: 48rpx; height: 48rpx; }
 }
 
 /* 返回行 */
 .album-back {
 	display: flex; flex-direction: row; align-items: center;
 	padding: 32rpx 0 0 64rpx;
-	&__icon { width: 16rpx; height: 24rpx; margin-right: 8rpx; }
+	&__icon { width: 32rpx; height: 32rpx; margin-right: 8rpx; }
 	&__text {
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
 		font-size: 32rpx; color: rgba(21, 29, 26, 1);
@@ -632,7 +589,7 @@ export default {
 	display: flex; flex-direction: row; align-items: center;
 	padding: 0 24rpx; box-sizing: border-box;
 
-	&__icon { width: 26rpx; height: 32rpx; margin-right: 12rpx; }
+	&__icon { width: 40rpx; height: 40rpx; margin-right: 12rpx; }
 	&__text {
 		flex: 1;
 		font-family: "PingFang SC", sans-serif; font-weight: 500;
