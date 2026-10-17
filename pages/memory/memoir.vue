@@ -120,7 +120,7 @@ export default {
 			uni.showToast({ title: '翻开回忆录（待实现）', icon: 'none' })
 		},
 		onWriteFirst() {
-			uni.showToast({ title: '写下第一篇回忆（待实现）', icon: 'none' })
+			uni.navigateTo({ url: '/pages/memory/addRecall' })
 		}
 	}
 }

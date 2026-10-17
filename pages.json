@@ -1,119 +1,128 @@
 {
-	"easycom": {
-		"autoscan": true,
-		"custom": {
-			"^yb-(.*)": "@/components/yb-$1.vue"
-		}
-	},
-	"pages": [
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "忆伴",
-				"navigationBarBackgroundColor": "#F5F9F6",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/memory/memoir",
-			"style": {
-				"navigationBarTitleText": "我的回忆",
-				"navigationBarBackgroundColor": "#F5F9F6",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/mine/mine",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#F5F9F6",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/training/clock",
-			"style": {
-				"navigationBarTitleText": "脑力训练",
-				"navigationBarBackgroundColor": "#F5F9F6",
-				"navigationBarTextStyle": "black",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/dev/showcase",
-			"style": {
-				"navigationBarTitleText": "组件样板页",
-				"navigationBarBackgroundColor": "#F5F9F6",
-				"navigationBarTextStyle": "black"
-			}
-		}
-	],
-	"subPackages": [
-		{
-			"root": "pages/past",
-			"pages": [
-				{
-					"path": "index",
-					"style": {
-						"navigationBarTitleText": "看看从前",
-						"navigationBarBackgroundColor": "#F5F9F6",
-						"navigationBarTextStyle": "black",
-						"navigationStyle": "custom"
-					}
-				},
-				{
-					"path": "member-detail",
-					"style": {
-						"navigationBarTitleText": "家人资料",
-						"navigationBarBackgroundColor": "#F5F9F6",
-						"navigationBarTextStyle": "black"
-					}
-				},
-				{
-					"path": "family-tree",
-					"style": {
-						"navigationBarTitleText": "家族图谱",
-						"navigationBarBackgroundColor": "#F5F9F6",
-						"navigationBarTextStyle": "black"
-					}
-				}
-			]
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "忆伴",
-		"navigationBarBackgroundColor": "#F5F9F6",
-		"backgroundColor": "#F5F9F6",
-		"backgroundTextStyle": "dark",
-		"navigationStyle": "custom"
-	},
-	"tabBar": {
-		"custom": true,
-		"color": "#424844",
-		"selectedColor": "#E97A37",
-		"backgroundColor": "#FFFFFF",
-		"borderStyle": "white",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页",
-				"iconPath": "static/TabBar_icons/首页.png",
-				"selectedIconPath": "static/TabBar_icons/首页.png"
-			},
-			{
-				"pagePath": "pages/memory/memoir",
-				"text": "我的回忆",
-				"iconPath": "static/TabBar_icons/我的回忆tab.png",
-				"selectedIconPath": "static/TabBar_icons/我的回忆tab.png"
-			},
-			{
-				"pagePath": "pages/mine/mine",
-				"text": "我的",
-				"iconPath": "static/TabBar_icons/我的tab.png",
-				"selectedIconPath": "static/TabBar_icons/我的tab.png"
-			}
-		]
-	},
-	"uniIdRouter": {}
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^yb-(.*)": "@/components/yb-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "忆伴",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/memory/memoir",
+      "style": {
+        "navigationBarTitleText": "我的回忆",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/mine",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/training/clock",
+      "style": {
+        "navigationBarTitleText": "脑力训练",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/dev/showcase",
+      "style": {
+        "navigationBarTitleText": "组件样板页",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/memory/addRecall",
+      "style": {
+        "navigationBarTitleText": "新增回忆",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/past",
+      "pages": [
+        {
+          "path": "index",
+          "style": {
+            "navigationBarTitleText": "看看从前",
+            "navigationBarBackgroundColor": "#F5F9F6",
+            "navigationBarTextStyle": "black",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "member-detail",
+          "style": {
+            "navigationBarTitleText": "家人资料",
+            "navigationBarBackgroundColor": "#F5F9F6",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "family-tree",
+          "style": {
+            "navigationBarTitleText": "家族图谱",
+            "navigationBarBackgroundColor": "#F5F9F6",
+            "navigationBarTextStyle": "black"
+          }
+        }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "忆伴",
+    "navigationBarBackgroundColor": "#F5F9F6",
+    "backgroundColor": "#F5F9F6",
+    "backgroundTextStyle": "dark",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#424844",
+    "selectedColor": "#E97A37",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/TabBar_icons/首页.png",
+        "selectedIconPath": "static/TabBar_icons/首页.png"
+      },
+      {
+        "pagePath": "pages/memory/memoir",
+        "text": "我的回忆",
+        "iconPath": "static/TabBar_icons/我的回忆tab.png",
+        "selectedIconPath": "static/TabBar_icons/我的回忆tab.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/TabBar_icons/我的tab.png",
+        "selectedIconPath": "static/TabBar_icons/我的tab.png"
+      }
+    ]
+  },
+  "uniIdRouter": {}
 }
