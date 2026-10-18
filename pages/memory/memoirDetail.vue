@@ -104,11 +104,15 @@ export default {
 			const mine = memories.filter(m => m.categoryId === this.categoryId)
 			const memory = mine[0] || null
 
-			// 照片：优先用该章节回忆绑定的媒体，没有则用默认素材
+			// 照片：优先用回忆自带封面 image（与「回忆管理」列表同源），其次媒体数组，最后默认素材
 			if (memory) {
-				const md = media.find(x => x.memoryId === memory.id && x.type === 'IMAGE')
-				if (md && md.url) this.photo = md.url
-				else if (this.categoryId !== 'c7') this.photo = '/static/memoir_detail/photo_family.png'
+				if (memory.image) {
+					this.photo = memory.image
+				} else {
+					const md = media.find(x => x.memoryId === memory.id && x.type === 'IMAGE')
+					if (md && md.url) this.photo = md.url
+					else if (this.categoryId !== 'c7') this.photo = '/static/memoir_detail/photo_family.png'
+				}
 				this.caption = (memory.date || '') + ' · 珍藏影像'
 			}
 

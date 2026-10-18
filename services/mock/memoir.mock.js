@@ -22,7 +22,7 @@ export const memories = [
     id: 'mem1', patientId: 'p1', categoryId: 'c1',
     title: '老伴秀兰与女儿芳芳',
     desc: '老伴秀兰与女儿芳芳 · 温暖的家。她们一直在你身边。',
-    date: '2024-05-12', status: 'NORMAL',
+    date: '2024-05-12', status: 'NORMAL', image: '/static/mine/mm_xiulan_fangfang.png',
     createdAt: '2026-04-10 10:00:00', updatedAt: '2026-04-10 10:00:00'
   },
   {
