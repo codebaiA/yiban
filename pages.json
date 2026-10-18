@@ -137,6 +137,30 @@
         "navigationBarBackgroundColor": "#F2FCF5",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/mine/med-manage",
+      "style": {
+        "navigationBarTitleText": "吃药管理",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/med-plan-add",
+      "style": {
+        "navigationBarTitleText": "添加服药计划",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/med-record",
+      "style": {
+        "navigationBarTitleText": "服药记录",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "subPackages": [

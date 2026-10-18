@@ -48,7 +48,7 @@
 		<!-- ============ 日常生活与守护 ============ -->
 		<text class="group-label group-label--gap">日常生活与守护</text>
 
-		<view class="row-card" hover-class="card-hover" @tap="toastSoon('吃药管理')">
+		<view class="row-card" hover-class="card-hover" @tap="goMedManage">
 			<view class="row-card__icon row-card__icon--sage">
 				<image class="row-card__icon-img" src="/static/mine/icon_med.png" mode="aspectFit"></image>
 			</view>
@@ -125,6 +125,9 @@ export default {
 		},
 		goMemberList() {
 			uni.navigateTo({ url: '/pages/mine/member-list' })
+		},
+		goMedManage() {
+			uni.navigateTo({ url: '/pages/mine/med-manage' })
 		},
 		goMemoryManage() {
 			uni.navigateTo({ url: '/pages/mine/memory-manage' })
