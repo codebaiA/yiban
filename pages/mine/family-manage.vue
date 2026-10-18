@@ -50,7 +50,7 @@
 
 		<view class="row-card" hover-class="card-hover" @tap="goMedManage">
 			<view class="row-card__icon row-card__icon--sage">
-				<image class="row-card__icon-img" src="/static/mine/icon_med.png" mode="aspectFit"></image>
+				<image class="row-card__icon-img" src="/static/mine/icon_med_fm.png" mode="aspectFit"></image>
 			</view>
 			<view class="row-card__texts">
 				<text class="row-card__title">吃药管理</text>
@@ -72,10 +72,10 @@
 			<image class="row-card__arrow" src="/static/mine/arrow.png" mode="aspectFit"></image>
 		</view>
 
-		<!-- ============ 底部固定：新增回忆分类申请 ============ -->
+		<!-- ============ 新增回忆分类申请（紧随紧急联系人） ============ -->
 		<view class="apply-card" hover-class="card-hover" @tap="toastSoon('新增回忆分类申请')">
 			<view class="apply-card__icon">
-				<image class="apply-card__icon-img" src="/static/mine/icon_edit.png" mode="aspectFit"></image>
+				<image class="apply-card__icon-img" src="/static/mine/icon_apply_memoir.png" mode="aspectFit"></image>
 			</view>
 			<view class="apply-card__texts">
 				<text class="apply-card__title">新增回忆分类申请</text>
@@ -146,7 +146,7 @@ export default {
 .page {
 	min-height: 100vh;
 	background-color: #F5F9F6;
-	padding-bottom: calc(158rpx + 38rpx + env(safe-area-inset-bottom) + 20rpx); /* 给底部固定申请卡留位 */
+	padding-bottom: calc(77rpx + env(safe-area-inset-bottom));
 	box-sizing: border-box;
 }
 
@@ -305,19 +305,16 @@ export default {
 }
 .card-hover { opacity: 0.8; }
 
-/* ============ 底部固定申请卡 ============ */
+/* ============ 新增回忆分类申请卡 ============ */
 .apply-card {
-	position: fixed;
-	left: 38rpx;
-	bottom: calc(env(safe-area-inset-bottom) + 38rpx);
 	width: 673rpx;
 	background-color: #FFFFFF;
 	border-radius: 23rpx;
-	box-shadow: 0 -4rpx 20rpx rgba(44, 53, 49, 0.04), 0 8rpx 31rpx -4rpx rgba(44, 53, 49, 0.05);
+	box-shadow: 0 8rpx 31rpx -4rpx rgba(44, 53, 49, 0.05);
+	margin: 23rpx auto 0;
 	padding: 38rpx;
 	box-sizing: border-box;
 	display: flex; flex-direction: row; align-items: center;
-	z-index: 10;
 
 	&__icon {
 		width: 77rpx; height: 77rpx;

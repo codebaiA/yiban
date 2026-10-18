@@ -66,7 +66,7 @@
 
 			<!-- 说明块 -->
 			<view class="desc-block">
-				<image class="desc-block__icon" src="/static/mine/sos_icon_call.png" mode="aspectFit"></image>
+				<image class="desc-block__icon" src="/static/mine/sos_icon_bulb.png" mode="aspectFit"></image>
 				<view class="desc-block__texts">
 					<text class="desc-block__text desc-block__text--dim">已在首页配置完成：当{{ contact.ownerName }}遇到困难或迷茫时，在首页点击「一键呼叫家人」直接呼叫{{ contact.relation }}{{ contact.name }}。</text>
 					<!-- <text class="desc-block__text desc-block__text--strong"></text> -->
@@ -96,7 +96,7 @@
 
 		<!-- ============ 忆伴承诺卡 ============ -->
 		<view class="promise-card">
-			<image class="promise-card__icon" src="/static/mine/sos_icon_call.png" mode="aspectFit"></image>
+			<image class="promise-card__icon" src="/static/mine/sos_icon_bulb.png" mode="aspectFit"></image>
 			<view class="promise-card__texts">
 				<text class="promise-card__head">※ 忆伴承诺：</text>
 				<text class="promise-card__body">仅作为长者端紧急快捷联络电话，不进行后台定位追踪、不发送商业推广，严格保障老人与家庭隐私。</text>
@@ -473,8 +473,8 @@ export default {
 	display: flex; flex-direction: row; align-items: flex-start;
 
 	&__icon {
-		width: 23rpx; height: 35rpx;
-		margin-top: 2rpx;
+		width: 34rpx; height: 34rpx;
+		margin-top: 4rpx;
 		flex-shrink: 0;
 	}
 	&__texts {
