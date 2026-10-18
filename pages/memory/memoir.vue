@@ -68,8 +68,14 @@
 			</view>
 		</view>
 
-		<!-- ============ 品牌徽标 block_10（叠在书上方） ============ -->
-		<view class="brand">
+		<!-- ============ 返回键（返回首页） ============ -->
+	<view class="back-row" hover-class="back-row--hover" @tap="onBackHome">
+		<image class="back-row__icon" src="/static/memoir_index/back_arrow.png" mode="aspectFit"></image>
+		<text class="back-row__text">返回</text>
+	</view>
+
+	<!-- ============ 品牌徽标 block_10（叠在书上方） ============ -->
+	<view class="brand">
 			<view class="brand__badge">
 				<image class="brand__icon" src="/static/memoir_cover_new/brand_logo.png" mode="aspectFit"></image>
 			</view>
@@ -100,6 +106,9 @@
 		<!-- ============ 点击区域 ============ -->
 		<view class="hit-area" @tap="onOpenBook"></view>
 
+		<!-- ============ 底部 TabBar ============ -->
+		<yb-tab-bar></yb-tab-bar>
+
 	</view>
 </template>
 
@@ -124,6 +133,9 @@ export default {
 	methods: {
 		onOpenBook() {
 			uni.navigateTo({ url: '/pages/memory/memoirIndex' })
+		},
+		onBackHome() {
+			uni.switchTab({ url: '/pages/index/index' })
 		}
 	}
 }
@@ -419,6 +431,32 @@ export default {
 		line-height: 32rpx;
 	}
 }
+
+/* ============ 返回键（左上角，位于品牌徽标上方） ============ */
+.back-row {
+	position: absolute;
+	left: 37rpx;
+	top: 36rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 12rpx 20rpx 12rpx 8rpx;
+	z-index: 30;
+
+	&__icon {
+		width: 19rpx;
+		height: 30rpx;
+	}
+	&__text {
+		margin-left: 12rpx;
+		font-family: "PingFang SC", sans-serif;
+		font-weight: 500;
+		font-size: 31rpx;
+		color: rgba(21, 29, 26, 1);
+		line-height: 42rpx;
+	}
+}
+.back-row--hover { opacity: 0.6; }
 
 /* ============ 品牌徽标 block_10 ============ */
 .brand {

@@ -304,7 +304,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	padding-bottom: 180rpx;
+	padding-bottom: calc(98rpx + env(safe-area-inset-bottom) + 10rpx);
 	box-sizing: border-box;
 	width: 750rpx;
 }

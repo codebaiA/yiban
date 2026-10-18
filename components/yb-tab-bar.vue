@@ -23,7 +23,7 @@
 				:class="{ 'is-active': current === 'memory' }"
 				@tap="switchTo('memory')"
 			>
-				<image class="tab-item__icon" src="/static/TabBar_icons/我的回忆tab.png" mode="aspectFit"></image>
+				<image class="tab-item__icon" :src="memoirIcon" mode="aspectFit"></image>
 				<text class="tab-item__text">我的回忆</text>
 			</view>
 
@@ -68,6 +68,11 @@ export default {
 			return this.current === 'index'
 				? '/static/TabBar_icons/首页.png'
 				: '/static/TabBar_icons/首页未选中.png'
+		},
+		memoirIcon() {
+			return this.current === 'memory'
+				? '/static/TabBar_icons/我的回忆tab_选中.png'
+				: '/static/TabBar_icons/我的回忆tab.png'
 		},
 		// 胶囊滑块的 transform 样式
 		indicatorStyle() {
@@ -115,7 +120,7 @@ export default {
 	&__bar {
 		position: relative;
 		width: 750rpx;
-		height: 169rpx;
+		height: 98rpx; /* 49pt：+ 安全区后全面屏总高约 88pt */
 		box-shadow: 0 -8rpx 24rpx -4rpx rgba(44, 53, 49, 0.06);
 	}
 
@@ -124,9 +129,9 @@ export default {
 	&__indicator {
 		position: absolute;
 		left: 0;
-		top: 25rpx;
+		top: 9rpx;
 		width: 171rpx;
-		height: 106rpx;
+		height: 80rpx;
 		border-radius: 19229rpx; /* 蓝湖胶囊圆 */
 		background-color: rgba(72, 101, 86, 1); /* #486556 深墨绿 */
 		box-shadow: 0 4rpx 12rpx 0 rgba(72, 101, 86, 0.25);
@@ -140,9 +145,9 @@ export default {
 /* ========== 统一的 tab-item 样式 ========== */
 .tab-item {
 	position: absolute;
-	top: 25rpx;
+	top: 9rpx;
 	width: 171rpx;
-	height: 106rpx;
+	height: 80rpx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -150,8 +155,8 @@ export default {
 	z-index: 1; /* 在胶囊上面 */
 
 	&__icon {
-		width: 37rpx;
-		height: 44rpx;
+		width: 32rpx;
+		height: 38rpx;
 		transition: opacity 0.2s;
 	}
 
@@ -160,12 +165,12 @@ export default {
 		font-size: 29rpx;
 		letter-spacing: 1rpx;
 		font-weight: 500;
-		line-height: 38rpx;
+		line-height: 34rpx;
 		white-space: nowrap;
 		/* 未选中：深灰；选中：白色（在胶囊上）*/
 		color: rgba(66, 72, 68, 1);
 		transition: color 0.2s;
-		margin-top: 6rpx;
+		margin-top: 2rpx;
 	}
 
 	/* 选中态：文字变白，图标稍微放大一点点 */

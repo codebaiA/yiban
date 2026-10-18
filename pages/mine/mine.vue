@@ -130,7 +130,7 @@ export default {
 .page {
 	min-height: 100vh;
 	background: #F5F9F6;
-	padding-bottom: 220rpx; /* 给自定义 TabBar 留位 */
+	padding-bottom: calc(98rpx + env(safe-area-inset-bottom) + 10rpx); /* 给 88pt TabBar 留位 */
 }
 
 /* ============ 个人信息卡（蓝湖 350×168 → 673rpx，高度由内容撑开） ============ */
