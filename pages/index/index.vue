@@ -304,7 +304,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	padding-bottom: calc(98rpx + env(safe-area-inset-bottom) + 10rpx);
+	padding-bottom: calc(98rpx + env(safe-area-inset-bottom) + 30rpx);
 	box-sizing: border-box;
 	width: 750rpx;
 }
@@ -541,11 +541,11 @@ export default {
 	&__sub--blue { color: $yb-c-blue-1; }     /* #275988 */
 }
 
-/* 下方双栏（margin-top:auto 吸底：高屏余量收进上方区块间隙，保证本块距底部 ≤18pt） */
+/* 下方双栏（margin-top:auto 吸底：高屏余量收进上方区块间隙；上方最小间距 22pt=44rpx，距底部约 15pt） */
 .duo {
 	width: 688rpx;
 	margin: auto 0 0 31rpx;
-	padding-top: 30rpx; /* 与上方区块的最小间距兜底 */
+	padding-top: 44rpx; /* 与上方区块最小间距 22pt */
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
