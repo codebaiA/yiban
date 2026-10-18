@@ -68,13 +68,7 @@
 			</view>
 		</view>
 
-		<!-- ============ 返回键（返回首页） ============ -->
-	<view class="back-row" hover-class="back-row--hover" @tap="onBackHome">
-		<image class="back-row__icon" src="/static/memoir_index/back_arrow.png" mode="aspectFit"></image>
-		<text class="back-row__text">返回</text>
-	</view>
-
-	<!-- ============ 品牌徽标 block_10（叠在书上方） ============ -->
+			<!-- ============ 品牌徽标 block_10（叠在书上方） ============ -->
 	<view class="brand">
 			<view class="brand__badge">
 				<image class="brand__icon" src="/static/memoir_cover_new/brand_logo.png" mode="aspectFit"></image>
@@ -133,9 +127,6 @@ export default {
 	methods: {
 		onOpenBook() {
 			uni.navigateTo({ url: '/pages/memory/memoirIndex' })
-		},
-		onBackHome() {
-			uni.switchTab({ url: '/pages/index/index' })
 		}
 	}
 }
@@ -250,13 +241,13 @@ export default {
 		border-radius: 50%;
 	}
 
-	/* 封面内全部文字 block_12 */
+	/* 封面内全部文字 block_12（距封面四边至少 38pt=76rpx） */
 	&__inner {
 		position: absolute;
-		left: 15rpx;
-		top: 54rpx;
-		width: 537rpx;
-		height: 708rpx;
+		left: 76rpx;
+		top: 76rpx;
+		width: 502rpx; /* 654 - 76*2 */
+		height: 665rpx; /* 817 - 76*2 */
 		display: flex;
 		flex-direction: column;
 	}
@@ -266,7 +257,7 @@ export default {
 .photo-card {
 	width: 277rpx;
 	height: 215rpx;
-	margin-left: 254rpx;
+	margin-left: 219rpx; /* 右对齐，右侧留 6rpx，左缘距封面 76+219=295rpx */
 	background-color: rgba(244, 236, 216, 1);
 	border-radius: 4rpx;
 	border: 1rpx solid rgba(168, 162, 158, 0.3);
@@ -305,7 +296,7 @@ export default {
 .en-bar {
 	width: 288rpx;
 	height: 58rpx;
-	margin-top: 33rpx;
+	margin-top: 20rpx;
 	border-top: 2rpx solid rgba(36, 33, 29, 0.2);
 	border-bottom: 2rpx solid rgba(36, 33, 29, 0.2);
 	display: flex;
@@ -324,7 +315,7 @@ export default {
 
 /* ============ 中文大标题 ============ */
 .cn-title {
-	margin-top: 15rpx;
+	margin-top: 12rpx;
 	font-family: "Noto Serif SC", serif;
 	font-weight: 900;
 	font-size: 58rpx;
@@ -337,7 +328,7 @@ export default {
 .author-row {
 	width: 250rpx;
 	height: 46rpx;
-	margin-top: 15rpx;
+	margin-top: 12rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -370,7 +361,7 @@ export default {
 
 /* ============ 生卒年 ============ */
 .life-line {
-	margin-top: 8rpx;
+	margin-top: 6rpx;
 	font-family: "Noto Serif SC", serif;
 	font-weight: 400;
 	font-size: 31rpx;
@@ -381,9 +372,9 @@ export default {
 
 /* ============ 引言框 ============ */
 .quote-box {
-	width: 521rpx;
-	height: 121rpx;
-	margin-top: 31rpx;
+	width: 502rpx;
+	height: 108rpx;
+	margin-top: 24rpx;
 	border: 1rpx solid rgba(180, 83, 9, 0.15);
 	padding: 23rpx 0 0 22rpx;
 	box-sizing: border-box;
@@ -404,8 +395,8 @@ export default {
 
 /* ============ 底部 FAMILY ARCHIVE ============ */
 .book-footer {
-	width: 537rpx;
-	margin-top: 29rpx;
+	width: 502rpx;
+	margin-top: 20rpx;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -421,7 +412,7 @@ export default {
 	&__icon {
 		width: 13rpx;
 		height: 17rpx;
-		margin: 0 14rpx 0 150rpx;
+		margin: 0 14rpx 0 115rpx;
 	}
 	&__cn {
 		font-family: "Noto Serif SC", serif;
@@ -431,32 +422,6 @@ export default {
 		line-height: 32rpx;
 	}
 }
-
-/* ============ 返回键（左上角，位于品牌徽标上方） ============ */
-.back-row {
-	position: absolute;
-	left: 37rpx;
-	top: 36rpx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 12rpx 20rpx 12rpx 8rpx;
-	z-index: 30;
-
-	&__icon {
-		width: 19rpx;
-		height: 30rpx;
-	}
-	&__text {
-		margin-left: 12rpx;
-		font-family: "PingFang SC", sans-serif;
-		font-weight: 500;
-		font-size: 31rpx;
-		color: rgba(21, 29, 26, 1);
-		line-height: 42rpx;
-	}
-}
-.back-row--hover { opacity: 0.6; }
 
 /* ============ 品牌徽标 block_10 ============ */
 .brand {

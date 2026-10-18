@@ -347,7 +347,7 @@ export default {
 	}
 }
 
-/* 问候语（紧凑化：margin-bottom 从 44→20） */
+/* 问候语（下方至少 22pt=44rpx） */
 .greeting {
 	font-family: $yb-font-sans;
 	font-size: 54rpx;
@@ -356,7 +356,7 @@ export default {
 	text-align: left;
 	white-space: nowrap;
 	line-height: 67rpx;
-	margin: -2rpx 0 20rpx 52rpx;
+	margin: -2rpx 0 44rpx 52rpx;
 }
 
 /* 右上头像（bottom 与问候语 bottom 齐平，JS 动态控制 top） */
@@ -541,11 +541,11 @@ export default {
 	&__sub--blue { color: $yb-c-blue-1; }     /* #275988 */
 }
 
-/* 下方双栏（紧凑化：margin-top 从 42→15） */
+/* 下方双栏（margin-top:auto 吸底：高屏余量收进上方区块间隙，保证本块距底部 ≤18pt） */
 .duo {
 	width: 688rpx;
-	height: 579rpx;
-	margin: 30rpx 0 0 31rpx;
+	margin: auto 0 0 31rpx;
+	padding-top: 30rpx; /* 与上方区块的最小间距兜底 */
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
