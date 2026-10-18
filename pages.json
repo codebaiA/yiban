@@ -105,6 +105,38 @@
         "navigationBarBackgroundColor": "#F5F9F6",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/mine/member-list",
+      "style": {
+        "navigationBarTitleText": "家庭成员",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/member-add",
+      "style": {
+        "navigationBarTitleText": "添加家人",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/member-detail",
+      "style": {
+        "navigationBarTitleText": "家人资料",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/member-edit",
+      "style": {
+        "navigationBarTitleText": "编辑资料",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "subPackages": [

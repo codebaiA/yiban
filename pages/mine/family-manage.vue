@@ -13,7 +13,7 @@
 		<!-- ============ 核心资料整理 ============ -->
 		<text class="group-label">核心资料整理</text>
 
-		<view class="big-card" hover-class="card-hover" @tap="toastSoon('家庭成员')">
+		<view class="big-card" hover-class="card-hover" @tap="goMemberList">
 			<view class="big-card__icon big-card__icon--green">
 				<image class="big-card__icon-img" src="/static/mine/icon_members.png" mode="aspectFit"></image>
 			</view>
@@ -122,6 +122,9 @@ export default {
 	methods: {
 		goBack() {
 			uni.navigateBack()
+		},
+		goMemberList() {
+			uni.navigateTo({ url: '/pages/mine/member-list' })
 		},
 		goMemoryManage() {
 			uni.navigateTo({ url: '/pages/mine/memory-manage' })
