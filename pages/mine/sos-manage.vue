@@ -68,9 +68,9 @@
 			<view class="desc-block">
 				<image class="desc-block__icon" src="/static/mine/sos_icon_call.png" mode="aspectFit"></image>
 				<view class="desc-block__texts">
-					<text class="desc-block__text desc-block__text--dim">已在首页配置完成：当{{ contact.ownerName }}爷爷遇到困难或迷茫时，在首页点击</text>
-					<text class="desc-block__text desc-block__text--strong">「一键呼叫家人」</text>
-					<text class="desc-block__text desc-block__text--dim">将直接呼叫{{ contact.relation }}{{ contact.name }}。</text>
+					<text class="desc-block__text desc-block__text--dim">已在首页配置完成：当{{ contact.ownerName }}遇到困难或迷茫时，在首页点击「一键呼叫家人」直接呼叫{{ contact.relation }}{{ contact.name }}。</text>
+					<!-- <text class="desc-block__text desc-block__text--strong"></text> -->
+					<!-- <text class="desc-block__text desc-block__text--dim"></text> -->
 				</view>
 			</view>
 		</view>
@@ -380,7 +380,7 @@ export default {
 	display: flex; flex-direction: row; align-items: flex-start;
 
 	&__icon {
-		width: 23rpx; height: 33rpx;
+		width: 60rpx; height: 60rpx;
 		margin-top: 8rpx;
 		flex-shrink: 0;
 	}
