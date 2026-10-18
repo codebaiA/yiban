@@ -111,16 +111,19 @@ export default {
 
 /* ============ 顶部 ============ */
 .topbar {
+	position: relative;
 	padding: 60rpx 38rpx 0;
-	display: flex; flex-direction: row; align-items: center;
 }
 .topbar__title {
+	display: block;
+	height: 81rpx; line-height: 81rpx;
+	text-align: center;
 	font-family: "PingFang SC", sans-serif; font-weight: 500;
 	font-size: 46rpx; letter-spacing: -1rpx;
 	color: rgba(41, 37, 36, 1);
-	margin-left: 27rpx;
 }
 .back-capsule {
+	position: absolute; left: 38rpx; top: 60rpx; z-index: 2;
 	width: 173rpx; height: 81rpx;
 	background-color: rgba(255, 255, 255, 0.9);
 	border: 2rpx solid rgba(221, 233, 224, 1);

@@ -377,13 +377,13 @@ export default {
 	}
 }
 
-/* —— 看看从前 group_6（margin:-2rpx 0 0 31rpx，贴近顶部）—— */
+/* —— 看看从前 group_6 —— */
 .lookback {
 	background-color: $yb-c-bg-white;
 	border-radius: 46rpx;
 	width: 688rpx;
 	height: 488rpx;
-	margin: -2rpx 0 0 31rpx;
+	margin: 0 0 0 31rpx;
 	box-sizing: border-box;
 	box-shadow: 0 4rpx 16rpx rgba(30, 50, 40, 0.06);
 	border: 1rpx solid #E3EDE7;
@@ -541,11 +541,10 @@ export default {
 	&__sub--blue { color: $yb-c-blue-1; }     /* #275988 */
 }
 
-/* 下方双栏（margin-top:auto 吸底：高屏余量收进上方区块间隙；上方最小间距 22pt=44rpx，距底部约 15pt） */
+/* 下方双栏（板块间距统一 22pt=44rpx：greeting↔lookback、lookback↔duo 一致） */
 .duo {
 	width: 688rpx;
-	margin: auto 0 0 31rpx;
-	padding-top: 44rpx; /* 与上方区块最小间距 22pt */
+	margin: 44rpx 0 0 31rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
