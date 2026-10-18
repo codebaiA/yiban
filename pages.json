@@ -73,6 +73,38 @@
         "navigationBarTextStyle": "black",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/mine/font-size",
+      "style": {
+        "navigationBarTitleText": "字体大小",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/sound",
+      "style": {
+        "navigationBarTitleText": "声音调节",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/family-manage",
+      "style": {
+        "navigationBarTitleText": "家庭管理",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/memory-manage",
+      "style": {
+        "navigationBarTitleText": "回忆管理",
+        "navigationBarBackgroundColor": "#F5F9F6",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "subPackages": [

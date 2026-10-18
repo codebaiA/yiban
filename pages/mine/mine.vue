@@ -33,7 +33,7 @@
 
 		<view class="settings-card">
 			<!-- 字体大小 -->
-			<view class="settings-row" hover-class="row-hover" @tap="goSoon('字体大小')">
+			<view class="settings-row" hover-class="row-hover" @tap="goPage('/pages/mine/font-size')">
 				<view class="settings-row__icon settings-row__icon--cream">
 					<image class="settings-row__icon-img" src="/static/mine/icon_font.png" mode="aspectFit"></image>
 				</view>
@@ -48,7 +48,7 @@
 			<view class="settings-divider"></view>
 
 			<!-- 声音调节 -->
-			<view class="settings-row" hover-class="row-hover" @tap="goSoon('声音调节')">
+			<view class="settings-row" hover-class="row-hover" @tap="goPage('/pages/mine/sound')">
 				<view class="settings-row__icon settings-row__icon--green">
 					<image class="settings-row__icon-img" src="/static/mine/icon_voice.png" mode="aspectFit"></image>
 				</view>
@@ -89,7 +89,7 @@
 		</view>
 
 		<!-- ============ 家属管理（蓝湖 section_4 青绿卡） ============ -->
-		<view class="family-card" hover-class="row-hover" @tap="goSoon('家属管理')">
+		<view class="family-card" hover-class="row-hover" @tap="goPage('/pages/mine/family-manage')">
 			<view class="family-card__icon">
 				<image class="family-card__icon-img" src="/static/mine/icon_family.png" mode="aspectFit"></image>
 			</view>
@@ -112,12 +112,16 @@ export default {
 		store() { return useStore() },
 		patient() { return this.store.patient },
 		serifReady() { return this.store.ui.serifReady },
+		ybFontClass() { return 'yb-font-' + (this.store.ui.fontLevel || 'lg') },
 		avatarSrc() { return this.patient.avatar || '/static/mine/avatar.png' }
 	},
 	onShow() {
 		actions.refreshPatient()
 	},
 	methods: {
+		goPage(url) {
+			uni.navigateTo({ url })
+		},
 		goSoon(name) {
 			uni.showToast({ title: name + '（即将开放）', icon: 'none' })
 		}
@@ -137,7 +141,7 @@ export default {
 .profile-card {
 	position: relative;
 	width: 673rpx;
-	margin: 38rpx auto 0;
+	margin: 76rpx auto 0; /* 距顶 38pt，避免内容贴导航栏 */
 	background-color: #FFFFFF;
 	border-radius: 23rpx;
 	box-shadow: 0 8rpx 38rpx -4rpx rgba(44, 53, 49, 0.06);
