@@ -18,7 +18,7 @@
 			<text class="tree-card__title">爱的家谱</text>
 			<view class="tree-card__chip">
 				<view class="tree-card__dot"></view>
-				<text class="tree-card__chip-text">共 {{ members.length }} 位亲人</text>
+				<text class="tree-card__chip-text">共 {{ memberCount }} 位亲人</text>
 			</view>
 		</view>
 
@@ -72,7 +72,10 @@ export default {
 	computed: {
 		store() { return useStore() },
 		serifReady() { return this.store.ui.serifReady },
-		ybFontClass() { return 'yb-font-' + (this.store.ui.fontLevel || 'lg') }
+		ybFontClass() { return 'yb-font-' + (this.store.ui.fontLevel || 'lg') },
+		memberCount() {
+			return this.groups.reduce((sum, g) => sum + g.members.length, 0)
+		}
 	},
 	data() {
 		return {
