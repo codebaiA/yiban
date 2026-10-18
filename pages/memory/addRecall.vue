@@ -140,6 +140,36 @@
 				<text class="bottom-bar__publish-text">{{ publishing ? '正在保存…' : '发表回忆' }}</text>
 			</view>
 		</view>
+
+		<!-- ============ 存入章节选择弹窗 ============ -->
+		<view v-if="categoryPickerVisible" class="cat-mask" @tap="closeCategoryPicker">
+			<view class="cat-dialog" @tap.stop>
+				<text class="cat-dialog__title">选择存入章节</text>
+				<scroll-view class="cat-dialog__list" scroll-y>
+					<view
+						v-for="(c, i) in categories"
+						:key="c.id"
+						class="cat-item"
+						:class="{ 'cat-item--active': c.id === categoryId && !customCategoryName }"
+						@tap="onPickItem(i)"
+					>
+						<text class="cat-item__name">{{ c.name }}</text>
+						<text v-if="c.id === categoryId && !customCategoryName" class="cat-item__check">✓</text>
+					</view>
+					<view
+						class="cat-item cat-item--custom"
+						:class="{ 'cat-item--active': !!customCategoryName }"
+						@tap="onPickCustom"
+					>
+						<text class="cat-item__name">✚ 自定义标题…</text>
+						<text v-if="customCategoryName" class="cat-item__name cat-item__name--orange">{{ customCategoryName }}</text>
+					</view>
+				</scroll-view>
+				<view class="cat-dialog__btn" @tap="closeCategoryPicker">
+					<text class="cat-dialog__btn-text">确定</text>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -158,7 +188,8 @@ export default {
 			recording: false,
 			publishing: false,
 			categoryId: 'c7', // 默认存入「第一章 我的个人简介」
-			customCategoryName: '' // 自定义章节标题（待申请，非空时发表前先提交申请）
+			customCategoryName: '', // 自定义章节标题（待申请，非空时发表前先提交申请）
+			categoryPickerVisible: false // 章节选择弹窗
 		}
 	},
 	computed: {
@@ -203,28 +234,31 @@ export default {
 			uni.showToast({ title: '已暂存（草稿功能开发中）', icon: 'none' })
 		},
 
-		/* ============ 选章节 ============ */
+		/* ============ 选章节（页面内弹窗，章节超过 6 个不能用 ActionSheet） ============ */
 		onPickCategory() {
-			// 可选章节列表 + 末尾「自定义标题」
-			const list = this.categories.map(c => c.name).concat(['✚ 自定义标题…'])
-			uni.showActionSheet({
-				itemList: list,
-				success: (res) => {
-					if (res.tapIndex >= this.categories.length) {
-						// 自定义章节：输入标题
-						uni.showModal({
-							title: '自定义章节标题',
-							editable: true,
-							placeholderText: '请输入新的章节名称',
-							success: (r) => {
-								if (r.confirm && r.content && r.content.trim()) {
-									this.customCategoryName = r.content.trim()
-								}
-							}
-						})
-					} else {
-						this.categoryId = this.categories[res.tapIndex].id
-						this.customCategoryName = ''
+			this.categoryPickerVisible = true
+			// 章节列表兜底加载
+			if (!this.categories.length) {
+				actions.refreshMemoir()
+			}
+		},
+		closeCategoryPicker() {
+			this.categoryPickerVisible = false
+		},
+		onPickItem(i) {
+			this.categoryId = this.categories[i].id
+			this.customCategoryName = ''
+			this.categoryPickerVisible = false
+		},
+		onPickCustom() {
+			uni.showModal({
+				title: '自定义章节标题',
+				editable: true,
+				placeholderText: '请输入新的章节名称',
+				success: (r) => {
+					if (r.confirm && r.content && r.content.trim()) {
+						this.customCategoryName = r.content.trim()
+						this.categoryPickerVisible = false
 					}
 				}
 			})
@@ -833,6 +867,75 @@ export default {
 			box-shadow: none;
 			opacity: 0.7;
 		}
+	}
+}
+
+/* ============ 存入章节选择弹窗 ============ */
+.cat-mask {
+	position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+	background-color: rgba(21, 29, 26, 0.45);
+	z-index: 99;
+	display: flex; align-items: center; justify-content: center;
+}
+.cat-dialog {
+	width: 630rpx;
+	background-color: #FFFFFF;
+	border-radius: 31rpx;
+	padding: 46rpx 38rpx calc(38rpx + env(safe-area-inset-bottom) / 2);
+	box-sizing: border-box;
+	display: flex; flex-direction: column;
+
+	&__title {
+		text-align: center;
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 38rpx; color: rgba(21, 29, 26, 1);
+	}
+	&__list {
+		margin-top: 31rpx;
+		max-height: 620rpx;
+	}
+	&__btn {
+		margin-top: 38rpx;
+		height: 96rpx;
+		background-color: rgba(89, 181, 165, 1);
+		border-radius: 999rpx;
+		display: flex; align-items: center; justify-content: center;
+		flex-shrink: 0;
+	}
+	&__btn-text {
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 33rpx; color: #FFFFFF;
+	}
+}
+.cat-item {
+	height: 104rpx;
+	background-color: rgba(236, 246, 240, 1);
+	border-radius: 23rpx;
+	padding: 0 31rpx;
+	margin-bottom: 19rpx;
+	display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+	box-sizing: border-box;
+
+	&__name {
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 31rpx; color: rgba(21, 29, 26, 1);
+		overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	}
+	&__name--orange {
+		color: rgba(138, 80, 32, 1);
+		margin-left: 15rpx;
+		flex-shrink: 0;
+	}
+	&__check {
+		font-size: 35rpx; font-weight: 500;
+		color: rgba(90, 181, 165, 1);
+		flex-shrink: 0;
+	}
+	&--active {
+		background-color: rgba(202, 234, 215, 1);
+	}
+	&--custom {
+		background-color: rgba(246, 223, 192, 0.4);
 	}
 }
 </style>
