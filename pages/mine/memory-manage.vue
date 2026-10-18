@@ -191,6 +191,8 @@ export default {
 			return arr.filter(x => !x || !x.type || x.type === 'photo').length || 1
 		},
 		getPhoto(m) {
+			/* 封面图优先级：mock/数据自带 image 字段 → media 数组 → 默认图 */
+			if (m && m.image) return m.image
 			const arr = (m && m.media) || []
 			for (let i = 0; i < arr.length; i++) {
 				const it = arr[i]

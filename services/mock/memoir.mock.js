@@ -16,7 +16,7 @@ export const categories = [
   { id: 'c6', name: '我的工作岁月', desc: '知青下乡及机械厂三十年', parentId: null, sort: 6, enabled: true, scope: 'PATIENT', fromRequest: true }
 ]
 
-/** 回忆内容 */
+/** 回忆内容（image = 封面图，蓝湖「回忆管理」切片，无对应切片的不写字段走默认图） */
 export const memories = [
   {
     id: 'mem1', patientId: 'p1', categoryId: 'c1',
@@ -36,35 +36,35 @@ export const memories = [
     id: 'mem3', patientId: 'p1', categoryId: 'c3',
     title: '我生活过的地方',
     desc: '老家小四合院、青杠树街与蓉城记忆。',
-    date: '1980-03-20', status: 'NORMAL',
+    date: '1980-03-20', status: 'NORMAL', image: '/static/mine/mm_life_places.png',
     createdAt: '2026-04-12 10:00:00', updatedAt: '2026-04-12 10:00:00'
   },
   {
     id: 'mem4', patientId: 'p1', categoryId: 'c4',
     title: '1982年和老伴结婚的日子',
     desc: '那一天你牵着秀兰的手，院子里摆了三桌酒席。',
-    date: '1982-10-01', status: 'NORMAL',
+    date: '1982-10-01', status: 'NORMAL', image: '/static/mine/mm_wedding_1982.png',
     createdAt: '2026-04-13 10:00:00', updatedAt: '2026-04-13 10:00:00'
   },
   {
     id: 'mem5', patientId: 'p1', categoryId: 'c5',
     title: '除夕夜一家人团聚照',
     desc: '2000年除夕，一家人围在一起吃年夜饭。',
-    date: '2000-01-31', status: 'NORMAL',
+    date: '2000-01-31', status: 'NORMAL', image: '/static/mine/mm_newyear_eve.png',
     createdAt: '2026-04-14 10:00:00', updatedAt: '2026-04-14 10:00:00'
   },
   {
     id: 'mem6', patientId: 'p1', categoryId: 'c5',
     title: '秀兰老伴60岁生日宴',
     desc: '秀兰60岁那年，孩子们都回来了，蛋糕上插了六根蜡烛。',
-    date: '2019-08-15', status: 'NORMAL',
+    date: '2019-08-15', status: 'NORMAL', image: '/static/mine/mm_xiulan_birthday.png',
     createdAt: '2026-04-15 10:00:00', updatedAt: '2026-04-15 10:00:00'
   },
   {
     id: 'mem7', patientId: 'p1', categoryId: 'c5',
     title: '和老伴秀兰结婚当日和家人的合照',
     desc: '1982年，结婚当天的合影，你穿的是那件崭新的中山装。',
-    date: '1982-10-01', status: 'NORMAL',
+    date: '1982-10-01', status: 'NORMAL', image: '/static/mine/mm_wedding_1982.png',
     createdAt: '2026-04-16 10:00:00', updatedAt: '2026-04-16 10:00:00'
   },
   {
@@ -78,7 +78,7 @@ export const memories = [
     id: 'mem9', patientId: 'p1', categoryId: 'c5',
     title: '我和女儿在公园',
     desc: '2005年金秋，你带着芳芳去公园看菊花展。',
-    date: '2005-10-20', status: 'NORMAL',
+    date: '2005-10-20', status: 'NORMAL', image: '/static/mine/mm_daughter_fangfang.png',
     createdAt: '2026-04-18 10:00:00', updatedAt: '2026-04-18 10:00:00'
   },
   {
