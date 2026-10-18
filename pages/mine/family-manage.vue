@@ -143,7 +143,7 @@ export default {
 
 /* ============ 顶部 ============ */
 .topbar {
-	padding: 29rpx 38rpx 0;
+	padding: 60rpx 38rpx 0;
 	display: flex; flex-direction: row; align-items: center;
 }
 .topbar__title {
