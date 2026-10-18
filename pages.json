@@ -161,6 +161,22 @@
         "navigationBarBackgroundColor": "#F2FCF5",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/mine/sos-manage",
+      "style": {
+        "navigationBarTitleText": "紧急联系人",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/mine/sos-edit",
+      "style": {
+        "navigationBarTitleText": "紧急联系人",
+        "navigationBarBackgroundColor": "#F2FCF5",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "subPackages": [

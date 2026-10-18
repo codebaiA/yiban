@@ -60,7 +60,7 @@
 			<image class="row-card__arrow" src="/static/mine/arrow.png" mode="aspectFit"></image>
 		</view>
 
-		<view class="row-card" hover-class="card-hover" @tap="toastSoon('紧急联系人')">
+		<view class="row-card" hover-class="card-hover" @tap="goSosManage">
 			<view class="row-card__icon row-card__icon--orange">
 				<image class="row-card__icon-img" src="/static/mine/icon_sos.png" mode="aspectFit"></image>
 			</view>
@@ -128,6 +128,9 @@ export default {
 		},
 		goMedManage() {
 			uni.navigateTo({ url: '/pages/mine/med-manage' })
+		},
+		goSosManage() {
+			uni.navigateTo({ url: '/pages/mine/sos-manage' })
 		},
 		goMemoryManage() {
 			uni.navigateTo({ url: '/pages/mine/memory-manage' })
