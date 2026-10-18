@@ -157,7 +157,8 @@ export default {
 			uploadedList: [], // { type: 'image'|'video', path: '' }
 			recording: false,
 			publishing: false,
-			categoryId: 'c7' // 默认存入「第一章 我的个人简介」
+			categoryId: 'c7', // 默认存入「第一章 我的个人简介」
+			customCategoryName: '' // 自定义章节标题（待申请，非空时发表前先提交申请）
 		}
 	},
 	computed: {
@@ -174,6 +175,7 @@ export default {
 			return (this.store.memoir && this.store.memoir.categories) || []
 		},
 		currentCategoryName() {
+			if (this.customCategoryName) return this.customCategoryName
 			const c = this.categories.find(x => x.id === this.categoryId)
 			return c ? c.name : '我的个人简介'
 		},
@@ -203,11 +205,27 @@ export default {
 
 		/* ============ 选章节 ============ */
 		onPickCategory() {
-			const list = this.categories.map(c => c.name)
+			// 可选章节列表 + 末尾「自定义标题」
+			const list = this.categories.map(c => c.name).concat(['✚ 自定义标题…'])
 			uni.showActionSheet({
 				itemList: list,
 				success: (res) => {
-					this.categoryId = this.categories[res.tapIndex].id
+					if (res.tapIndex >= this.categories.length) {
+						// 自定义章节：输入标题
+						uni.showModal({
+							title: '自定义章节标题',
+							editable: true,
+							placeholderText: '请输入新的章节名称',
+							success: (r) => {
+								if (r.confirm && r.content && r.content.trim()) {
+									this.customCategoryName = r.content.trim()
+								}
+							}
+						})
+					} else {
+						this.categoryId = this.categories[res.tapIndex].id
+						this.customCategoryName = ''
+					}
 				}
 			})
 		},
@@ -217,6 +235,36 @@ export default {
 			if (!this.canPublish || this.publishing) return
 			this.publishing = true
 			try {
+				/* 自定义章节：先提交申请（家庭管理「新增回忆分类申请」可查进度） */
+				if (this.customCategoryName) {
+					await actions.submitCategoryRequest({
+						requestName: this.customCategoryName,
+						reason: '新增回忆时由家属发起的自定义章节申请'
+					})
+					await actions.addMemory({
+						categoryId: this.categoryId,
+						title: this.title.trim(),
+						desc: this.body.trim(),
+						date: new Date().toISOString().slice(0, 10),
+						media: this.uploadedList
+							.filter(i => i.type === 'image')
+							.map(i => i.path),
+						tags: this.tags.map(name => ({
+							tagName: name,
+							sourceType: 'USER'
+						}))
+					})
+					this.publishing = false
+					/* 正在申请弹窗 */
+					uni.showModal({
+						title: '章节申请已提交',
+						content: '《' + this.customCategoryName + '》正在申请中，可在家庭管理·新增回忆分类申请处查看进度。本条回忆已先存入《' + (this.categories.find(x => x.id === this.categoryId) || {}).name + '》。',
+						showCancel: false,
+						confirmText: '我知道了',
+						success: () => this.goDetail()
+					})
+					return
+				}
 				await actions.addMemory({
 					categoryId: this.categoryId,
 					title: this.title.trim(),
@@ -231,10 +279,8 @@ export default {
 					}))
 				})
 				uni.showToast({ title: '已存入《' + this.currentCategoryName + '》', icon: 'success' })
-				// 刷新封面页能看到新内容
-				setTimeout(() => {
-					uni.navigateBack({ delta: 1, fail: () => uni.switchTab({ url: '/pages/memory/memoir' }) })
-				}, 1200)
+				// 发布成功 → 自动跳转对应章节详情页
+				setTimeout(() => this.goDetail(), 1200)
 			} catch (e) {
 				console.error('publish memory failed', e)
 				uni.showToast({
@@ -244,6 +290,14 @@ export default {
 			} finally {
 				this.publishing = false
 			}
+		},
+
+		/* 发布成功后跳转对应章节详情页 */
+		goDetail() {
+			uni.redirectTo({
+				url: '/pages/memory/memoirDetail?categoryId=' + encodeURIComponent(this.categoryId) +
+					'&name=' + encodeURIComponent(this.currentCategoryName)
+			})
 		},
 
 		/* ============ 上传：图片 / 视频 ============ */

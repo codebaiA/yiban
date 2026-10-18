@@ -73,7 +73,7 @@
 		</view>
 
 		<!-- ============ 新增回忆分类申请（紧随紧急联系人） ============ -->
-		<view class="apply-card" hover-class="card-hover" @tap="toastSoon('新增回忆分类申请')">
+		<view class="apply-card" hover-class="card-hover" @tap="openApply">
 			<view class="apply-card__icon">
 				<image class="apply-card__icon-img" src="/static/mine/icon_apply_memoir.png" mode="aspectFit"></image>
 			</view>
@@ -82,6 +82,30 @@
 				<text class="apply-card__sub">把新的回忆主题告诉家人，由家人添加</text>
 			</view>
 			<image class="apply-card__arrow" src="/static/mine/arrow.png" mode="aspectFit"></image>
+		</view>
+
+		<!-- ============ 回忆分类申请进度弹窗 ============ -->
+		<view v-if="applyVisible" class="apply-mask" @tap="closeApply">
+			<view class="apply-dialog" @tap.stop>
+				<text class="apply-dialog__title">回忆分类申请进度</text>
+				<scroll-view class="apply-dialog__list" scroll-y>
+					<view v-if="!applyList.length" class="apply-dialog__empty">
+						<text class="apply-dialog__empty-text">暂无申请记录，\n可在新增回忆时选择「自定义标题」发起申请</text>
+					</view>
+					<view v-for="(r, i) in applyList" :key="i" class="apply-item">
+						<view class="apply-item__row">
+							<text class="apply-item__name">《{{ r.requestName }}》</text>
+							<view class="apply-item__chip" :class="'apply-item__chip--' + (r.status || 'PENDING').toLowerCase()">
+								<text class="apply-item__chip-text">{{ r.status === 'APPROVED' ? '已通过' : (r.status === 'REJECTED' ? '未通过' : '正在申请') }}</text>
+							</view>
+						</view>
+						<text class="apply-item__time">{{ r.date }}</text>
+					</view>
+				</scroll-view>
+				<view class="apply-dialog__btn" hover-class="card-hover" @tap="closeApply">
+					<text class="apply-dialog__btn-text">我知道了</text>
+				</view>
+			</view>
 		</view>
 
 	</view>
@@ -112,14 +136,30 @@ export default {
 		sosCount() {
 			const e = this.store.emergency
 			return (e && e.contacts && e.contacts.length) || 2
+		},
+		applyList() {
+			return (this.store.categoryRequests && this.store.categoryRequests.requests) || []
+		}
+	},
+	data() {
+		return {
+			applyVisible: false // 回忆分类申请进度弹窗
 		}
 	},
 	onLoad() {
 		actions.refreshFamily && actions.refreshFamily()
 		actions.refreshMemoir && actions.refreshMemoir()
 		actions.refreshEmergency && actions.refreshEmergency()
+		actions.refreshCategoryRequests && actions.refreshCategoryRequests()
 	},
 	methods: {
+		openApply() {
+			this.applyVisible = true
+			actions.refreshCategoryRequests && actions.refreshCategoryRequests()
+		},
+		closeApply() {
+			this.applyVisible = false
+		},
 		goBack() {
 			uni.navigateBack()
 		},
@@ -134,9 +174,6 @@ export default {
 		},
 		goMemoryManage() {
 			uni.navigateTo({ url: '/pages/mine/memory-manage' })
-		},
-		toastSoon(name) {
-			uni.showToast({ title: name + '（即将开放）', icon: 'none' })
 		}
 	}
 }
@@ -341,6 +378,92 @@ export default {
 		width: 13rpx; height: 21rpx;
 		margin-left: 15rpx;
 		flex-shrink: 0;
+	}
+}
+
+/* ============ 回忆分类申请进度弹窗 ============ */
+.apply-mask {
+	position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+	background-color: rgba(21, 29, 26, 0.45);
+	z-index: 99;
+	display: flex; align-items: center; justify-content: center;
+}
+.apply-dialog {
+	width: 630rpx;
+	max-height: 70vh;
+	background-color: #FFFFFF;
+	border-radius: 31rpx;
+	padding: 46rpx 38rpx calc(38rpx + env(safe-area-inset-bottom) / 2);
+	box-sizing: border-box;
+	display: flex; flex-direction: column;
+
+	&__title {
+		text-align: center;
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 38rpx; color: rgba(21, 29, 26, 1);
+	}
+	&__list {
+		flex: 1;
+		min-height: 0;
+		margin-top: 31rpx;
+		max-height: 620rpx;
+	}
+	&__empty {
+		padding: 62rpx 0;
+		display: flex; align-items: center; justify-content: center;
+	}
+	&__empty-text {
+		text-align: center;
+		font-family: "PingFang SC", sans-serif; font-weight: 400;
+		font-size: 29rpx; color: rgba(114, 121, 116, 1);
+		line-height: 46rpx;
+	}
+	&__btn {
+		margin-top: 38rpx;
+		height: 96rpx;
+		background-color: rgba(89, 181, 165, 1);
+		border-radius: 999rpx;
+		display: flex; align-items: center; justify-content: center;
+		flex-shrink: 0;
+	}
+	&__btn-text {
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 33rpx; color: #FFFFFF;
+	}
+}
+.apply-item {
+	background-color: rgba(236, 246, 240, 1);
+	border-radius: 23rpx;
+	padding: 27rpx 31rpx;
+	margin-bottom: 23rpx;
+
+	&__row {
+		display: flex; flex-direction: row; align-items: center;
+	}
+	&__name {
+		flex: 1; min-width: 0;
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 31rpx; color: rgba(21, 29, 26, 1);
+		overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	}
+	&__chip {
+		margin-left: 15rpx;
+		padding: 6rpx 19rpx;
+		border-radius: 999rpx;
+		flex-shrink: 0;
+	}
+	&__chip--pending { background-color: rgba(246, 223, 192, 1); }
+	&__chip--approved { background-color: rgba(202, 234, 215, 1); }
+	&__chip--rejected { background-color: rgba(226, 230, 228, 1); }
+	&__chip-text {
+		font-family: "PingFang SC", sans-serif; font-weight: 500;
+		font-size: 25rpx; color: rgba(72, 101, 86, 1);
+	}
+	&__time {
+		display: block;
+		margin-top: 8rpx;
+		font-family: "PingFang SC", sans-serif; font-weight: 400;
+		font-size: 25rpx; color: rgba(114, 121, 116, 1);
 	}
 }
 </style>
